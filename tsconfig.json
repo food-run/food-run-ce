@@ -1,0 +1,42 @@
+{
+    // defines how typescript compiles and checks code
+    "compilerOptions": {
+      // set js version to latest
+      "target": "ESNext",
+      "module": "ESNext",
+
+      // tells typescript how to resolve imports
+      "moduleResolution": "node",
+
+      // strictest type checking
+      "strict": true,
+
+      // using react and vite
+      "jsx": "react-jsx",
+
+      // ensure no plain javascript files
+      "allowJs": false,
+
+      // reduce friction with imports that use commonjs (force esm like)
+      "esModuleInterop": true,
+
+      // ensure file name casing matches on disk
+      "forceConsistentCasingInFileNames": true,
+
+      // skip type checking node_modules files
+      "skipLibCheck": true,
+
+      // allow importing json files as modules when needed
+      "resolveJsonModule": true,
+
+      // base url for non-relative imports 
+      "baseUrl": ".",
+
+      // which global type definitions to load
+      "types": ["vite/client", "node"]
+    },
+
+  
+    // which project files to check types for
+    "include": ["client", "server", "vitest.config.ts", "types.ts"]
+}

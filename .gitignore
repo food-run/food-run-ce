@@ -1,0 +1,15 @@
+# tell Git which files/folders to ignore when tracking changes
+
+# installed from package.json
+node_modules/
+
+# build output from client and server are regeneratable
+dist/
+build/
+
+# mac-specific metadata files
+.DS_Store
+
+# files that may contain secrets
+.env
+.env.local

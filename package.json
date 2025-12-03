@@ -1,0 +1,33 @@
+{
+  "name": "food_run",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "type-check": "tsc --noEmit",
+    "build": "npm run type-check && vite build",
+    "dev:server": "ts-node server/server.ts",
+    "dev:client": "vite --host",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react-swc": "^4.2.2",
+    "cors": "^2.8.5",
+    "react-dom": "^19.2.1"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "concurrently": "^9.2.1",
+    "express": "^5.2.1",
+    "react": "^19.2.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3",
+    "vite": "^7.2.6",
+    "vitest": "^4.0.15"
+  }
+}
