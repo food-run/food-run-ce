@@ -1,15 +1,15 @@
 {
   "name": "food_run",
   "version": "0.1.0",
-  "type": "module",
   "private": true,
   "scripts": {
     "type-check": "tsc --noEmit",
-    "build": "npm run type-check && vite build",
+    "build": "npm run type-check && vite build && npm run build:server",
+    "build:server": "tsc --project tsconfig.server.json",
     "dev:server": "ts-node server/server.ts",
     "dev:client": "vite --host",
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
-    "start": "NODE_ENV=production ts-node server/server.ts",
+    "start": "NODE_ENV=production node server-build/server/server.js",
     "test": "vitest"
   },
   "dependencies": {
