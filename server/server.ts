@@ -4,19 +4,15 @@ import cors from "cors";  // allow cross-origin requests from the frontend
 
 
 // read the server port from the environment or fallback to default
-const port =  Number(process.env.PORT ?? process.env.SERVER_PORT ?? 4000);
+const port = Number(process.env.PORT ?? process.env.SERVER_PORT ?? 4000);
+// host just for logs
+const host = process.env.HOST ?? "http://localhost";
 // create a new express application instance
 const app = express();
 
 
 // allow cross-origin requests from the vite dev server
-app.use(cors({
-    origin: [
-      "http://localhost:5173",
-      "https://morrisxelijah.github.io",
-      "https://morrisxelijah.github.io/food_run",
-    ],
-}));
+app.use(cors());
 // use built-in middleware to automatically parse json bodies
 app.use(express.json());
 
@@ -75,5 +71,5 @@ app.use(errorHandler);
 // start the server listening on the configured port
 app.listen(port, () => {
     // message (log)  ->  server started successfully 
-    console.log(`food run api server  -->  listening on port ${port} \n    check health here:  http://localhost:4000/health`);
+    console.log(`food run api server  -->  listening on port ${port} \n    check health here:  ${host}:${port}/health`);
 });
