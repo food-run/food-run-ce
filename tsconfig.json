@@ -35,7 +35,7 @@
         // base url for non-relative imports 
         "baseUrl": ".",
 
-        // which global type definitions to load
+        // which global type definitions to load  -->  get render working
         "types": ["vite/client", "node", "react", "react-dom"]
     },
 
