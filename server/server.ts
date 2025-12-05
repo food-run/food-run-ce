@@ -2,6 +2,7 @@ import express from "express";  // import express to create the http server and 
 import type { Application, Request, Response, ErrorRequestHandler, NextFunction } from "express";  // used to type the app parameters
 import cors from "cors";  // allow cross-origin requests from the frontend
 import { query, dbPool } from "./db";  // db connection + helper
+import type { HealthStatus } from "../types";
 import type { RecipeSummary, Recipe, Ingredient } from "../types";
 import { parseRecipeFromUrl } from "./importService";  // basic scraper
 
@@ -27,16 +28,26 @@ app.use(express.json());
 // all api routes on the provided app instance
 function registerRoutes(app: Application) {
     // health check endpoint used by the client to verify the api is running
-    app.get("/health", (request: Request, response: Response) => {
+    app.get("/health", async (request: Request, response: Response) => {
         // health check payload with status and timestamp
-        const payload = {
+        const health: HealthStatus = {
             status: "ok" as const,
             message: "api server is running",
+            dbStatus: "ok",
+            dbMessage: null,
             timestamp: new Date().toISOString(),
         };
 
+        try {
+            await query("SELECT 1;");  // db check
+        } catch (error) {
+            console.error("[health] database check failed:", error);
+            health.dbStatus = "error";
+            health.dbMessage = "database connection failed";
+        }
+
         // respond with 200 and the json payload
-        response.status(200).json(payload);
+        response.status(200).json(health);
     });
 
 

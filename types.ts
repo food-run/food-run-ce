@@ -43,4 +43,8 @@ export interface HealthStatus {
     message?: string;  // optional message with extra details about the health check
 
     timestamp?: string;  // timestamp string from the server when the health was checked
+
+    // database status
+    dbStatus?: "ok" | "error";
+    dbMessage?: string | null;
 }

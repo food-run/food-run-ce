@@ -113,13 +113,58 @@ export default function App() {
         );
     };
 
+    
+    // helper  -->  
+    const renderDbStatus = () => {
+        if (!healthStatus) {
+            return (
+            <span className="server-status server-status--unknown">
+                db:  checking...
+            </span>
+            );
+        }
+
+        // db explicitly ok
+        if (healthStatus.dbStatus === "ok") {
+            return (
+            <span className="server-status server-status--ok">
+                db:  online
+            </span>
+            );
+        }
+
+        // db explicitly errored
+        if (healthStatus.dbStatus === "error") {
+            return (
+            <span className="server-status server-status--error">
+                db:  offline
+                {healthStatus.dbMessage ? ` (${healthStatus.dbMessage})` : ""}
+            </span>
+            );
+        }
+
+        // fallback: server responded but didn't include db info
+        return (
+            <span className="server-status server-status--unknown">
+            db:  unknown
+            </span>
+        );
+    };
+
+
 
     return (
         <AppLayout>
         {/* navigation bar and server status live above the page content */}
         <div className="app-top-bar">
+            {/* status row */}
+            <div className="app-status-row">
+                {renderServerStatus()}
+                {renderDbStatus()}
+            </div>
+
+            {/* nav */}
             {renderNav()}
-            {renderServerStatus()}
         </div>
 
         {/* render the currently selected page in the main area */}

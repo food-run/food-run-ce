@@ -11,10 +11,8 @@ import dotenv from "dotenv";  // load env variables
 // }
 
 
-// load .env to make the variables available
-if (process.env.NODE_ENV === "production") {
-    dotenv.config({ path: ".env.production" });  // also in render dashboard env settings  -->  useful for for local prod-like runs
-} else {
+// only load .env files when not in production environments
+if (process.env.NODE_ENV !== "production") {
     dotenv.config({ path: ".env.development" });
 }
 
