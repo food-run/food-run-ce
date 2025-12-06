@@ -133,7 +133,7 @@ a:focus-visible {
     max-width: min(96vw, 64rem);
     /* grow with screen, keep a buffer */
     margin-inline: auto;
-    min-height: 99vh;
+    min-height: 96vh;
     display: flex;
     flex-direction: column;
     gap: var(--space-md);
