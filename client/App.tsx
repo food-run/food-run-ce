@@ -114,7 +114,7 @@ export default function App() {
     };
 
     
-    // helper  -->  
+    // helper  -->  render DB status indicator
     const renderDbStatus = () => {
         if (!healthStatus) {
             return (
@@ -143,10 +143,30 @@ export default function App() {
             );
         }
 
-        // fallback: server responded but didn't include db info
+        // fallback  -->  server responded but didn't include db info
         return (
             <span className="server-status server-status--unknown">
             db:  unknown
+            </span>
+        );
+    };
+
+
+    // helper  -->  render the current db schema version as metadata
+    const renderSchemaVersion = () => {
+        if (!healthStatus) {
+            return (
+                <span className="server-status server-status--unknown">
+                    schema:  checking...
+                </span>
+            );
+        }
+
+        const label = healthStatus.dbSchemaVersion || "unknown";
+
+        return (
+            <span className="server-status server-status--ok">
+                schema:  {label}
             </span>
         );
     };
@@ -161,6 +181,7 @@ export default function App() {
             <div className="app-status-row">
                 {renderServerStatus()}
                 {renderDbStatus()}
+                {renderSchemaVersion()}
             </div>
 
             {/* nav */}

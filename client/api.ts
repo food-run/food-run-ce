@@ -21,17 +21,33 @@ export async function fetchServerHealth(): Promise<HealthStatus> {
             return {
                 status: "error",
                 message: `server responded with status ${response.status}`,
+                timestamp: new Date().toISOString(),
+                dbStatus: "error",
+                dbMessage: "health endpoint returned a non-2xx status code",
+                dbSchemaVersion: "unknown",  // client can't know the version if health failed
             };
         }
 
         const data = (await response.json()) as HealthStatus;  
 
-        return data;  // return the data as-is, assuming it matches the expected shape
+        // defensive merge  -->  handle older server builds that might not send the new fields yet
+        return {
+            status: data.status ?? "ok",
+            message: data.message ?? "api server health",
+            timestamp: data.timestamp ?? new Date().toISOString(),
+            dbStatus: data.dbStatus ?? "ok",
+            dbMessage: data.dbMessage ?? null,
+            dbSchemaVersion: data.dbSchemaVersion ?? "unknown",
+        };
 
     } catch (error) {  // network errors or server not running
         return {
             status: "error",
             message: "unable to reach api server",
+            timestamp: new Date().toISOString(),
+            dbStatus: "error",
+            dbMessage: "network error or api server offline",
+            dbSchemaVersion: "unknown",
         };
     }
 }

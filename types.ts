@@ -45,6 +45,7 @@ export interface HealthStatus {
     timestamp?: string;  // timestamp string from the server when the health was checked
 
     // database status
-    dbStatus?: "ok" | "error";
-    dbMessage?: string | null;
+    dbStatus: "ok" | "error";
+    dbMessage: string | null;
+    dbSchemaVersion: string;  // manual label for the current schema.sql version
 }

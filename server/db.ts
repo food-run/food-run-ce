@@ -11,18 +11,23 @@ import dotenv from "dotenv";  // load env variables
 // }
 
 
-// only load .env files when not in production environments
-if (process.env.NODE_ENV !== "production") {
+// only load .env files when running outside managed hosting like render
+if (process.env.NODE_ENV === "production") {
+    // local prod-like mode (npm run super)  -->  use .env.production for local supabase testing
+    dotenv.config({ path: ".env.production" });
+} else {
+    // default / dev mode  -->  local postgres
     dotenv.config({ path: ".env.development" });
 }
 
 
-// grab from .env 
+// grab from .env  -->  either real env vars or those loaded by dotenv
 const databaseUrl = process.env.DATABASE_URL
+
 // missing variable ?  -->  log a warning so it is obvious during boot
 if (!databaseUrl) {
     console.warn(
-        "DATABASE_URL is not set. the api will start, but any db queries will fail until it's configure."
+        "DATABASE_URL is not set. The api will start, but any db queries will fail until it's configured."
     );
 }
 

@@ -15,6 +15,8 @@ const port = Number(process.env.PORT ?? process.env.SERVER_PORT ?? 4000);
 const host = process.env.HOST ?? "http://localhost";
 // create a new express application instance
 const app = express();
+// db schema version  -->  bumped when server/schema.sql changes in a meaningful way
+const DB_SCHEMA_VERSION = "2025-01-03.v1";
 
 
 // allow cross-origin requests from the vite dev server
@@ -35,6 +37,7 @@ function registerRoutes(app: Application) {
             message: "api server is running",
             dbStatus: "ok",
             dbMessage: null,
+            dbSchemaVersion: DB_SCHEMA_VERSION,
             timestamp: new Date().toISOString(),
         };
 
@@ -212,6 +215,45 @@ function registerRoutes(app: Application) {
             return;
         }
 
+
+        // avoid duplicate recipes  -->  reuse the existing row for the same source_url (case-insensitive)
+        const existingRecipeRows = await query<{
+            id: string;
+            title: string;
+            source_url: string;
+            servings: number | null;
+        }>(`
+            SELECT id, title, source_url, servings
+            FROM recipes
+            WHERE lower(source_url) = lower($1)
+            LIMIT 1
+            `, [sourceUrl],
+        );
+
+        if (existingRecipeRows.length > 0) {
+            const existing = existingRecipeRows[0];
+
+            // treat this as an idempotent create  -->  return the existing recipe summary
+            const recipe: Recipe = {
+                id: existing.id,
+                title: existing.title,
+                sourceUrl: existing.source_url,
+                servings: existing.servings,
+                // use the payload ingredients for now  -->  full join fetch can be added later if needed
+                ingredients: ingredients
+                    .filter((ingredient) => ingredient && ingredient.name)
+                    .map((ingredient) => ({
+                        name: ingredient!.name as string,
+                        amount: ingredient!.amount ?? null,
+                        unit: ingredient!.unit ?? null,
+                        notes: ingredient!.notes ?? null,
+                    })),
+            };
+
+            response.status(200).json(recipe);
+            return;
+        }
+
         
         // 1 transaction  -->  create recipe + ingredients as a single unit
         const client = await dbPool.connect();
@@ -235,27 +277,45 @@ function registerRoutes(app: Application) {
 
             const recipeRow = recipeResult.rows[0];
 
-            // insert each ingredient and link it to the recipe in the join table
+                        // insert each ingredient and link it to the recipe in the join table
             for (const ingredient of ingredients) {
                 if (!ingredient || !ingredient.name)  continue;  // skip invalid entries
 
-                const ingredientInsertSql = `
-                    INSERT INTO ingredients (name, canonical_name, default_unit)
-                    VALUES ($1, $2, $3)
-                    RETURNING id
-                `;
-
-                const ingredientResult = await client.query<{ id: string }>(
-                    ingredientInsertSql,
-                    [
-                        ingredient.name,
-                        ingredient.name.toLowerCase(),  // canonical form for now
-                        ingredient.unit ?? "count",  // fallback unit
-                    ]
+                // try to reuse an existing ingredient by name (case-insensitive)
+                const existingIngredientResult = await client.query<{ id: string }>(`
+                    SELECT id
+                    FROM ingredients
+                    WHERE lower(name) = lower($1)
+                    LIMIT 1
+                    `, [ingredient.name],
                 );
 
-                const ingredientRow = ingredientResult.rows[0];
+                let ingredientId: string;
 
+                if (existingIngredientResult.rows.length > 0) {
+                    // reuse the canonical ingredient row
+                    ingredientId = existingIngredientResult.rows[0].id;
+                } else {
+                    // no match  -->  insert a new ingredient row
+                    const ingredientInsertSql = `
+                        INSERT INTO ingredients (name, canonical_name, default_unit)
+                        VALUES ($1, $2, $3)
+                        RETURNING id
+                    `;
+
+                    const ingredientInsertResult = await client.query<{ id: string }>(
+                        ingredientInsertSql,
+                        [
+                            ingredient.name,
+                            ingredient.name.toLowerCase(),  // canonical form for now
+                            ingredient.unit ?? "count",     // fallback unit
+                        ],
+                    );
+
+                    ingredientId = ingredientInsertResult.rows[0].id;
+                }
+
+                // link this ingredient to the recipe in the join table
                 const joinInsertSql = `
                     INSERT INTO recipe_ingredients (recipe_id, ingredient_id, amount, unit, notes)
                     VALUES ($1, $2, $3, $4, $5)
@@ -263,7 +323,7 @@ function registerRoutes(app: Application) {
 
                 await client.query(joinInsertSql, [
                     recipeRow.id,
-                    ingredientRow.id,
+                    ingredientId,
                     ingredient.amount ?? null,
                     ingredient.unit ?? null,
                     ingredient.notes ?? null,
@@ -340,4 +400,5 @@ app.use(errorHandler);
 app.listen(port, () => {
     // message (log)  ->  server started successfully 
     console.log(`food run api server  -->  listening on port ${port} \n    check health here:  ${host}:${port}/health`);
+    console.log(`db schema version   -->  ${DB_SCHEMA_VERSION}`);
 });

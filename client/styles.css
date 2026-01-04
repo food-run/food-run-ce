@@ -17,7 +17,7 @@
     --dark-accent: #00c8ff;
     --dark-muted: #0c101b;
 
-    /* derived (light defaults) */
+    /* light defaults */
     --color-bg: var(--bg);
     --color-surface: #ffffff;
     --color-surface-muted: var(--muted);
