@@ -130,7 +130,7 @@ a:focus-visible {
 
 .app-root {
     width: 100%;
-    max-width: min(96vw, 64rem);
+    max-width: min(96vw, 85rem);
     /* grow with screen, keep a buffer */
     margin-inline: auto;
     min-height: 96vh;

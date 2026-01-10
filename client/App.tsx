@@ -93,14 +93,14 @@ export default function App() {
     const renderServerStatus = () => {
         // if we have not checked yet, show a neutral message
         if (!healthStatus) {
-            return <span className="server-status server-status--unknown">checking server...</span>;
+            return <span className="server-status server-status--unknown">server  →  checking...</span>;
         }
 
         // if status is ok, show a positive label
         if (healthStatus.status === "ok") {
             return (
                 <span className="server-status server-status--ok">
-                server:  online
+                server  →  online
                 </span>
             );
         }
@@ -108,7 +108,7 @@ export default function App() {
         // otherwise show an error label with a short message if available
         return (
             <span className="server-status server-status--error">
-                server:  offline{healthStatus.message ? ` (${healthStatus.message})` : ""}
+                server  →  offline{healthStatus.message ? ` (${healthStatus.message})` : ""}
             </span>
         );
     };
@@ -119,7 +119,7 @@ export default function App() {
         if (!healthStatus) {
             return (
             <span className="server-status server-status--unknown">
-                db:  checking...
+                db  →  checking...
             </span>
             );
         }
@@ -128,7 +128,7 @@ export default function App() {
         if (healthStatus.dbStatus === "ok") {
             return (
             <span className="server-status server-status--ok">
-                db:  online
+                db  →  online
             </span>
             );
         }
@@ -137,7 +137,7 @@ export default function App() {
         if (healthStatus.dbStatus === "error") {
             return (
             <span className="server-status server-status--error">
-                db:  offline
+                db  →  offline
                 {healthStatus.dbMessage ? ` (${healthStatus.dbMessage})` : ""}
             </span>
             );
@@ -146,7 +146,7 @@ export default function App() {
         // fallback  -->  server responded but didn't include db info
         return (
             <span className="server-status server-status--unknown">
-            db:  unknown
+            db  →  unknown
             </span>
         );
     };
@@ -157,7 +157,7 @@ export default function App() {
         if (!healthStatus) {
             return (
                 <span className="server-status server-status--unknown">
-                    schema:  checking...
+                    schema  →  checking...
                 </span>
             );
         }
@@ -166,7 +166,7 @@ export default function App() {
 
         return (
             <span className="server-status server-status--ok">
-                schema:  {label}
+                schema  →  {label}
             </span>
         );
     };
