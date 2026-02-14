@@ -277,9 +277,9 @@ function parseJoshuaWeissman(
     const ingredients: Ingredient[] = [];
 
     // strategy  -->
-    // 1. find the last heading that mentions "ingredients"
-    // 2. walk forward through siblings until the next heading that looks like directions / instructions
-    // 3. collect all <li> text inside that slice
+        // 1. find the last heading that mentions "ingredients"
+        // 2. walk forward through siblings until the next heading that looks like directions / instructions
+        // 3. collect all <li> text inside that slice
     const headings = $("h1, h2, h3, h4, h5, h6").toArray();
 
     let ingredientsHeadingIndex = -1;
