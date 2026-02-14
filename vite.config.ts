@@ -7,7 +7,7 @@ export default defineConfig({
     plugins: [react()],
 
     // root of the project (for GitHub pages)  -->  tells Vite to build all asset references as if the app is under this subpath
-    base: "/food_run/",
+    base: "/food-run-ce/",
     build: {
         outDir: "dist",
     },

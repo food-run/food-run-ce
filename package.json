@@ -8,7 +8,7 @@
     "build:server": "tsc --project tsconfig.server.json",
     "dev:server": "nodemon --watch server --ext ts --exec \"ts-node -P tsconfig.server.json server/server.ts\"",
     "dev:client": "vite --host",
-    "dev": "npm run type-check && concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev": "npm run type-check && concurrently -n server,client -c auto --kill-others-on-fail \"npm run dev:server\" \"npm run dev:client\"",
     "super": "rm -rf server-build && rm -rf docs && npm run build && cp -R dist docs && git status && npm start",
     "start": "NODE_ENV=production node server-build/server/server.js",
     "test": "vitest"

@@ -1,43 +1,75 @@
-# Simple workflow for deploying static content to GitHub Pages
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#   TL;DR  -->  build the SPA and deploy the built artifacts to GH pages
+
+#     - runs on pushes to main (and manual runs)
+#     - installs deps with npm ci (repeatable builds)
+#     - builds the production bundle (vite/webpack output)
+#     - uploads only the built folder to github pages
+#     - deploys via official pages actions
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 name: Deploy static content to Pages
 
 on:
-  # Runs on pushes targeting the default branch
+  # run on pushes targeting the default branch
   push:
     branches: ["main"]
 
-  # Allows you to run this workflow manually from the Actions tab
+  # allow manual runs from the actions tab
   workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+# set permissions so the workflow can publish to github pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+# allow only one concurrent deployment
 concurrency:
   group: "pages"
   cancel-in-progress: false
 
 jobs:
-  # Single deploy job since we're just deploying
   deploy:
+    # declare the github-pages environment and wire the final url
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+
+    # choose the runner
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
+      # fetch the repo so the runner can build it
+      - name: checkout repo
         uses: actions/checkout@v4
-      - name: Setup Pages
+
+      # set up node so we can run npm ci + npm run build
+      - name: setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      # install dependencies in a clean, reproducible way
+      - name: install deps
+        run: npm ci
+
+      # build the production bundle
+      - name: build spa
+        run: npm run build
+
+      # configure github pages for this workflow run
+      - name: setup pages
         uses: actions/configure-pages@v5
-      - name: Upload artifact
+
+      # upload only the build output folder to pages (not the whole repo)
+      - name: upload pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload entire repository
-          path: '.'
-      - name: Deploy to GitHub Pages
+          path: "dist"
+
+      # deploy the uploaded artifact to github pages
+      - name: deploy to github pages
         id: deployment
         uses: actions/deploy-pages@v4
