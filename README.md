@@ -6,7 +6,7 @@
 
 Food Run is a web app that helps home cooks turn a week’s worth of online recipes into a single, efficient bulk shopping trip. Paste in recipe links, confirm the ingredients, and Food Run will build a consolidated shopping list that respects your pantry, your portions, and (eventually) your budget.
 
-> ***Live Demo:***  [https://morrisxelijah.github.io/food_run/](https://morrisxelijah.github.io/food_run/)
+> ***Live Demo:***  [https://food-run.github.io/food-run-ce/](https://food-run.github.io/food-run-ce/)
 
 ---
 
