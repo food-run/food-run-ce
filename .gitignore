@@ -18,3 +18,7 @@ server-build/
 
 # not used right now
 supabase.config.ts
+
+# opencode live coordination
+docs/coordination/**
+!docs/templates/coordination/**
