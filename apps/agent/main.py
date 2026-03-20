@@ -1,10 +1,18 @@
 """
-TL;DR
-Starter surface for the governed agent runtime.
+TL;DR  -->  agent workflow startup and runtime spine 
 
-Runtime role
-- Own future agent workflow startup and runtime assembly.
+- Later Extension Points
+    --> Compose graph, evaluation, and store wiring
 
-Later extension points
-- Compose graph, evaluation, and store wiring from this module.
+- Role
+    --> Establishes the active runtime entry point for governed agent workflows 
+    --> Will later coordinate graph execution, artifact creation, eval wiring, approval handoffs, and runtime visibility 
+    --> Exists as the single executable surface for repo-bound agent operations 
+    --> Must remain governed and artifact-oriented rather than acting as a hidden autonomous control layer 
+
+- Exports 
+    -—> agent runtime entry 
+
+- Consumed by 
+    -—> local runs, eval paths, containers, and agent orchestration flows
 """
