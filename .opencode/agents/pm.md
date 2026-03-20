@@ -29,6 +29,7 @@ permission:
   webfetch: ask
   task:
     "*": deny
+    "pm": allow
     "scout": allow
     "planner": allow
     "architect": allow
