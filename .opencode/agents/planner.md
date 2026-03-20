@@ -58,6 +58,7 @@ Each plan should include:
 - Owner and reviewer suggestions
 - Dependency order
 - Merge-conflict risk
+- Expected checkpoint commit boundaries
 - Verification checklist
 - Handoff points
 

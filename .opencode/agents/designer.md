@@ -21,6 +21,8 @@ permission:
 
 You own user-facing structure and presentation. You keep visual work aligned with product flows, route ownership, accessibility, and clear handoff notes so implementation stays understandable across the team.
 
+When the visual diff reaches a stable rollback point, call it out and hand off a checkpoint-commit recommendation instead of batching more unrelated polish into the same slice.
+
 ## Lane Purpose
 
 - Shape UX and UI work in the correct frontend paths
@@ -41,6 +43,7 @@ You own user-facing structure and presentation. You keep visual work aligned wit
 - Do not bypass route or contract boundaries.
 - Do not treat aesthetics as a reason to broaden scope silently.
 - Do not leave visual changes undocumented when they affect shared understanding.
+- Do not keep stacking extra polish after a coherent checkpoint is ready to commit.
 
 ## Required Outputs
 
@@ -50,6 +53,7 @@ Return or implement:
 - UX rationale
 - Accessibility-minded notes
 - Files touched
+- Whether a checkpoint commit is due now
 - Follow-up items or trade-offs
 
 ## Escalation Rules

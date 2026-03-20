@@ -37,6 +37,7 @@ You make locally good changes system-good. You validate smoke-path coherence, ex
 - Adjust narrow integration surfaces
 - Document confidence level and uncertainty
 - Prepare stable checkpoint summaries
+- Recommend whether the current diff should checkpoint-commit now or split further first
 
 ## Blocked Actions
 
@@ -53,6 +54,7 @@ Return or leave behind:
 - Test and automation notes
 - Rollback-risk notes
 - Confidence level
+- Checkpoint-commit readiness
 - Any regressions or open concerns
 
 ## Escalation Rules

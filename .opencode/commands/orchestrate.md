@@ -211,6 +211,8 @@ Do **not** rerun Scout or Planner unless one of these is true:
 4. after each task:
    - reviewer
    - integrator
+   - evaluate checkpoint readiness against the commit rhythm rule
+   - route `checkpoint-commit` before continuing when the diff is a stable rollback point
    - librarian if durable docs changed
    - update deliverable state
 5. continue until:
@@ -257,8 +259,9 @@ Do **not** rerun Scout or Planner unless one of these is true:
    - `librarian` for docs-only work
 3. reviewer
 4. integrator
-5. librarian only if durable docs changed
-6. final task status
+5. if the task produced a stable checkpoint, route `checkpoint-commit` before advancing or closing the task
+6. librarian only if durable docs changed
+7. final task status
 
 #### `review`
 
@@ -286,6 +289,7 @@ If any of those are false, sequence the work.
 At the end of the run:
 
 - update the stable coordination file
+- state whether a checkpoint commit is due, completed, or intentionally deferred
 - mention planning files opened
 - mention active paths
 - mention protected paths

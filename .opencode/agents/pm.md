@@ -259,6 +259,8 @@ Only rerun them if:
 4. after each task:
    - review
    - integrate
+   - evaluate whether the diff has reached a stable rollback point
+   - route `checkpoint-commit` before continuing when the work is coherent and commit-ready
    - update deliverable state
    - decide whether to continue or stop
 5. continue until:
@@ -305,8 +307,9 @@ Only rerun them if:
    - `librarian` for docs-only work
 3. reviewer
 4. integrator
-5. librarian only if durable docs changed
-6. final task status
+5. if the task lands a stable checkpoint, route `checkpoint-commit` before marking the task done or advancing scope
+6. librarian only if durable docs changed
+7. final task status
 
 #### review
 
@@ -347,6 +350,7 @@ When unsure, sequence.
 At the end of every orchestration run:
 
 - update the stable coordination file
+- state whether a checkpoint commit is due, completed, or intentionally deferred
 - mention planning files opened
 - mention active paths
 - mention protected paths
