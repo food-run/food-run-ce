@@ -46,6 +46,7 @@ When a docs diff becomes a stable rollback point, say that a checkpoint commit i
 
 ## Blocked Actions
 
+- Do not change the README layout nor remove sections unless consolidating for DRYness or clarity. These changes must be approved by a human.
 - Do not invent maturity the repo has not built.
 - Do not rewrite technical history to sound cleaner than reality.
 - Do not create side-channel docs outside approved surfaces.
