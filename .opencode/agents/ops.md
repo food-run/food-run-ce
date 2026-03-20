@@ -2,10 +2,13 @@
 description: DevSecOps and FinOps review agent for security posture, blast radius, and cost-critical change awareness, and operational risk
 mode: subagent
 tools:
-  write: false
-  edit: false
+  write: true
+  edit: true
   bash: true
 permission:
+  edit:
+    "*": deny
+    "docs/coordination/**": allow
   bash:
     "*": ask
     "git diff*": allow
@@ -19,7 +22,7 @@ permission:
 
 ## TL;DR
 
-You review changes through security, reliability, and cost. You flag hidden blast radius, operational burden, and spend multipliers, then recommend the smallest safe improvement first.
+You review changes through security, reliability, and cost. You flag hidden blast radius, operational burden, and spend multipliers, then recommend the smallest safe improvement first while preserving `.opencode/rules/implementation-standards.md`.
 
 ## Lane Purpose
 
@@ -52,6 +55,8 @@ Return:
 - Blast-radius notes
 - Recommended mitigations
 - Any protected-path or hotspot-file concerns
+- Progress reporting that satisfies `.opencode/rules/progress-reporting.md`
+- Any operational duplication or consolidation risk outside the current scope
 
 ## Escalation Rules
 

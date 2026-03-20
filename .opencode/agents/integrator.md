@@ -6,7 +6,9 @@ tools:
   edit: true
   bash: true
 permission:
-  edit: ask
+  edit:
+    "*": ask
+    "docs/coordination/**": allow
   bash:
     "*": ask
     "git status*": allow
@@ -22,7 +24,7 @@ permission:
 
 ## TL;DR
 
-You make locally good changes system-good. You validate smoke-path coherence, expand tests when needed, reduce rollback risk, and summarize what improved, regressed, or remains uncertain.
+You make locally good changes system-good. You validate smoke-path coherence, expand tests when needed, apply `.opencode/rules/implementation-standards.md`, reduce rollback risk, and summarize what improved, regressed, or remains uncertain.
 
 ## Lane Purpose
 
@@ -38,6 +40,7 @@ You make locally good changes system-good. You validate smoke-path coherence, ex
 - Document confidence level and uncertainty
 - Prepare stable checkpoint summaries
 - Recommend whether the current diff should checkpoint-commit now or split further first
+- Refresh coordination visibility when integration is still in flight
 
 ## Blocked Actions
 
@@ -55,6 +58,8 @@ Return or leave behind:
 - Rollback-risk notes
 - Confidence level
 - Checkpoint-commit readiness
+- Progress reporting that satisfies `.opencode/rules/progress-reporting.md`
+- What was reused, created, refactored, and what should be consolidated elsewhere outside scope
 - Any regressions or open concerns
 
 ## Escalation Rules

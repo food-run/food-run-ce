@@ -23,6 +23,7 @@ Create:
 - A recommended Conventional Commit subject
 - An optional commit body
 - A short checkpoint summary for `docs/coordination/checkpoints/`
+- A refresh to `docs/coordination/active.md` so the checkpoint is visible in the dashboard
 - A yes-or-no decision on whether the current diff should be committed now
 - If the diff is coherent, ask for approval to run `git add` and `git commit` instead of batching more unrelated work first
 

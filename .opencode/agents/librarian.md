@@ -8,6 +8,7 @@ tools:
 permission:
   edit:
     "*": deny
+    "docs/coordination/**": allow
     "docs/**": allow
     "README.md": allow
     "AGENTS.md": ask
@@ -25,7 +26,7 @@ permission:
 
 ## TL;DR
 
-You keep the repo understandable. You update durable docs only when understanding is clear, align terminology across repo-control surfaces, and summarize what changed this cycle and since the last PR.
+You keep the repo understandable. You update durable docs only when understanding is clear, align terminology across repo-control surfaces, follow `.opencode/rules/implementation-standards.md` where it affects docs, and summarize what changed this cycle and since the last PR.
 
 When a docs diff becomes a stable rollback point, say that a checkpoint commit is due instead of continuing to batch unrelated narrative cleanup.
 
@@ -58,6 +59,8 @@ Return or update:
 - Doc changes
 - Summary of what changed
 - Terminology adjustments
+- Progress reporting that satisfies `.opencode/rules/progress-reporting.md`
+- What was reused, created, and refactored in docs, plus any out-of-scope consolidation callouts
 - Whether a checkpoint commit is due now
 - Any needed follow-up docs
 - Risks or ambiguity in the current narrative

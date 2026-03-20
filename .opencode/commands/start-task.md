@@ -28,6 +28,16 @@ Restate:
 - ⚠️ Hotspot Files
 - Recommended next agent
 - Expected checkpoint and commit point
+- Expected heartbeat note location in `docs/coordination/notes/`
+- Reuse candidates and why any new structure would be meaningfully unique
+
+Then create or refresh:
+
+- the stable task file in `docs/coordination/tasks/`
+- a visible dashboard entry in `docs/coordination/active.md`
+- the first expected 8-minute heartbeat target under `docs/coordination/notes/`
+
+Do not start implementation until `.opencode/rules/dryness-review.md` has a credible pre-implementation answer.
 
 ## Failure Conditions
 

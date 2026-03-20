@@ -39,9 +39,16 @@ Do all of the following:
    - completed child scopes
    - unresolved issues
    - next recommended scope
-4. If durable docs changed, call out the docs delta.
-5. If the scope is complete, mark it complete explicitly and stop.
-6. If the scope is blocked, state the blocker explicitly and stop.
+4. Run a repo-wide DRYness review for the affected concept areas before calling the scope complete.
+5. Record:
+   - what was reused
+   - what was created
+   - what was refactored
+   - what should be consolidated elsewhere outside scope
+6. Refresh `docs/coordination/active.md` so closed scopes disappear from the active dashboard and blocked scopes remain visible.
+7. If durable docs changed, call out the docs delta.
+8. If the scope is complete, mark it complete explicitly and stop.
+9. If the scope is blocked, state the blocker explicitly and stop.
 
 ## Stable Coordination Rule
 
@@ -51,7 +58,12 @@ Always write to the stable scope file:
 - `docs/coordination/tasks/Sx-Dy.md`
 - `docs/coordination/tasks/Sx-Dy-Tz.md`
 
-If a timestamped note exists but the stable scope file does not, fold the valid current state into the stable scope file first.
+For ad hoc work, also use:
+
+- `docs/coordination/tasks/X-slug.md`
+- `docs/coordination/tasks/X-slug-Tn.md`
+
+If scoped artifacts exist but the stable scope file does not, fold the valid current state into the stable scope file first.
 
 ## Stop Conditions
 
@@ -69,7 +81,9 @@ Return:
 - Scope
 - Final status
 - Stable coordination file updated
+- DRYness review status
 - What was completed
+- What was reused, created, refactored, and deferred for later consolidation
 - What remains unresolved
 - Next recommended scope
 - Human decisions needed

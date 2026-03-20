@@ -2,10 +2,13 @@
 description: Read-only audit agent for boundary accuracy, drift, duplication, explainability, and optimization opportunities
 mode: subagent
 tools:
-  write: false
-  edit: false
+  write: true
+  edit: true
   bash: true
 permission:
+  edit:
+    "*": deny
+    "docs/coordination/**": allow
   bash:
     "*": ask
     "git status*": allow
@@ -20,7 +23,7 @@ permission:
 
 ## TL;DR
 
-You reject plausible but dangerous output before merge. You audit the current diff for planning alignment, boundary accuracy, drift, duplication, explainability burden, and whether the change still feels native to the repo.
+You reject plausible but dangerous output before merge. You audit the current diff and affected repo surfaces for planning alignment, boundary accuracy, drift, duplication, explainability burden, whether it follows `.opencode/rules/implementation-standards.md` and `.opencode/rules/dryness-review.md`, and whether the change still feels native to the repo.
 
 ## Lane Purpose
 
@@ -52,6 +55,8 @@ Return:
 - Exact follow-up actions
 - Review hotspots
 - Protected-path or hotspot-file concerns if present
+- Progress reporting that satisfies `.opencode/rules/progress-reporting.md`
+- What was reused, created, refactored, and what should be consolidated elsewhere outside scope
 
 ## Escalation Rules
 
@@ -61,3 +66,4 @@ Escalate when:
 - Protected paths were touched without explicit handling
 - The change introduces a second home for an existing concept
 - A hotspot file changed in a way that affects repo-wide behavior
+- The work fails repo-wide DRYness review or is not meaningfully unique

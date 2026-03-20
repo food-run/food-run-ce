@@ -59,6 +59,10 @@ Each plan should include:
 - Dependency order
 - Merge-conflict risk
 - Expected checkpoint commit boundaries
+- How `.opencode/rules/progress-reporting.md` will be satisfied
+- How `.opencode/rules/implementation-standards.md` affects the plan
+- Reuse candidates and the pre-implementation DRY plan from `.opencode/rules/dryness-review.md`
+- Any likely consolidation that is intentionally outside current scope
 - Verification checklist
 - Handoff points
 

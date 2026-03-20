@@ -28,6 +28,11 @@ Include:
 - Recommended next agent
 - Recommended next command
 
+Also:
+
+- write the handoff into `docs/coordination/handoffs/`
+- refresh `docs/coordination/active.md`
+
 ## Failure Conditions
 
 - The summary hides blockers or uncertainty.

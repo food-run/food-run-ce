@@ -6,7 +6,7 @@ agent: pm
 
 ## TL;DR
 
-This is the main workflow entrypoint for planning, resuming, executing, and reviewing scoped work. Reuse stable coordination state whenever possible, invoke only the minimum necessary subagents, parallelize only when it is clearly safe, and continue until the requested scope is complete or a real stop condition is reached.
+This is the main workflow entrypoint for planning, resuming, executing, and reviewing scoped work. Reuse stable coordination state whenever possible, invoke only the minimum necessary subagents, parallelize only when it is clearly safe, continue until the requested scope is complete or a real stop condition is reached, and enforce `.opencode/rules/progress-reporting.md`.
 
 ## Inputs
 
@@ -66,6 +66,7 @@ Also load when helpful:
 - `planning-reader`
 - `protected-paths`
 - `drift-check`
+- `review-rubric`
 
 ## Planning-File Policy
 
@@ -110,14 +111,17 @@ Before routing, use `coordination-state` to look for existing state in this orde
 
 1. `docs/coordination/tasks/$1.md`
 2. `docs/coordination/tasks/<parent-scope>.md`
-3. the newest matching timestamped note for the same scope
+3. the newest matching scoped coordination artifact for the same scope
 4. if none exist, create `docs/coordination/tasks/$1.md`
 
-When a timestamped note exists but a stable scope file does not:
+When scoped coordination artifacts exist but a stable scope file does not:
 
 - create the stable scope file
 - carry forward the latest valid state
 - use the stable scope file from then on
+- seed or refresh `docs/coordination/active.md` so humans can see live progress without opening chat history
+
+All coordination filenames must follow `.opencode/rules/coordination-naming.md`.
 
 ## Reuse-First Rule
 
@@ -211,6 +215,8 @@ Do **not** rerun Scout or Planner unless one of these is true:
 4. after each task:
    - reviewer
    - integrator
+   - apply `.opencode/rules/progress-reporting.md`
+   - run repo-wide DRYness review before treating the task as done
    - evaluate checkpoint readiness against the commit rhythm rule
    - route `checkpoint-commit` before continuing when the diff is a stable rollback point
    - librarian if durable docs changed
@@ -259,9 +265,11 @@ Do **not** rerun Scout or Planner unless one of these is true:
    - `librarian` for docs-only work
 3. reviewer
 4. integrator
-5. if the task produced a stable checkpoint, route `checkpoint-commit` before advancing or closing the task
-6. librarian only if durable docs changed
-7. final task status
+5. apply `.opencode/rules/progress-reporting.md`
+6. run repo-wide DRYness review before marking the task complete
+7. if the task produced a stable checkpoint, route `checkpoint-commit` before advancing or closing the task
+8. librarian only if durable docs changed
+9. final task status
 
 #### `review`
 
@@ -289,7 +297,10 @@ If any of those are false, sequence the work.
 At the end of the run:
 
 - update the stable coordination file
+- refresh `docs/coordination/active.md`
 - state whether a checkpoint commit is due, completed, or intentionally deferred
+- state whether `.opencode/rules/progress-reporting.md` was satisfied
+- state what was reused, created, refactored, and deferred for later consolidation
 - mention planning files opened
 - mention active paths
 - mention protected paths
