@@ -36,8 +36,10 @@ Then create or refresh:
 - the stable task file in `docs/coordination/tasks/`
 - a visible dashboard entry in `docs/coordination/active.md`
 - the first expected 8-minute heartbeat target under `docs/coordination/notes/`
+- the scoped working branch if it is not already active
 
 Do not start implementation until `.opencode/rules/dryness-review.md` has a credible pre-implementation answer.
+Do not start implementation until `git branch --show-current` matches the intended scoped branch.
 
 ## Failure Conditions
 

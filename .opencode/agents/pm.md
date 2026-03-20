@@ -29,6 +29,7 @@ permission:
   webfetch: ask
   task:
     "*": deny
+    "pm": allow
     "scout": allow
     "planner": allow
     "architect": allow
@@ -54,6 +55,7 @@ You own:
 - scope parsing
 - planning-file selection
 - stable coordination state
+- branch hygiene before implementation
 - next-child-scope selection
 - subagent routing
 - stop-condition enforcement
@@ -364,6 +366,7 @@ At the end of every orchestration run:
 - refresh `docs/coordination/active.md`
 - state whether a checkpoint commit is due, completed, or intentionally deferred
 - state what was reused, created, refactored, and deferred for later consolidation
+- state whether the scoped branch and checkpoint rhythm stayed aligned with the work unit
 - mention planning files opened
 - mention active paths
 - mention protected paths

@@ -29,7 +29,20 @@ The repo is in rebuild mode. The validated prototype is preserved under `legacy-
 
 ## Active Rebuild Path
 
-New implementation work belongs only on the active rebuild surfaces described in `AGENTS.md`: `apps/`, `shared/`, `platform/`, `tools/`, and `docs/`, with repo-control surfaces such as `.opencode/`, `.github/`, `AGENTS.md`, and `opencode.json` remaining active for governance and automation. Sprint 0 deliverables after S0-D1 will seed the permanent active tree in those rebuild locations.
+New implementation work belongs only on the active rebuild surfaces described in `AGENTS.md`: `apps/`, `shared/`, `platform/`, `tools/`, and `docs/`, with repo-control surfaces such as `.opencode/`, `.github/`, `AGENTS.md`, and `opencode.json` remaining active for governance and automation.
+
+The active rebuild tree is now seeded under `apps/` and `shared/`. Later Sprint 0 deliverables will add agent controls, platform parity, CI/CD gates, and deeper documentation on top of these permanent homes.
+
+## Repo Layout Direction
+
+- `apps/` holds deployable runtime homes
+- `shared/` holds reusable seam vocabulary and deterministic test support
+- `platform/` and `tools/` remain later Sprint 0 layers and are not seeded by D2
+
+## Next Structural Layers
+
+- later Sprint 0 work will add platform parity, quality gates, deeper docs, and runtime observability
+- future feature work should extend `apps/` and `shared/` rather than create parallel roots
 
 ## Legacy Prototype
 

@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ES2022",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "noEmit": true
+  },
+  "x_tldr": "Starter type-checking surface for the Food Run web application boundary.",
+  "x_runtime_role": "Reserve one permanent compiler home for web-specific settings.",
+  "x_later_extension_points": [
+    "Add real path aliases and Angular compiler options here later.",
+    "Keep web-only compiler behavior out of shared seams."
+  ],
+  "files": [
+    "src/main.ts"
+  ]
+}

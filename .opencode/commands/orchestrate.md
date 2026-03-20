@@ -139,6 +139,14 @@ Do **not** rerun Scout or Planner unless one of these is true:
 - the repo state invalidates the packet
 - the human explicitly requests fresh discovery or replanning
 
+## Branch Rule
+
+Before implementation begins for a deliverable or task scope:
+
+- create or switch to the scoped working branch if it is not already active
+- verify `git branch --show-current` matches the intended work unit branch
+- keep tracked implementation changes and checkpoint commits on that branch until the scope closes
+
 ## Routing Matrix
 
 ### Sprint Scope
@@ -301,6 +309,7 @@ At the end of the run:
 - state whether a checkpoint commit is due, completed, or intentionally deferred
 - state whether `.opencode/rules/progress-reporting.md` was satisfied
 - state what was reused, created, refactored, and deferred for later consolidation
+- state whether branch hygiene and checkpoint rhythm were satisfied
 - mention planning files opened
 - mention active paths
 - mention protected paths
