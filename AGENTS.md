@@ -5,21 +5,21 @@
 
 Food Run is a prototype-preserving rebuild. `legacy-v0/` is preserved reference material. All new implementation work must target the active rebuild paths. `AGENTS.md` is the always-on repo contract. Planning packets under `docs/planning/` must be opened explicitly for the current sprint, deliverable, or task.
 
-## Index
+## Table of Contents
 
-- [Repo State](#-repo-state)
-- [Planning Source of Truth](#️-planning-source-of-truth)
-- [Active vs Archived Paths](#-active-vs-archived-paths)
-- [Path Ownership Rules](#-path-ownership-rules)
-- [Hotspot Files](#️-hotspot-files)
-- [Protected Paths](#-protected-paths)
-- [Lane Model](#-lane-model)
-- [Planning and Execution Protocol](#-planning-and-execution-protocol)
-- [TDD and Quality Standard](#-tdd-and-quality-standard)
-- [Review Questions](#-review-questions)
-- [Commit Rhythm](#-commit-rhythm)
-- [Documentation Rule](#-documentation-rule)
-- [Done Means](#-done-means)
+- [Repo State](#repo-state)
+- [Planning Source of Truth](#planning-source-of-truth)
+- [Active vs Archived Paths](#active-vs-archived-paths)
+- [Path Ownership Rules](#path-ownership-rules)
+- [Hotspot Files](#hotspot-files)
+- [Protected Paths](#protected-paths)
+- [Lane Model](#lane-model)
+- [Planning and Execution Protocol](#planning-and-execution-protocol)
+- [TDD and Quality Standard](#tdd-and-quality-standard)
+- [Review Questions](#review-questions)
+- [Commit Rhythm](#commit-rhythm)
+- [Documentation Rule](#documentation-rule)
+- [Done Means](#done-means)
 
 ## Repo State
 

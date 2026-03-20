@@ -4,38 +4,37 @@
 
 Food Run is being rebuilt from a validated prototype into a funding-grade, technically documented, end-to-end product that is honest about scale, disciplined about failure, and governable by a small team using multi-agent delivery workflows. The current public repo and demo remain useful evidence of product direction, but they should be preserved as `legacy-v0/` rather than hardened in place.
 
-## Index
+## Table of Contents
 
-- [0) 📌 Packet Purpose](#section-0-packet-purpose)
-- [1) 🧭 Executive Summary](#section-1-executive-summary)
-- [2) 🧱 Current-State Baseline to Preserve](#section-2-current-state-baseline-to-preserve)
-- [3) 🎯 Product Goal](#section-3-product-goal)
-- [4) 🧠 Core Architecture Principles](#section-4-core-architecture-principles)
-- [5) 📏 Workload Model and Sizing Assumptions](#section-5-workload-model-and-sizing-assumptions)
-- [6) 🏗️ Target System Architecture](#section-6-target-system-architecture)
-- [7) 🗄️ Data and Storage Topology](#section-7-data-and-storage-topology)
-- [8) 🔁 Consistency Policy](#section-8-consistency-policy)
-- [9) ⚡ Caching Strategy](#section-9-caching-strategy)
-- [10) 📦 Async, Queue, and Stream Strategy](#section-10-async-queue-and-stream-strategy)
-- [11) 🤖 Agentic AI Engineering Model](#section-11-agentic-ai-engineering-model)
-- [12) 📚 Documentation Strategy](#section-12-documentation-strategy)
-- [13) 🗂️ Target Repo Layout](#section-13-target-repo-layout)
-- [14) 🔌 Adapter Catalog](#section-14-adapter-catalog)
-- [15) 🔐 Governance, Open Core, and Contribution Model](#section-15-governance-open-core-and-contribution-model)
-- [16) 🧪 Quality Strategy](#section-16-quality-strategy)
-- [17) 🧰 Tooling Strategy](#section-17-tooling-strategy)
-- [18) 🔍 Observability and Operations](#section-18-observability-and-operations)
-- [19) 🔥 Failure Model and Black-Swan Strategy](#section-19-failure-model-and-black-swan-strategy)
-- [20) 👥 Team Operating Model](#section-20-team-operating-model)
-- [21) 📅 Revised Sprint Map](#section-21-revised-sprint-map)
-- [22) ✅ Acceptance Criteria](#section-22-acceptance-criteria)
-- [23) 🚨 Non-Negotiables](#section-23-non-negotiables)
-- [24) Bottom Line](#section-24-bottom-line)
-- [25) **Emoji Legend (Updated, Non-Overlapping, Food Run v1)**](#section-25-emoji-legend-updated-non-overlapping-food-run-v1)
+- [0) 📌 Packet Purpose](#0-packet-purpose)
+- [1) 🧭 Executive Summary](#1-executive-summary)
+- [2) 🧱 Current-State Baseline to Preserve](#2-current-state-baseline-to-preserve)
+- [3) 🎯 Product Goal](#3-product-goal)
+- [4) 🧠 Core Architecture Principles](#4-core-architecture-principles)
+- [5) 📏 Workload Model and Sizing Assumptions](#5-workload-model-and-sizing-assumptions)
+- [6) 🏗️ Target System Architecture](#6-target-system-architecture)
+- [7) 🗄️ Data and Storage Topology](#7-data-and-storage-topology)
+- [8) 🔁 Consistency Policy](#8-consistency-policy)
+- [9) ⚡ Caching Strategy](#9-caching-strategy)
+- [10) 📦 Async, Queue, and Stream Strategy](#10-async-queue-and-stream-strategy)
+- [11) 🤖 Agentic AI Engineering Model](#11-agentic-ai-engineering-model)
+- [12) 📚 Documentation Strategy](#12-documentation-strategy)
+- [13) 🗂️ Target Repo Layout](#13-target-repo-layout)
+- [14) 🔌 Adapter Catalog](#14-adapter-catalog)
+- [15) 🔐 Governance, Open Core, and Contribution Model](#15-governance-open-core-and-contribution-model)
+- [16) 🧪 Quality Strategy](#16-quality-strategy)
+- [17) 🧰 Tooling Strategy](#17-tooling-strategy)
+- [18) 🔍 Observability and Operations](#18-observability-and-operations)
+- [19) 🔥 Failure Model and Black-Swan Strategy](#19-failure-model-and-black-swan-strategy)
+- [20) 👥 Team Operating Model](#20-team-operating-model)
+- [21) 📅 Revised Sprint Map](#21-revised-sprint-map)
+- [22) ✅ Acceptance Criteria](#22-acceptance-criteria)
+- [23) 🚨 Non-Negotiables](#23-non-negotiables)
+- [24) Bottom Line](#24-bottom-line)
+- [25) **Emoji Legend (Updated, Non-Overlapping, Food Run v1)**](#25-emoji-legend-updated-non-overlapping-food-run-v1)
 
 ---
 
-`<a id="section-0-packet-purpose"></a>`
 
 ## 0) 📌 Packet Purpose
 
@@ -55,7 +54,6 @@ This packet is **not** the future repo docs verbatim. It is the planning packet 
 
 ---
 
-`<a id="section-1-executive-summary"></a>`
 
 ## 1) 🧭 Executive Summary
 
@@ -78,7 +76,6 @@ That decision keeps the scale story honest.
 
 ---
 
-`<a id="section-2-current-state-baseline-to-preserve"></a>`
 
 ## 2) 🧱 Current-State Baseline to Preserve
 
@@ -115,7 +112,6 @@ Treat the current baseline as **legacy-v0**, not as the active v1 source tree, b
 
 ---
 
-`<a id="section-3-product-goal"></a>`
 
 ## 3) 🎯 Product Goal
 
@@ -144,7 +140,6 @@ Food Run should become the system that sits between:
 
 ---
 
-`<a id="section-4-core-architecture-principles"></a>`
 
 ## 4) 🧠 Core Architecture Principles
 
@@ -194,7 +189,6 @@ Nothing stays just because it sounds advanced.
 
 ---
 
-`<a id="section-5-workload-model-and-sizing-assumptions"></a>`
 
 ## 5) 📏 Workload Model and Sizing Assumptions
 
@@ -294,7 +288,6 @@ These may accept slightly higher latency because correctness dominates.
 
 ---
 
-`<a id="section-6-target-system-architecture"></a>`
 
 ## 6) 🏗️ Target System Architecture
 
@@ -411,7 +404,6 @@ Goal:
 
 ---
 
-`<a id="section-7-data-and-storage-topology"></a>`
 
 ## 7) 🗄️ Data and Storage Topology
 
@@ -491,7 +483,6 @@ Never use it as:
 
 ---
 
-`<a id="section-8-consistency-policy"></a>`
 
 ## 8) 🔁 Consistency Policy
 
@@ -547,7 +538,6 @@ Allow bounded staleness for:
 
 ---
 
-`<a id="section-9-caching-strategy"></a>`
 
 ## 9) ⚡ Caching Strategy
 
@@ -605,7 +595,6 @@ If 90% of a workload is one-off access:
 
 ---
 
-`<a id="section-10-async-queue-and-stream-strategy"></a>`
 
 ## 10) 📦 Async, Queue, and Stream Strategy
 
@@ -670,7 +659,6 @@ Replay is not used as a casual mechanism to rewrite product truth.
 
 ---
 
-`<a id="section-11-agentic-ai-engineering-model"></a>`
 
 ## 11) 🤖 Agentic AI Engineering Model
 
@@ -785,7 +773,6 @@ That data should refine:
 
 ---
 
-`<a id="section-12-documentation-strategy"></a>`
 
 ## 12) 📚 Documentation Strategy
 
@@ -846,7 +833,6 @@ The ADR update happens:
 
 ---
 
-`<a id="section-13-target-repo-layout"></a>`
 
 ## 13) 🗂️ Target Repo Layout
 
@@ -916,7 +902,6 @@ food-run-ce/
 
 ---
 
-`<a id="section-14-adapter-catalog"></a>`
 
 ## 14) 🔌 Adapter Catalog
 
@@ -977,7 +962,6 @@ Keep ports:
 
 ---
 
-`<a id="section-15-governance-open-core-and-contribution-model"></a>`
 
 ## 15) 🔐 Governance, Open Core, and Contribution Model
 
@@ -1017,7 +1001,6 @@ If EE needs a capability:
 
 ---
 
-`<a id="section-16-quality-strategy"></a>`
 
 ## 16) 🧪 Quality Strategy
 
@@ -1057,7 +1040,6 @@ Every merge should require:
 
 ---
 
-`<a id="section-17-tooling-strategy"></a>`
 
 ## 17) 🧰 Tooling Strategy
 
@@ -1098,7 +1080,6 @@ Mandatory:
 
 ---
 
-`<a id="section-18-observability-and-operations"></a>`
 
 ## 18) 🔍 Observability and Operations
 
@@ -1144,7 +1125,6 @@ Mandatory drill catalog includes:
 
 ---
 
-`<a id="section-19-failure-model-and-black-swan-strategy"></a>`
 
 ## 19) 🔥 Failure Model and Black-Swan Strategy
 
@@ -1184,7 +1164,6 @@ over:
 
 ---
 
-`<a id="section-20-team-operating-model"></a>`
 
 ## 20) 👥 Team Operating Model
 
@@ -1244,7 +1223,6 @@ over:
 
 ---
 
-`<a id="section-21-revised-sprint-map"></a>`
 
 ## 21) 📅 Revised Sprint Map
 
@@ -1315,7 +1293,6 @@ This is the master sprint outline only. The granular breakdown belongs to task-l
 
 ---
 
-`<a id="section-22-acceptance-criteria"></a>`
 
 ## 22) ✅ Acceptance Criteria
 
@@ -1359,7 +1336,6 @@ Food Run is diligence-ready when reviewers can see:
 
 ---
 
-`<a id="section-23-non-negotiables"></a>`
 
 ## 23) 🚨 Non-Negotiables
 
@@ -1375,7 +1351,6 @@ Food Run is diligence-ready when reviewers can see:
 
 ---
 
-`<a id="section-24-bottom-line"></a>`
 
 ## 24) Bottom Line
 
@@ -1394,7 +1369,6 @@ It is framed as:
 
 ---
 
-`<a id="section-25-emoji-legend-updated-non-overlapping-food-run-v1"></a>`
 
 ## 25) **Emoji Legend (Updated, Non-Overlapping, Food Run v1)**
 

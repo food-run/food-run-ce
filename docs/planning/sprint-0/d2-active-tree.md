@@ -4,7 +4,7 @@
 
 S0-D2 seeds the first permanent active tree for the rebuild. It creates one stable home for each deployable unit and one stable home for each shared seam so later work extends real boundaries instead of inventing parallel structures.
 
-## Index
+## Table of Contents
 
 - [Why this deliverable exists](#why-this-deliverable-exists)
 - [👥 Ownership](#ownership)
@@ -25,7 +25,6 @@ S0-D2 seeds the first permanent active tree for the rebuild. It creates one stab
 
 ---
 
-<a id="why-this-deliverable-exists"></a>
 ## Why this deliverable exists
 
 If the team jumps straight from archive cleanup into feature work, three bad things happen immediately:
@@ -43,7 +42,6 @@ D2 must establish the structural spine for all later work:
 
 ---
 
-<a id="ownership"></a>
 ## 👥 Ownership
 
 **Owner:** 👤🧰 BE/API  
@@ -52,21 +50,18 @@ D2 must establish the structural spine for all later work:
 
 ---
 
-<a id="branch"></a>
 ## 🌿 Branch
 
 ` s0/d2-active-tree `
 
 ---
 
-<a id="deliverable-pr-title"></a>
 ## 🏷️ Deliverable PR title
 
 `chore(structure): seed the active rebuild tree and shared boundary files so later work lands in one stable surface`
 
 ---
 
-<a id="purpose"></a>
 ## 🎯 Purpose
 
 Create the permanent starter structure for the active rebuild so that:
@@ -78,14 +73,12 @@ Create the permanent starter structure for the active rebuild so that:
 
 ---
 
-<a id="depends-on"></a>
 ## ⛓️ Depends on
 
 - 🌟 S0-D1 — 🧼 Repo Reset + 🧊 Legacy Freeze
 
 ---
 
-<a id="blocks"></a>
 ## 🚧 Blocks
 
 - 🌟 S0-D3 — 🐝 Agent Steering + 📚 Docs Spine
@@ -95,7 +88,6 @@ Create the permanent starter structure for the active rebuild so that:
 
 ---
 
-<a id="files-touched"></a>
 ## 📂 Files touched
 
 ### New top-level active paths created
@@ -150,7 +142,6 @@ Create the permanent starter structure for the active rebuild so that:
 
 ---
 
-<a id="recommended-names"></a>
 ## 🧠 Recommended names
 
 ### Directory names
@@ -196,7 +187,6 @@ Create the permanent starter structure for the active rebuild so that:
 
 ---
 
-<a id="exact-tldr-sections-per-new-or-refactored-file"></a>
 ## 🧾 Exact TL;DR sections per new or refactored file
 
 D2 seeds permanent growth surfaces. Each starter file should receive:
@@ -232,7 +222,6 @@ The active rebuild tree is now seeded under `apps/` and `shared/`. Later Sprint 
 
 ---
 
-<a id="hotspot-files"></a>
 ## ⚠️ Hotspot files
 
 These files will disproportionately shape later path ownership and drift resistance:
@@ -245,7 +234,6 @@ These files will disproportionately shape later path ownership and drift resista
 
 ---
 
-<a id="task-tickets"></a>
 ## 🎟️ Task tickets
 
 ### 🎟️ S0-D2-T1 — 🗺️ Define the active tree ownership map before creating files
@@ -313,7 +301,6 @@ Make each starter file immediately useful as a future growth surface by giving i
 
 ---
 
-<a id="verification-tickets"></a>
 ## 👾 Verification tickets
 
 ### 👾 S0-D2-T1-V — 🧠 Verify the active tree is ownership-complete
@@ -336,7 +323,6 @@ A contributor starting Sprint 1 could extend the seeded files directly without f
 
 ---
 
-<a id="deliverable-verification"></a>
 ## ✅ Deliverable verification
 
 S0-D2 is done only when:
@@ -349,7 +335,6 @@ S0-D2 is done only when:
 
 ---
 
-<a id="bad-agent-output-patterns-to-watch-for"></a>
 ## 🚨 Bad agent output patterns to watch for
 
 Reject immediately if an agent tries to:
@@ -363,7 +348,6 @@ Reject immediately if an agent tries to:
 
 ---
 
-<a id="rationale-in-one-sentence"></a>
 ## 🧩 Rationale in one sentence
 
 S0-D2 is successful when the rebuild has one real active tree with one obvious home for every major concern, so later work extends boundaries instead of inventing them.

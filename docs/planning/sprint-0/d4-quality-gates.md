@@ -4,7 +4,7 @@
 
 S0-D4 turns process agreements into enforced repo behavior. It creates the first merge-blocking automation for docs parity, protected paths, review discipline, and release scaffolding so later sprint speed comes from trustworthy automation rather than reviewer guesswork.
 
-## Index
+## Table of Contents
 
 - [Why this deliverable exists](#why-this-deliverable-exists)
 - [👥 Ownership](#ownership)
@@ -25,7 +25,6 @@ S0-D4 turns process agreements into enforced repo behavior. It creates the first
 
 ---
 
-<a id="why-this-deliverable-exists"></a>
 ## Why this deliverable exists
 
 After D3, the repo knows:
@@ -47,7 +46,6 @@ D4 establishes the first automation spine for:
 
 ---
 
-<a id="ownership"></a>
 ## 👥 Ownership
 
 **Owner:** 👤🛡️ Platform/QA  
@@ -56,21 +54,18 @@ D4 establishes the first automation spine for:
 
 ---
 
-<a id="branch"></a>
 ## 🌿 Branch
 
 ` s0/d4-quality-gates `
 
 ---
 
-<a id="deliverable-pr-title"></a>
 ## 🏷️ Deliverable PR title
 
 `ci(repo): enforce protected-path review docs consistency and merge readiness before changes reach main`
 
 ---
 
-<a id="purpose"></a>
 ## 🎯 Purpose
 
 Create the first permanent enforcement layer so later implementation work must satisfy:
@@ -85,7 +80,6 @@ before it can be merged.
 
 ---
 
-<a id="depends-on"></a>
 ## ⛓️ Depends on
 
 - 🌟 S0-D1 — 🧼 Repo Reset + 🧊 Legacy Freeze
@@ -94,7 +88,6 @@ before it can be merged.
 
 ---
 
-<a id="blocks"></a>
 ## 🚧 Blocks
 
 - 🌟 S0-D5 — 🐳 Docker + ☸️ k3s + 🔍 Observability Baseline
@@ -103,7 +96,6 @@ before it can be merged.
 
 ---
 
-<a id="files-touched"></a>
 ## 📂 Files touched
 
 ### New workflow/control files
@@ -128,7 +120,6 @@ before it can be merged.
 
 ---
 
-<a id="recommended-names"></a>
 ## 🧠 Recommended names
 
 ### Workflow names
@@ -155,7 +146,6 @@ before it can be merged.
 
 ---
 
-<a id="exact-tldr-sections-per-new-or-refactored-file"></a>
 ## 🧾 Exact TL;DR sections per new or refactored file
 
 D4 should apply the exact Sprint 0 TL;DR content to:
@@ -191,7 +181,6 @@ D4 should apply the exact Sprint 0 TL;DR content to:
 
 ---
 
-<a id="hotspot-files"></a>
 ## ⚠️ Hotspot files
 
 These files define how unsafe or under-documented work gets stopped:
@@ -205,7 +194,6 @@ These files define how unsafe or under-documented work gets stopped:
 
 ---
 
-<a id="task-tickets"></a>
 ## 🎟️ Task tickets
 
 ### 🎟️ S0-D4-T1 — 🧾 Define the PR contract and merge checklist
@@ -230,7 +218,6 @@ These files define how unsafe or under-documented work gets stopped:
 
 ---
 
-<a id="verification-tickets"></a>
 ## 👾 Verification tickets
 
 ### 👾 S0-D4-T1-V — 🧠 Verify merge gates reflect the repo’s real review standards
@@ -245,7 +232,6 @@ These files define how unsafe or under-documented work gets stopped:
 
 ---
 
-<a id="deliverable-verification"></a>
 ## ✅ Deliverable verification
 
 S0-D4 is done only when:
@@ -258,7 +244,6 @@ S0-D4 is done only when:
 
 ---
 
-<a id="bad-agent-output-patterns-to-watch-for"></a>
 ## 🚨 Bad agent output patterns to watch for
 
 Reject immediately if an agent tries to:
@@ -272,7 +257,6 @@ Reject immediately if an agent tries to:
 
 ---
 
-<a id="rationale-in-one-sentence"></a>
 ## 🧩 Rationale in one sentence
 
 S0-D4 is successful when unsafe, under-documented, or high-blast-radius changes fail early and clearly, so later sprint speed comes from trustworthy automation instead of reviewer guesswork.

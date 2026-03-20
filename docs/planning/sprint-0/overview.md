@@ -6,7 +6,7 @@
 
 Sprint 0 exists to prevent the rebuild from inheriting prototype coupling, agent drift, and undocumented decisions. Its real output is controlled surface area: one active tree, one preserved legacy tree, one documented ruleset for humans and agents, and one enforced path for reviews, ADR updates, and release safety.
 
-## Index
+## Table of Contents
 
 - [Why this sprint comes first](#why-this-sprint-comes-first)
 - [🎯 Goal](#goal)
@@ -15,15 +15,14 @@ Sprint 0 exists to prevent the rebuild from inheriting prototype coupling, agent
 - [⚠️ Hotspot files](#hotspot-files)
 - [✅ Exit criteria](#exit-criteria)
 - [Deliverables](#deliverables)
-  - [🌟 S0-D1 — 🧼 Repo Reset + 🧊 Legacy Freeze](#s0-d1)
-  - [🌟 S0-D2 — 🧱 Active Tree + 🔌 Shared Seams](#s0-d2)
-  - [🌟 S0-D3 — 🐝 Agent Steering + 📚 Docs Spine](#s0-d3)
-  - [🌟 S0-D4 — 🐙 CI/CD + 🛡️ Quality Gates](#s0-d4)
-  - [🌟 S0-D5 — 🐳 Docker + ☸️ k3s + 🔍 Observability Baseline](#s0-d5)
+  - [🌟 S0-D1 — 🧼 Repo Reset + 🧊 Legacy Freeze](#s0-d1-repo-reset-legacy-freeze)
+  - [🌟 S0-D2 — 🧱 Active Tree + 🔌 Shared Seams](#s0-d2-active-tree-shared-seams)
+  - [🌟 S0-D3 — 🐝 Agent Steering + 📚 Docs Spine](#s0-d3-agent-steering-docs-spine)
+  - [🌟 S0-D4 — 🐙 CI/CD + 🛡️ Quality Gates](#s0-d4-ci-cd-quality-gates)
+  - [🌟 S0-D5 — 🐳 Docker + ☸️ k3s + 🔍 Observability Baseline](#s0-d5-docker-k3s-observability-baseline)
 
 ---
 
-<a id="why-this-sprint-comes-first"></a>
 ## Why this sprint comes first
 
 Sprint 0 exists to prevent the rebuild from inheriting prototype coupling, agent drift, and undocumented decisions.
@@ -39,7 +38,6 @@ If Sprint 0 is weak, every later sprint compounds cognitive debt. If Sprint 0 is
 
 ---
 
-<a id="goal"></a>
 ## 🎯 Goal
 
 Establish a funding-grade baseline where the team can safely build in parallel across product, event, agent, and operations concerns without mutating the legacy prototype or weakening review quality.
@@ -54,7 +52,6 @@ Sprint 0 must leave the repo in a state where:
 
 ---
 
-<a id="async-structure"></a>
 ## 🪢 Async Structure
 
 ### Primary dependency chain
@@ -145,7 +142,6 @@ Once **S0-D2** lands, the sprint should branch into controlled async lanes:
 
 ---
 
-<a id="final-active-tree"></a>
 ## 🌲 Final Active Tree
 
 This is the expected active tree at the end of Sprint 0, with permanent starter files only.
@@ -309,7 +305,6 @@ food-run-ce/
 
 ---
 
-<a id="hotspot-files"></a>
 ## ⚠️ Hotspot files
 
 Sprint 0 hotspot files are the control surfaces that can multiply drift if they are vague, inconsistent, or prematurely overbuilt:
@@ -329,7 +324,6 @@ These files need especially careful review because mistakes in them propagate ac
 
 ---
 
-<a id="exit-criteria"></a>
 ## ✅ Exit Criteria
 
 - **Repo boundary reset is complete**
@@ -349,10 +343,8 @@ These files need especially careful review because mistakes in them propagate ac
 
 ---
 
-<a id="deliverables"></a>
 ## Deliverables
 
-<a id="s0-d1"></a>
 ### 🌟 S0-D1 — 🧼 Repo Reset + 🧊 Legacy Freeze
 
 Purpose: freeze the prototype as historical proof, make the active rebuild path unambiguous, and rewrite the repo narrative so humans and agents stop treating the prototype layout as the base to harden.
@@ -367,7 +359,6 @@ Primary outputs:
 
 See: [`d1-repo-reset.md`](./d1-repo-reset.md)
 
-<a id="s0-d2"></a>
 ### 🌟 S0-D2 — 🧱 Active Tree + 🔌 Shared Seams
 
 Purpose: create the first permanent active tree so later work has one clear place to land and one shared language for contracts, schemas, adapters, and test support.
@@ -381,7 +372,6 @@ Primary outputs:
 
 See: [`d2-active-tree.md`](./d2-active-tree.md)
 
-<a id="s0-d3"></a>
 ### 🌟 S0-D3 — 🐝 Agent Steering + 📚 Docs Spine
 
 Purpose: create the operating theory for the repo before parallel work accelerates.
@@ -402,7 +392,6 @@ Primary outputs:
 
 See: [`d3-agent-docs.md`](./d3-agent-docs.md)
 
-<a id="s0-d4"></a>
 ### 🌟 S0-D4 — 🐙 CI/CD + 🛡️ Quality Gates
 
 Purpose: turn process agreements into merge-blocking automation that catches drift before it lands on `main`.
@@ -420,7 +409,6 @@ Primary outputs:
 
 See: [`d4-quality-gates.md`](./d4-quality-gates.md)
 
-<a id="s0-d5"></a>
 ### 🌟 S0-D5 — 🐳 Docker + ☸️ k3s + 🔍 Observability Baseline
 
 Purpose: establish runtime parity and visibility before later sprints add real deploy and scale complexity.
