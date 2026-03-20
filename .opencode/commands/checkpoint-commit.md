@@ -23,6 +23,7 @@ Create:
 - A recommended Conventional Commit subject
 - An optional commit body
 - A short checkpoint summary for `docs/coordination/checkpoints/`
+- A confirmation that `docs/coordination/` reflects the checkpoint before the commit is created
 - A refresh to `docs/coordination/active.md` so the checkpoint is visible in the dashboard
 - A yes-or-no decision on whether the current diff should be committed now
 - A scope choice that uses the first qualifying parent surface, such as `coordination`, `templates`, or `opencode`, and falls back to `repo` only when no narrower context cleanly covers the diff

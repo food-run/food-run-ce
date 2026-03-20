@@ -25,7 +25,8 @@ Do all of the following:
 3. Name the best initial routing order.
 4. Create or update a task note in `docs/coordination/tasks/`.
 5. Seed `docs/coordination/active.md` with the in-flight scope and next expected heartbeat.
-6. Stop before implementation unless the user explicitly asked to implement now.
+6. Create or switch to the scoped working branch before implementation begins.
+7. Stop before implementation unless the user explicitly asked to implement now.
 
 ## Failure Conditions
 
