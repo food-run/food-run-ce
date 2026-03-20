@@ -1,0 +1,16 @@
+{
+  "name": "@food-run/web",
+  "private": true,
+  "description": "Starter package surface for the Food Run web application boundary.",
+  "packageManager": "bun@1.2.17",
+  "x_runtime_role": "Reserve one permanent package home for the user-facing runtime.",
+  "x_later_extension_points": [
+    "Declare the real web dependencies here in later deliverables.",
+    "Keep build and test commands owned by the web runtime."
+  ],
+  "scripts": {
+    "start": "bunx ng serve",
+    "build": "bunx ng build",
+    "test": "bunx ng test"
+  }
+}
