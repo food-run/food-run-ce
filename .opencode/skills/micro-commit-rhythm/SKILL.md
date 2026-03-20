@@ -12,6 +12,7 @@ This skill helps identify useful rollback points and stable commit boundaries. I
 
 - Identify useful rollback points
 - Draft Conventional Commit messages
+- Choose commit scopes using the first qualifying parent surface that preserves enough context for review and history, and fall back to `repo` only when needed
 - Discourage giant “everything at once” commits
 - Keep checkpoint notes aligned with commit boundaries
 
