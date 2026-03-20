@@ -35,7 +35,8 @@ Food Run is being rebuilt from a validated prototype into a funding-grade, techn
 
 ---
 
-<a id="section-0-packet-purpose"></a>
+`<a id="section-0-packet-purpose"></a>`
+
 ## 0) 📌 Packet Purpose
 
 This packet consolidates the earlier split between the “spec packet” and “team lead packet” into one source of truth for:
@@ -54,7 +55,8 @@ This packet is **not** the future repo docs verbatim. It is the planning packet 
 
 ---
 
-<a id="section-1-executive-summary"></a>
+`<a id="section-1-executive-summary"></a>`
+
 ## 1) 🧭 Executive Summary
 
 Food Run is being rebuilt from a validated meal-planning prototype into a funding-grade, technically documented, end-to-end product that can evolve toward very large-scale usage and burst-heavy ingestion while remaining operable by a small team.
@@ -76,7 +78,8 @@ That decision keeps the scale story honest.
 
 ---
 
-<a id="section-2-current-state-baseline-to-preserve"></a>
+`<a id="section-2-current-state-baseline-to-preserve"></a>`
+
 ## 2) 🧱 Current-State Baseline to Preserve
 
 ### 2.1 What the prototype already proves
@@ -112,7 +115,8 @@ Treat the current baseline as **legacy-v0**, not as the active v1 source tree, b
 
 ---
 
-<a id="section-3-product-goal"></a>
+`<a id="section-3-product-goal"></a>`
+
 ## 3) 🎯 Product Goal
 
 ### 3.1 Funding-grade v1 goal
@@ -140,7 +144,8 @@ Food Run should become the system that sits between:
 
 ---
 
-<a id="section-4-core-architecture-principles"></a>
+`<a id="section-4-core-architecture-principles"></a>`
+
 ## 4) 🧠 Core Architecture Principles
 
 ### 4.1 Truth and scale are separated
@@ -189,7 +194,8 @@ Nothing stays just because it sounds advanced.
 
 ---
 
-<a id="section-5-workload-model-and-sizing-assumptions"></a>
+`<a id="section-5-workload-model-and-sizing-assumptions"></a>`
+
 ## 5) 📏 Workload Model and Sizing Assumptions
 
 These are planning estimates, not measured production numbers.
@@ -288,7 +294,8 @@ These may accept slightly higher latency because correctness dominates.
 
 ---
 
-<a id="section-6-target-system-architecture"></a>
+`<a id="section-6-target-system-architecture"></a>`
+
 ## 6) 🏗️ Target System Architecture
 
 ### 6.1 Plane model
@@ -404,7 +411,8 @@ Goal:
 
 ---
 
-<a id="section-7-data-and-storage-topology"></a>
+`<a id="section-7-data-and-storage-topology"></a>`
+
 ## 7) 🗄️ Data and Storage Topology
 
 ### 7.1 Durable product truth in Postgres
@@ -483,7 +491,8 @@ Never use it as:
 
 ---
 
-<a id="section-8-consistency-policy"></a>
+`<a id="section-8-consistency-policy"></a>`
+
 ## 8) 🔁 Consistency Policy
 
 ### 8.1 Stronger consistency required
@@ -538,7 +547,8 @@ Allow bounded staleness for:
 
 ---
 
-<a id="section-9-caching-strategy"></a>
+`<a id="section-9-caching-strategy"></a>`
+
 ## 9) ⚡ Caching Strategy
 
 ### 9.1 Layered caching
@@ -595,7 +605,8 @@ If 90% of a workload is one-off access:
 
 ---
 
-<a id="section-10-async-queue-and-stream-strategy"></a>
+`<a id="section-10-async-queue-and-stream-strategy"></a>`
+
 ## 10) 📦 Async, Queue, and Stream Strategy
 
 ### 10.1 Product writes versus raw events
@@ -659,7 +670,8 @@ Replay is not used as a casual mechanism to rewrite product truth.
 
 ---
 
-<a id="section-11-agentic-ai-engineering-model"></a>
+`<a id="section-11-agentic-ai-engineering-model"></a>`
+
 ## 11) 🤖 Agentic AI Engineering Model
 
 ### 11.1 Delivery posture
@@ -773,7 +785,8 @@ That data should refine:
 
 ---
 
-<a id="section-12-documentation-strategy"></a>
+`<a id="section-12-documentation-strategy"></a>`
+
 ## 12) 📚 Documentation Strategy
 
 ### 12.1 Doc posture
@@ -833,7 +846,8 @@ The ADR update happens:
 
 ---
 
-<a id="section-13-target-repo-layout"></a>
+`<a id="section-13-target-repo-layout"></a>`
+
 ## 13) 🗂️ Target Repo Layout
 
 ```text
@@ -902,7 +916,8 @@ food-run-ce/
 
 ---
 
-<a id="section-14-adapter-catalog"></a>
+`<a id="section-14-adapter-catalog"></a>`
+
 ## 14) 🔌 Adapter Catalog
 
 These should sit behind swappable ports where appropriate.
@@ -962,7 +977,8 @@ Keep ports:
 
 ---
 
-<a id="section-15-governance-open-core-and-contribution-model"></a>
+`<a id="section-15-governance-open-core-and-contribution-model"></a>`
+
 ## 15) 🔐 Governance, Open Core, and Contribution Model
 
 ### 15.1 CE/EE model
@@ -1001,7 +1017,8 @@ If EE needs a capability:
 
 ---
 
-<a id="section-16-quality-strategy"></a>
+`<a id="section-16-quality-strategy"></a>`
+
 ## 16) 🧪 Quality Strategy
 
 ### 16.1 Testing stack
@@ -1040,7 +1057,8 @@ Every merge should require:
 
 ---
 
-<a id="section-17-tooling-strategy"></a>
+`<a id="section-17-tooling-strategy"></a>`
+
 ## 17) 🧰 Tooling Strategy
 
 ### 17.1 Runtime/toolchain target
@@ -1080,7 +1098,8 @@ Mandatory:
 
 ---
 
-<a id="section-18-observability-and-operations"></a>
+`<a id="section-18-observability-and-operations"></a>`
+
 ## 18) 🔍 Observability and Operations
 
 ### 18.1 Mandatory signals
@@ -1125,7 +1144,8 @@ Mandatory drill catalog includes:
 
 ---
 
-<a id="section-19-failure-model-and-black-swan-strategy"></a>
+`<a id="section-19-failure-model-and-black-swan-strategy"></a>`
+
 ## 19) 🔥 Failure Model and Black-Swan Strategy
 
 ### 19.1 Assumed failures
@@ -1164,7 +1184,8 @@ over:
 
 ---
 
-<a id="section-20-team-operating-model"></a>
+`<a id="section-20-team-operating-model"></a>`
+
 ## 20) 👥 Team Operating Model
 
 ### 20.1 Roles
@@ -1223,7 +1244,8 @@ over:
 
 ---
 
-<a id="section-21-revised-sprint-map"></a>
+`<a id="section-21-revised-sprint-map"></a>`
+
 ## 21) 📅 Revised Sprint Map
 
 This is the master sprint outline only. The granular breakdown belongs to task-level planning.
@@ -1293,7 +1315,8 @@ This is the master sprint outline only. The granular breakdown belongs to task-l
 
 ---
 
-<a id="section-22-acceptance-criteria"></a>
+`<a id="section-22-acceptance-criteria"></a>`
+
 ## 22) ✅ Acceptance Criteria
 
 ### 22.1 Product acceptance
@@ -1336,7 +1359,8 @@ Food Run is diligence-ready when reviewers can see:
 
 ---
 
-<a id="section-23-non-negotiables"></a>
+`<a id="section-23-non-negotiables"></a>`
+
 ## 23) 🚨 Non-Negotiables
 
 - Postgres is the product truth, not the firehose sink.
@@ -1351,7 +1375,8 @@ Food Run is diligence-ready when reviewers can see:
 
 ---
 
-<a id="section-24-bottom-line"></a>
+`<a id="section-24-bottom-line"></a>`
+
 ## 24) Bottom Line
 
 This rebuild is no longer framed as:
@@ -1369,7 +1394,8 @@ It is framed as:
 
 ---
 
-<a id="section-25-emoji-legend-updated-non-overlapping-food-run-v1"></a>
+`<a id="section-25-emoji-legend-updated-non-overlapping-food-run-v1"></a>`
+
 ## 25) **Emoji Legend (Updated, Non-Overlapping, Food Run v1)**
 
 ### 👥 People (always prefixed with 👤)
@@ -1382,10 +1408,11 @@ It is framed as:
 
 ### 📅 Events / Process
 
-- 💠 Standup / async daily update — what changed, what is next, blockers, dependency flags
+- 💠 Standup / async daily update — what changed, what is next, blockers, dependency flags; may also label coordination heartbeats and the live active-status view
 - 🔶 Contract sync — API schema, generated client, and request/response alignment checkpoint
 - 🔐 Merge lock / freeze — branch protection active, risky merges paused
-- ✅ QA checkpoint — required checks passed, smoke path confirmed
+- ✅ QA checkpoint — required checks passed, smoke path confirmed; may also label verified coordination checkpoints
+- 🤝 Handoff — ownership transfer between humans or agents with current status, blockers, and next best action
 - 📖 Docs checkpoint — ADR, technical docs, and runbooks updated
 - 🎬 Demo checkpoint — scripted rehearsal run before sprint review; visible in sprint review, funding walkthrough, or external stakeholder narrative
 - 🚢 Release cut — approved mainline snapshot prepared for deploy
@@ -1419,12 +1446,12 @@ It is framed as:
 - 🔒 Security — secrets handling, auth hardening, rate limits, compliance-sensitive work
 - 🧃 Pantry — pantry domain flows, stock state, deduction rules
 - 🍽️ Recipes — recipe ingestion, parsing, normalization, versioning, attribution
-- ✏️ Planning — meal plans, shopping lists, household planning flows
+- ✏️ Planning — meal plans, shopping lists, household planning flows; may also label task framing and coordination task packets
 - 🧠 Search/vector — pgvector, retrieval, semantic search, recommendation candidate lookup
 
 ### ⛳️ Markers
 
-- ⚠️ Hotspot files — high-churn or high-risk files/paths that need careful review
+- ⚠️ Hotspot Files — high-churn or high-risk files/paths that need careful review; this marker may appear in repo-control coordination artifacts
 - 🚨 Alert — security-sensitive, destructive, externally visible, or boundary-breaking change
 - 💸 FinOps — anything cost-critical that can spike provider, compute, storage, or CI spend
 - 🔥 Chaos Resilience — ops risks, rollback risk, drift risk, blast radius, failure handling, chaos drills, recovery logic, fallback paths

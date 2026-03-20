@@ -1,12 +1,11 @@
-# 🤝  Handoff
+# 🤝 Handoff
+
+Start with `artifact-template.md`, then add:
 
 - **From:**
 - **To:**
-- **Task:**
-- **Status:**
+- **Last Heartbeat:**
 - **What Changed:**
 - **Open Risks:**
-- **Blockers:**
-- **Files:**
 - **⚠️ Hotspot Files:**
 - **Next Best Action:**

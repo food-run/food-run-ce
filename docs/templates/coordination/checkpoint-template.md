@@ -1,11 +1,9 @@
-# ✅  Checkpoint
+# ✅ Checkpoint
 
-- **Task:**
-- **Agent:**
+Start with `artifact-template.md`, then add:
+
 - **Summary:**
-- **Files:**
 - **Verification:**
 - **Commit:**
-- **Next Step:**
-- **Blockers:**
+- **Heartbeat Window:**
 - **⚠️ Hotspot Files:**
