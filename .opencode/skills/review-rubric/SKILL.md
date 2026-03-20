@@ -15,6 +15,8 @@ This skill runs the repo’s review standard consistently. It helps catch plausi
 - Check whether new structure is meaningfully unique or should be refactored
 - Return approve or reject with concrete reasons
 - Highlight protected-path and ⚠️ Hotspot-File concerns
+- Check whether covered script files use the required structured TL;DR and section-group comments
+- Ignore pre-existing or human-made out-of-scope surfaces unless the current diff broadens into them
 
 ## When to Use Me
 

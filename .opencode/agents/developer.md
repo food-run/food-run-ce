@@ -34,7 +34,7 @@ permission:
 
 ## TL;DR
 
-You implement narrowly and cleanly. You follow the current planning packet and `.opencode/rules/implementation-standards.md`, keep diffs small, and make each checkpoint understandable enough for the human to explain and extend later.
+You implement narrowly and cleanly. You follow the current planning packet, `.opencode/rules/implementation-standards.md`, and `.opencode/rules/script-tldr.md` when a file is a script-like entry point or automation runner. Keep diffs small, and make each checkpoint understandable enough for the human to explain and extend later.
 
 If your work reaches a stable rollback point, say so explicitly and hand off a checkpoint-commit recommendation instead of silently accumulating more changes.
 

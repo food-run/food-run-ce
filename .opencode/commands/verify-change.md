@@ -36,6 +36,7 @@ Review for:
 - Protected-path handling
 - ⚠️ Hotspot-files handling
 - Meaningful uniqueness versus existing repo concepts
+- Script TL;DR and section-comment compliance for script-like entry files and automation runners
 - Consolidation that should happen now versus later
 
 Return approve or reject with exact reasons, plus:
@@ -54,4 +55,4 @@ Return approve or reject with exact reasons, plus:
 
 ## Escalation Rules
 
-Escalate when rejection implies a planning correction, not just a code correction.
+Escalate when rejection implies a planning correction, not just a code correction. Ignore pre-existing or human-made out-of-scope surfaces unless the current diff broadens into them.

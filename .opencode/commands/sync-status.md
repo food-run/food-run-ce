@@ -6,7 +6,7 @@ agent: pm
 
 ## TL;DR
 
-This command summarizes the current live coordination state. It should make active workstreams, blockers, stale notes, and the next recommended action visible at a glance, and refresh the human-visible coordination dashboard.
+This command summarizes the current live coordination state. It should make the active scope, blockers, stale notes, and the next recommended action visible at a glance, and refresh the human-visible coordination dashboard.
 
 ## Inputs
 
@@ -20,25 +20,27 @@ Read the latest live coordination files and summarize:
 
 Then refresh `docs/coordination/active.md` with:
 
-- active scopes
-- latest heartbeat time per active scope
-- stale workstreams with no heartbeat for more than 8 minutes
+- the active scope
+- the latest heartbeat time for that scope
+- whether the current workstream is stale after more than 6 minutes without a heartbeat
 - next recommended action
 
 And satisfy `.opencode/rules/progress-reporting.md` with a chat update that includes:
 
+- scope
+- agent or subagent name
 - completed tasks since the last report
 - current in-flight work
 - blockers
+- active paths
 - next expected update time
 
 Return:
 
-- Active workstreams
-- Latest checkpoints
+- Active scope
+- Latest checkpoint
 - Open blockers
-- Stale tasks
-- Missing handoffs
+- Coordination gaps in the active scope
 - Recommended next action
 
 ## Failure Conditions

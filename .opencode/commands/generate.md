@@ -1,0 +1,78 @@
+---
+description: Generate a new implementation file or scaffold that matches repository standards from the first line
+agent: developer
+---
+
+# Generate Command
+
+## TL;DR
+
+This command generates new implementation files without creating cleanup debt. New files must start in their real long-term home, follow the current planning packet, and comply with `.opencode/rules/implementation-standards.md` from the first line.
+
+## Inputs
+
+- a short description of what to generate
+- optional target paths
+- optional planning files
+
+## Execution
+
+Before writing anything:
+
+- open the relevant planning packet
+- confirm the intended ownership boundary
+- check for reuse under `.opencode/rules/dryness-review.md`
+- apply `.opencode/rules/implementation-standards.md`
+- identify whether the file is:
+  - a script-like entry file
+  - an automation runner
+  - a non-script code file
+  - a documentation file
+
+When generating code:
+
+- write the file in its real permanent home
+- use exact semantic naming
+- prefer 1–2 words where possible and 4 words maximum
+- keep the first checkpoint bounded and explainable
+- if the file allows comments and is not Markdown:
+  - start with the canonical all-caps `TL;DR` multi-line header wrapped with `~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+  - use only single-line comments outside the TL;DR
+  - add section-group comments using the shared style for the language
+  - mark partial or deferred work with `TODO:`
+- if the exact permanent file cannot be named yet:
+  - do not generate a placeholder file
+  - stop and escalate instead
+
+When generating documentation:
+
+- put deep technical documents under `docs/**`
+- do not create generic placeholder documents
+- stub only the first exact permanent file that will actually be needed first
+- if that file cannot be named yet, omit it
+
+Return:
+
+- what was reused
+- what was created
+- why the chosen home is correct
+- which implementation-standard rules were applied
+- whether a checkpoint commit is due
+
+## Failure Conditions
+
+- the generated file duplicates an existing concept
+- the chosen path is ambiguous
+- the file is not in its real permanent home
+- a comment-capable code file is generated without the canonical TL;DR header when required
+- multi-line comments are used outside the TL;DR
+- generic placeholder files are created instead of exact permanent files
+
+## Escalation Rules
+
+Escalate when:
+
+- generation would require a protected-path change
+- the ownership boundary is unclear
+- the exact permanent file cannot be named yet
+- the planning packet does not support the requested structure

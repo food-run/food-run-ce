@@ -11,6 +11,7 @@ This folder holds shared execution rules that multiple agents and commands must 
 - `master-packet-alignment.md` - how repo-control surfaces stay aligned with the master planning packet
 - `progress-reporting.md` - how active work reports status in `docs/coordination/` and in chat
 - `implementation-standards.md` - shared coding standards and implementation guidelines for active rebuild work
+- `script-tldr.md` - structured TL;DR headers required for script-like entry files and automation runners
 
 ## Template Guidance
 

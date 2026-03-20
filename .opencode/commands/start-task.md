@@ -30,12 +30,13 @@ Restate:
 - Expected checkpoint and commit point
 - Expected heartbeat note location in `docs/coordination/notes/`
 - Reuse candidates and why any new structure would be meaningfully unique
+- Structured 6-minute reporting packet fields for chat and heartbeat notes
 
 Then create or refresh:
 
 - the stable task file in `docs/coordination/tasks/`
 - a visible dashboard entry in `docs/coordination/active.md`
-- the first expected 8-minute heartbeat target under `docs/coordination/notes/`
+- the first expected 6-minute heartbeat target under `docs/coordination/notes/`
 - the scoped working branch if it is not already active
 
 Do not start implementation until `.opencode/rules/dryness-review.md` has a credible pre-implementation answer.
