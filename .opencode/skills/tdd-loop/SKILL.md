@@ -6,7 +6,7 @@ description: Apply a practical Red-Green-Refactor loop with bounded tests and sm
 
 ## TL;DR
 
-This skill helps shape work into testable increments using a practical Red-Green-Refactor loop. It keeps diffs smaller and reduces implementation drift.
+This skill helps shape work into testable increments using a practical Red-Green-Refactor loop. It keeps diffs smaller, reduces implementation drift, and reinforces the master packet quality posture.
 
 ## What I Do
 
@@ -14,6 +14,7 @@ This skill helps shape work into testable increments using a practical Red-Green
 - Keep changes small and reversible
 - Avoid code-first sprawl
 - Encourage stable checkpoint boundaries
+- Push refactor when the implementation is not meaningfully unique
 
 ## When to Use Me
 

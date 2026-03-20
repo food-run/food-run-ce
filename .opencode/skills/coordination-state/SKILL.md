@@ -11,12 +11,12 @@ metadata:
 
 ## TL;DR
 
-This skill makes `resume`, `execute`, and `review` deterministic by preferring stable coordination files over timestamped notes and reusing valid state before replanning.
+This skill makes `resume`, `execute`, and `review` deterministic by preferring stable coordination files over ad hoc loose notes and reusing valid state before replanning.
 
 ## What I Do
 
 - Prefer stable scope files
-- Fall back to timestamped notes only when necessary
+- Fall back to the newest matching scoped coordination artifact only when necessary
 - Carry forward valid current state into stable scope files
 - Detect stale, conflicting, or incomplete coordination state
 - Reduce unnecessary reruns of Scout and Planner
@@ -27,12 +27,12 @@ For a requested scope, search in this order:
 
 1. exact stable scope file
 2. parent stable scope file
-3. newest matching timestamped note
+3. newest matching scoped coordination artifact
 4. create the stable scope file if none exist
 
 ## Repair Rules
 
-If a timestamped note exists but a stable scope file does not:
+If scoped artifacts exist but a stable scope file does not:
 
 - create the stable scope file
 - carry forward the latest valid state

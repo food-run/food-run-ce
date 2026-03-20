@@ -15,7 +15,7 @@ This skill parses a scope ID and determines the correct planning level, parent-c
 
 ## What I Do
 
-- Parse `Sx`, `Sx-Dy`, and `Sx-Dy-Tz`
+- Parse `Sx`, `Sx-Dy`, `Sx-Dy-Tz`, `X-slug`, and `X-slug-Tn`
 - Determine whether the scope is sprint, deliverable, or task
 - Identify parent scope and likely child scopes
 - Select the correct stable coordination file
@@ -28,12 +28,16 @@ Always prefer stable scope files:
 - sprint: `docs/coordination/tasks/Sx.md`
 - deliverable: `docs/coordination/tasks/Sx-Dy.md`
 - task: `docs/coordination/tasks/Sx-Dy-Tz.md`
+- ad hoc workstream: `docs/coordination/tasks/X-slug.md`
+- ad hoc child task: `docs/coordination/tasks/X-slug-Tn.md`
 
 Examples:
 
 - `S0` -> `docs/coordination/tasks/S0.md`
 - `S0-D1` -> `docs/coordination/tasks/S0-D1.md`
 - `S0-D1-T2` -> `docs/coordination/tasks/S0-D1-T2.md`
+- `X-repo-control` -> `docs/coordination/tasks/X-repo-control.md`
+- `X-repo-control-T1` -> `docs/coordination/tasks/X-repo-control-T1.md`
 
 ## Routing Rules
 
