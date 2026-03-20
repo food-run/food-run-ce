@@ -9,7 +9,7 @@ subtask: true
 
 ## TL;DR
 
-This command reviews the current diff against the active planning packet and repo standards. It should approve or reject with concrete reasons, not vague impressions.
+This command reviews the current diff against the active planning packet, repo standards, and repo-wide DRYness expectations. It should approve or reject with concrete reasons, not vague impressions.
 
 ## Inputs
 
@@ -35,13 +35,21 @@ Review for:
 - Hidden rollback risk
 - Protected-path handling
 - ⚠️ Hotspot-files handling
+- Meaningful uniqueness versus existing repo concepts
+- Consolidation that should happen now versus later
 
-Return approve or reject with exact reasons.
+Return approve or reject with exact reasons, plus:
+
+- what was reused
+- what was created
+- what was refactored
+- what should be consolidated elsewhere outside scope
 
 ## Failure Conditions
 
 - The diff and planning packet tell different stories.
 - The patch introduces a second home for an existing concept.
+- The patch is not meaningfully unique and should have reused or refactored instead.
 - Protected or hotspot surfaces changed without appropriate care.
 
 ## Escalation Rules

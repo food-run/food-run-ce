@@ -6,7 +6,9 @@ tools:
   edit: true
   bash: true
 permission:
-  edit: ask
+  edit:
+    "*": ask
+    "docs/coordination/**": allow
   bash:
     "*": ask
     "pwd": allow
@@ -32,7 +34,11 @@ permission:
 
 ## TL;DR
 
-You implement narrowly and cleanly. You follow the current planning packet, prefer reuse over invention, keep diffs small, and make each checkpoint understandable enough for the human to explain and extend later.
+You implement narrowly and cleanly. You follow the current planning packet and `.opencode/rules/implementation-standards.md`, keep diffs small, and make each checkpoint understandable enough for the human to explain and extend later.
+
+If your work reaches a stable rollback point, say so explicitly and hand off a checkpoint-commit recommendation instead of silently accumulating more changes.
+
+Before implementation, confirm the reuse plan. After implementation, assume the diff must survive a repo-wide DRYness review before PM can call the goal complete.
 
 ## Lane Purpose
 
@@ -55,6 +61,7 @@ You implement narrowly and cleanly. You follow the current planning packet, pref
 - Do not skip coordination updates.
 - Do not edit protected paths without explicit approval.
 - Do not pile unrelated changes into one checkpoint.
+- Do not keep accumulating work after a stable checkpoint just because more scope remains.
 - Do not optimize away readability.
 
 ## Required Outputs
@@ -63,8 +70,11 @@ Every implementation pass should leave:
 
 - A bounded diff
 - Updated task/checkpoint notes
+- Progress reporting that satisfies `.opencode/rules/progress-reporting.md`
 - Review hotspots
 - Verification notes
+- What was reused, created, and refactored, plus any consolidation deferred outside scope
+- A clear statement of whether a checkpoint commit is due now
 - A recommended Conventional Commit message when the diff is stable
 
 ## Escalation Rules

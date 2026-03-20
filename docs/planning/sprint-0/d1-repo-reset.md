@@ -4,7 +4,7 @@
 
 S0-D1 creates the hard repo boundary that every later Sprint 0 deliverable depends on. The validated prototype is preserved under `legacy-v0/`, the repo root stops implying that the old layout is still active, and the README/docs rewrite the project story so humans and agents follow the rebuild path rather than extending prototype paths directly.
 
-## Index
+## Table of Contents
 
 - [Why this deliverable is scoped narrowly](#why-this-deliverable-is-scoped-narrowly)
 - [👥 Ownership](#ownership)
@@ -25,7 +25,6 @@ S0-D1 creates the hard repo boundary that every later Sprint 0 deliverable depen
 
 ---
 
-<a id="why-this-deliverable-is-scoped-narrowly"></a>
 ## Why this deliverable is scoped narrowly
 
 S0-D1 should do **one job extremely well**:
@@ -46,7 +45,6 @@ Those belong to later Sprint 0 deliverables. If D1 tries to do all of them, the 
 
 ---
 
-<a id="ownership"></a>
 ## 👥 Ownership
 
 **Owner:** 👤🎯 Team Lead  
@@ -55,21 +53,18 @@ Those belong to later Sprint 0 deliverables. If D1 tries to do all of them, the 
 
 ---
 
-<a id="branch"></a>
 ## 🌿 Branch
 
 ` s0/d1-repo-reset `
 
 ---
 
-<a id="deliverable-pr-title"></a>
 ## 🏷️ Deliverable PR title
 
 `chore(repo): freeze the prototype as legacy and establish a single authoritative starting point for the rebuild`
 
 ---
 
-<a id="purpose"></a>
 ## 🎯 Purpose
 
 Create the hard repo boundary that all later Sprint 0 work depends on:
@@ -81,14 +76,12 @@ Create the hard repo boundary that all later Sprint 0 work depends on:
 
 ---
 
-<a id="depends-on"></a>
 ## ⛓️ Depends on
 
 None.
 
 ---
 
-<a id="blocks"></a>
 ## 🚧 Blocks
 
 - 🌟 S0-D2 — 🧱 Active Tree + 🔌 Shared Seams
@@ -99,7 +92,6 @@ None.
 
 ---
 
-<a id="files-touched"></a>
 ## 📂 Files touched
 
 ### Path moves
@@ -125,7 +117,6 @@ None.
 
 ---
 
-<a id="recommended-names"></a>
 ## 🧠 Recommended names
 
 ### File names
@@ -160,7 +151,6 @@ Not applicable in this deliverable. S0-D1 is structure + docs only.
 
 ---
 
-<a id="exact-section-maps-and-tldr-text"></a>
 ## 🧾 Exact section maps and TL;DR text
 
 ### `README.md`
@@ -278,7 +268,6 @@ The repository has one active rebuild surface and one archived prototype surface
 
 ---
 
-<a id="hotspot-files"></a>
 ## ⚠️ Hotspot files
 
 These files carry the narrative boundary for the entire rebuild:
@@ -292,7 +281,6 @@ If any of them are vague, contributors and agents will still plausibly build in 
 
 ---
 
-<a id="task-tickets"></a>
 ## 🎟️ Task tickets
 
 ### 🎟️ S0-D1-T1 — 🧭 Inventory the prototype surface and lock the archive map
@@ -383,7 +371,6 @@ Replace the old “this repo is the prototype app” story with the new “this 
 
 ---
 
-<a id="verification-tickets"></a>
 ## 👾 Verification tickets
 
 ### 👾 S0-D1-T1-V — 🔍 Verify the structural boundary is real
@@ -422,7 +409,6 @@ A new human reviewer and a planning agent would both derive the same answer to:
 
 ---
 
-<a id="deliverable-verification"></a>
 ## ✅ Deliverable verification
 
 S0-D1 is done only when all of the following are true:
@@ -442,7 +428,6 @@ S0-D1 is done only when all of the following are true:
 
 ---
 
-<a id="bad-agent-output-patterns-to-watch-for"></a>
 ## 🚨 Bad agent output patterns to watch for
 
 Reject immediately if an agent tries to:
@@ -457,7 +442,6 @@ Reject immediately if an agent tries to:
 
 ---
 
-<a id="rationale-in-one-sentence"></a>
 ## 🧩 Rationale in one sentence
 
 S0-D1 is successful when the repo stops being “a prototype plus intentions” and becomes “a preserved prototype plus one unmistakable rebuild starting point.”

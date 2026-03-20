@@ -4,7 +4,7 @@
 
 S0-D3 gives the rebuild its operating theory before parallel work accelerates. It defines how humans and agents are allowed to behave in the repo, where technical reasoning lives, and how lane rules, protected paths, artifacts, and ADR updates become part of normal delivery rather than side-channel process.
 
-## Index
+## Table of Contents
 
 - [Why this deliverable exists](#why-this-deliverable-exists)
 - [👥 Ownership](#ownership)
@@ -25,7 +25,6 @@ S0-D3 gives the rebuild its operating theory before parallel work accelerates. I
 
 ---
 
-<a id="why-this-deliverable-exists"></a>
 ## Why this deliverable exists
 
 Once multiple humans and multiple agents are working in parallel, the biggest risk is no longer “we forgot to make a folder.” The real risks become:
@@ -53,7 +52,6 @@ D3 must establish two permanent spines:
 
 ---
 
-<a id="ownership"></a>
 ## 👥 Ownership
 
 **Owner:** 👤🎯 Team Lead  
@@ -62,21 +60,18 @@ D3 must establish two permanent spines:
 
 ---
 
-<a id="branch"></a>
 ## 🌿 Branch
 
 ` s0/d3-agent-docs `
 
 ---
 
-<a id="deliverable-pr-title"></a>
 ## 🏷️ Deliverable PR title
 
 `docs(agent): define governed lane rules and seed the ADR and architecture docs that every later change must extend`
 
 ---
 
-<a id="purpose"></a>
 ## 🎯 Purpose
 
 Seed the permanent control documents that later work must follow, so:
@@ -88,7 +83,6 @@ Seed the permanent control documents that later work must follow, so:
 
 ---
 
-<a id="depends-on"></a>
 ## ⛓️ Depends on
 
 - 🌟 S0-D1 — 🧼 Repo Reset + 🧊 Legacy Freeze
@@ -96,7 +90,6 @@ Seed the permanent control documents that later work must follow, so:
 
 ---
 
-<a id="blocks"></a>
 ## 🚧 Blocks
 
 - 🌟 S0-D4 — 🐙 CI/CD + 🛡️ Quality Gates
@@ -105,7 +98,6 @@ Seed the permanent control documents that later work must follow, so:
 
 ---
 
-<a id="files-touched"></a>
 ## 📂 Files touched
 
 ### New root governance file
@@ -152,7 +144,6 @@ Seed the permanent control documents that later work must follow, so:
 
 ---
 
-<a id="recommended-names"></a>
 ## 🧠 Recommended names
 
 ### Core repo-control names
@@ -192,7 +183,6 @@ Seed the permanent control documents that later work must follow, so:
 
 ---
 
-<a id="exact-tldr-sections-per-new-or-refactored-file"></a>
 ## 🧾 Exact TL;DR sections per new or refactored file
 
 D3 should use the exact TL;DR blocks defined in the Sprint 0 packet for:
@@ -230,7 +220,6 @@ The rebuild now includes a governed agent workflow contract in `AGENTS.md`, proj
 
 ---
 
-<a id="hotspot-files"></a>
 ## ⚠️ Hotspot files
 
 These files define the operating contract for the entire repo:
@@ -245,7 +234,6 @@ These files define the operating contract for the entire repo:
 
 ---
 
-<a id="task-tickets"></a>
 ## 🎟️ Task tickets
 
 ### 🎟️ S0-D3-T1 — 🐝 Define the governed lane model and root operating contract
@@ -286,7 +274,6 @@ Ensure the root narrative, repo guide, agent rules, and docs spine all tell the 
 
 ---
 
-<a id="verification-tickets"></a>
 ## 👾 Verification tickets
 
 ### 👾 S0-D3-T1-V — 🧠 Verify the lane and approval model is operational, not symbolic
@@ -316,7 +303,6 @@ without inventing a new side-channel doc.
 
 ---
 
-<a id="deliverable-verification"></a>
 ## ✅ Deliverable verification
 
 S0-D3 is done only when:
@@ -328,7 +314,6 @@ S0-D3 is done only when:
 
 ---
 
-<a id="bad-agent-output-patterns-to-watch-for"></a>
 ## 🚨 Bad agent output patterns to watch for
 
 Reject immediately if an agent tries to:
@@ -344,7 +329,6 @@ Reject immediately if an agent tries to:
 
 ---
 
-<a id="rationale-in-one-sentence"></a>
 ## 🧩 Rationale in one sentence
 
 S0-D3 is successful when the rebuild has one shared operating theory for humans and agents, and that theory lives in the repo where later changes must extend it rather than work around it.

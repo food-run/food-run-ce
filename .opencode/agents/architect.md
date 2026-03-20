@@ -6,7 +6,9 @@ tools:
   edit: true
   bash: true
 permission:
-  edit: ask
+  edit:
+    "docs/coordination/**": allow
+    "*": ask
   bash:
     "*": ask
     "git status*": allow
@@ -20,7 +22,7 @@ permission:
 
 ## TL;DR
 
-You shape implementation before it sprawls. You identify invariants, edge cases, and failure modes, then scaffold TDD-friendly implementation surfaces that the developer can follow without collapsing boundaries.
+You shape implementation before it sprawls. You identify invariants, edge cases, and failure modes, then scaffold TDD-friendly implementation surfaces that the developer can follow without collapsing boundaries or violating `.opencode/rules/implementation-standards.md`.
 
 ## Lane Purpose
 
@@ -52,6 +54,8 @@ Return or implement:
 - Failure modes
 - Recommended test shape
 - Recommended implementation shape
+- Progress reporting that satisfies `.opencode/rules/progress-reporting.md`
+- Reuse/refactor guidance required by `.opencode/rules/dryness-review.md`
 - Any new risks introduced by the proposed structure
 
 ## Escalation Rules

@@ -4,7 +4,7 @@
 
 S0-D5 establishes the first honest runtime contract for the rebuild. It creates one container surface per deployable unit, one local cluster surface per deployable unit, and one shared baseline for health, readiness, request correlation, runtime identity, and release markers.
 
-## Index
+## Table of Contents
 
 - [Why this deliverable exists](#why-this-deliverable-exists)
 - [👥 Ownership](#ownership)
@@ -25,7 +25,6 @@ S0-D5 establishes the first honest runtime contract for the rebuild. It creates 
 
 ---
 
-<a id="why-this-deliverable-exists"></a>
 ## Why this deliverable exists
 
 Without D5, the rebuild can still look disciplined in Git and docs while remaining operationally vague. That leads to familiar problems:
@@ -48,7 +47,6 @@ D5 creates the first permanent homes for:
 
 ---
 
-<a id="ownership"></a>
 ## 👥 Ownership
 
 **Owner:** 👤🛡️ Platform/QA  
@@ -57,21 +55,18 @@ D5 creates the first permanent homes for:
 
 ---
 
-<a id="branch"></a>
 ## 🌿 Branch
 
 ` s0/d5-runtime-parity `
 
 ---
 
-<a id="deliverable-pr-title"></a>
 ## 🏷️ Deliverable PR title
 
 `chore(platform): seed container cluster and telemetry entrypoints so later runtime work grows from one observable parity spine`
 
 ---
 
-<a id="purpose"></a>
 ## 🎯 Purpose
 
 Create the first permanent runtime and observability surfaces so later work can:
@@ -84,7 +79,6 @@ Create the first permanent runtime and observability surfaces so later work can:
 
 ---
 
-<a id="depends-on"></a>
 ## ⛓️ Depends on
 
 - 🌟 S0-D1 — 🧼 Repo Reset + 🧊 Legacy Freeze
@@ -94,7 +88,6 @@ Create the first permanent runtime and observability surfaces so later work can:
 
 ---
 
-<a id="blocks"></a>
 ## 🚧 Blocks
 
 - Sprint 1 implementation work that needs honest runtime startup assumptions
@@ -104,7 +97,6 @@ Create the first permanent runtime and observability surfaces so later work can:
 
 ---
 
-<a id="files-touched"></a>
 ## 📂 Files touched
 
 ### New platform container files
@@ -146,7 +138,6 @@ Create the first permanent runtime and observability surfaces so later work can:
 
 ---
 
-<a id="recommended-names"></a>
 ## 🧠 Recommended names
 
 ### Service names
@@ -185,7 +176,6 @@ Create the first permanent runtime and observability surfaces so later work can:
 
 ---
 
-<a id="exact-tldr-sections-per-new-or-refactored-file"></a>
 ## 🧾 Exact TL;DR sections per new or refactored file
 
 D5 should apply the exact Sprint 0 TL;DR content to:
@@ -223,7 +213,6 @@ Updated docs:
 
 ---
 
-<a id="hotspot-files"></a>
 ## ⚠️ Hotspot files
 
 These files define how runtime parity and observability will evolve later:
@@ -237,7 +226,6 @@ These files define how runtime parity and observability will evolve later:
 
 ---
 
-<a id="task-tickets"></a>
 ## 🎟️ Task tickets
 
 ### 🎟️ S0-D5-T1 — 🐳 Seed the container build surfaces for every deployable unit
@@ -262,7 +250,6 @@ These files define how runtime parity and observability will evolve later:
 
 ---
 
-<a id="verification-tickets"></a>
 ## 👾 Verification tickets
 
 ### 👾 S0-D5-T1-V — 🧠 Verify parity surfaces map cleanly to the active runtimes
@@ -277,7 +264,6 @@ These files define how runtime parity and observability will evolve later:
 
 ---
 
-<a id="deliverable-verification"></a>
 ## ✅ Deliverable verification
 
 S0-D5 is done only when:
@@ -290,7 +276,6 @@ S0-D5 is done only when:
 
 ---
 
-<a id="bad-agent-output-patterns-to-watch-for"></a>
 ## 🚨 Bad agent output patterns to watch for
 
 Reject immediately if an agent tries to:
@@ -305,7 +290,6 @@ Reject immediately if an agent tries to:
 
 ---
 
-<a id="rationale-in-one-sentence"></a>
 ## 🧩 Rationale in one sentence
 
 S0-D5 is successful when the rebuild has one honest runtime packaging, local topology, and baseline visibility model, so later feature work grows from observable parity instead of uninstrumented assumptions.

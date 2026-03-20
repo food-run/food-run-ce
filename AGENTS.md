@@ -5,30 +5,30 @@
 
 Food Run is a prototype-preserving rebuild. `legacy-v0/` is preserved reference material. All new implementation work must target the active rebuild paths. `AGENTS.md` is the always-on repo contract. Planning packets under `docs/planning/` must be opened explicitly for the current sprint, deliverable, or task.
 
-## Index
+## Table of Contents
 
-- [📌 Repo State](#-repo-state)
-- [🗂️ Planning Source of Truth](#️-planning-source-of-truth)
-- [🧭 Active vs Archived Paths](#-active-vs-archived-paths)
-- [🧱 Path Ownership Rules](#-path-ownership-rules)
-- [⚠️ Hotspot Files](#️-hotspot-files)
-- [🔐 Protected Paths](#-protected-paths)
-- [🤝 Lane Model](#-lane-model)
-- [🪢 Planning and Execution Protocol](#-planning-and-execution-protocol)
-- [🧪 TDD and Quality Standard](#-tdd-and-quality-standard)
-- [🔍 Review Questions](#-review-questions)
-- [📝 Commit Rhythm](#-commit-rhythm)
-- [📚 Documentation Rule](#-documentation-rule)
-- [✅ Done Means](#-done-means)
+- [Repo State](#repo-state)
+- [Planning Source of Truth](#planning-source-of-truth)
+- [Active vs Archived Paths](#active-vs-archived-paths)
+- [Path Ownership Rules](#path-ownership-rules)
+- [Hotspot Files](#hotspot-files)
+- [Protected Paths](#protected-paths)
+- [Lane Model](#lane-model)
+- [Planning and Execution Protocol](#planning-and-execution-protocol)
+- [TDD and Quality Standard](#tdd-and-quality-standard)
+- [Review Questions](#review-questions)
+- [Commit Rhythm](#commit-rhythm)
+- [Documentation Rule](#documentation-rule)
+- [Done Means](#done-means)
 
-## 📌 Repo State
+## Repo State
 
 - The current public repo is validated prototype evidence.
 - The rebuild is intentionally overbuilt, governed, and documentation-heavy.
 - Do not silently extend legacy prototype paths for v1 work.
 - Do not describe future-state architecture as if it already exists in the repo.
 
-## 🗂️ Planning Source of Truth
+## Planning Source of Truth
 
 Always loaded:
 
@@ -46,8 +46,9 @@ Rules:
 - Do not pin the full master packet into project instructions.
 - Load only the smallest planning set needed for the current work unit.
 - If planning files conflict, escalate the conflict before editing code or docs.
+- Follow `.opencode/rules/master-packet-alignment.md` when translating master-packet intent into repo-control behavior.
 
-## 🧭 Active vs Archived Paths
+## Active vs Archived Paths
 
 Archived reference only:
 
@@ -70,7 +71,7 @@ Boundary rules:
 - New implementation work must not extend archived prototype paths directly.
 - If a reusable idea originates in `legacy-v0/`, port it deliberately into an active path.
 
-## 🧱 Path Ownership Rules
+## Path Ownership Rules
 
 - One home per concept.
 - Prefer deployable-unit boundaries first.
@@ -80,7 +81,7 @@ Boundary rules:
 - Keep naming semantic, stable, and easy to review.
 - Keep folder depth shallow unless a framework or tool requires otherwise.
 
-## ⚠️ Hotspot Files
+## Hotspot Files
 
 These files and path groups deserve slower, more deliberate review because mistakes here multiply across later work:
 
@@ -103,7 +104,7 @@ Rules for hotspot files:
 - Do not make speculative edits “for future flexibility.”
 - Treat wording changes as behavior changes when they affect humans or agents.
 
-## 🔐 Protected Paths
+## Protected Paths
 
 Treat these as protected and escalate by default:
 
@@ -125,49 +126,49 @@ Protected-path rules:
 - Do not “probably safe” your way through protected paths.
 - If a protected-path change is approved, keep the diff narrow and well documented.
 
-## 🤝 Lane Model
+## Lane Model
 
-### 👤🎯 PM
+### PM
 
 - Owns orchestration, status, task routing, handoffs, course correction, and human-in-the-loop checkpoints
 
-### 👤🔎 Scout
+### Scout
 
 - Owns discovery, grounding, reuse search, hotspot mapping, and packet inconsistency detection
 
-### 👤🗺️ Planner
+### Planner
 
 - Owns decomposition, task breakdowns, async-safe work splits, file impact, and verification checklists
 
-### 👤🏗️ Architect
+### Architect
 
 - Owns edge cases, scaffolding, TDD shaping, invariants, and implementation structure
 
-### 👤💻 Developer
+### Developer
 
 - Owns bounded implementation with a staff-level mindset
 
-### 👤🎨 Designer
+### Designer
 
 - Owns UX, UI, accessibility-minded implementation, and visual consistency
 
-### 👤🧪 Reviewer
+### Reviewer
 
 - Owns drift detection, boundary checks, explainability burden, and reject-or-approve recommendations
 
-### 👤🔗 Integrator
+### Integrator
 
 - Owns QA, smoke-path reasoning, test expansion, rollback-risk reduction, and integration summaries
 
-### 👤🛡️ Ops
+### Ops
 
 - Owns DevSecOps and FinOps review, blast-radius awareness, and cost-critical change review
 
-### 👤📚 Librarian
+### Librarian
 
 - Owns docs, standards, diagrams, durable summaries, and narrative alignment
 
-## 🪢 Planning and Execution Protocol
+## Planning and Execution Protocol
 
 At the start of each work unit:
 
@@ -175,14 +176,18 @@ At the start of each work unit:
 2. Restate the exact scope and boundaries.
 3. Identify active paths, protected paths, and hotspot files.
 4. Create or update a live task note in `docs/coordination/tasks/`.
+5. Follow `.opencode/rules/coordination-naming.md` for every coordination artifact.
 
 During work:
 
 - Leave a checkpoint note after each meaningful step.
+- Follow `.opencode/rules/progress-reporting.md`.
+- Follow `.opencode/rules/dryness-review.md` before implementation starts and before calling work complete.
 - Leave a handoff note before switching lanes.
 - Keep task scope narrow.
 - Prefer async-safe work splits with minimal merge-conflict risk.
 - Do not broaden scope without stating it explicitly.
+- Keep `docs/coordination/` visibly current by updating the stable task file and adding scope-named notes, checkpoints, or handoffs as work progresses.
 
 Before asking for a commit or review:
 
@@ -191,7 +196,7 @@ Before asking for a commit or review:
 - Name blockers, risks, and follow-up work.
 - Make the next action obvious for the next agent or human.
 
-## 🧪 TDD and Quality Standard
+## TDD and Quality Standard
 
 Default to:
 
@@ -200,6 +205,7 @@ Default to:
 - Small diffs over sprawling rewrites
 - Explainability over cleverness
 - Stable boundaries over convenience hacks
+- Follow `.opencode/rules/implementation-standards.md` for shared coding and implementation guidelines.
 
 Do not:
 
@@ -209,13 +215,14 @@ Do not:
 - Add speculative abstractions without a current use case
 - Leave coordination notes stale after meaningful changes
 
-## 🔍 Review Questions
+## Review Questions
 
 No meaningful change is done until the answer to each is yes:
 
 - Does it follow the current planning packet?
 - Does it preserve active-vs-legacy boundaries?
 - Does it reuse existing patterns where possible?
+- Is it meaningfully unique where it did not reuse an existing pattern?
 - Does it keep ownership boundaries intact?
 - Can the human explain every changed line?
 - Can the human modify it without reprompting?
@@ -223,16 +230,23 @@ No meaningful change is done until the answer to each is yes:
 - Is the related docs or ADR delta prepared when needed?
 - If protected paths or hotspot files changed, was the slower review standard followed?
 
-## 📝 Commit Rhythm
+## Commit Rhythm
 
 - Commit in small, coherent steps.
 - Use Conventional Commits.
+- Choose the first meaningful parent surface that preserves enough context; use `repo` only when no narrower qualifying parent cleanly covers the whole change.
+- If a diff would force an overly broad `repo` scope, split the checkpoint into smaller coherent slices first so each commit can use a narrower qualifying parent surface.
+- Write commit subjects as clear English summaries in the 12-22 word range.
+- Do not use variable names, function names, or raw identifier spellings as commit-message wording; translate them into ordinary English.
+- Good: `docs(coordination): ...` for `docs/coordination/**`, `fix(templates): ...` for shared template work, `chore(opencode): ...` for cross-cutting `.opencode/**` changes, and `chore(repo): ...` when the diff spans root governance plus multiple surfaces.
+- Avoid: scopes that are too broad for the actual review context, or too narrow because they are only the last nested folder without enough meaning.
+- Avoid: `chore(rules): ...` or `chore(skills): ...` when those names are only the last nested folder and not the real review context.
 - Do not wait until the full deliverable is complete to commit.
 - Commit after each stable checkpoint that would be useful to roll back to.
 - Prefer one meaningful checkpoint commit over one giant “finished everything” commit.
 - Do not commit broken work unless the task is explicitly marked as a spike and the checkpoint note says so.
 
-## 📚 Documentation Rule
+## Documentation Rule
 
 - `AGENTS.md` is always-on.
 - Planning files are opened explicitly for the current work.
@@ -241,11 +255,12 @@ No meaningful change is done until the answer to each is yes:
 - If a change affects shared understanding, the relevant durable docs must be updated with it.
 - Do not create side-channel process docs in random folders.
 
-## ✅ Done Means
+## Done Means
 
 A meaningful change is only complete when all of the following are true:
 
 - The change is bounded and understandable.
+- Repo-wide DRYness review has passed for the affected concept areas.
 - Coordination notes are current.
 - Review or integration output exists when relevant.
 - Durable docs are updated when shared understanding changed.

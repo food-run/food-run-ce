@@ -6,7 +6,7 @@ agent: developer
 
 ## TL;DR
 
-This command evaluates the current diff for checkpoint readiness. It should propose a Conventional Commit, summarize the checkpoint, and stop before pushing.
+This command evaluates the current diff for checkpoint readiness. It should be routed whenever a stable rollback point is reached, propose a Conventional Commit, summarize the checkpoint, and stop before pushing.
 
 ## Inputs
 
@@ -23,7 +23,12 @@ Create:
 - A recommended Conventional Commit subject
 - An optional commit body
 - A short checkpoint summary for `docs/coordination/checkpoints/`
-- If the diff is coherent, ask for approval to run `git add` and `git commit`
+- A refresh to `docs/coordination/active.md` so the checkpoint is visible in the dashboard
+- A yes-or-no decision on whether the current diff should be committed now
+- A scope choice that uses the first qualifying parent surface, such as `coordination`, `templates`, or `opencode`, and falls back to `repo` only when no narrower context cleanly covers the diff
+- A split recommendation when the current diff is too broad and would force `repo` unnecessarily
+- A commit subject written in clear English with 12-22 words and no raw identifier names
+- If the diff is coherent, ask for approval to run `git add` and `git commit` instead of batching more unrelated work first
 
 ## Failure Conditions
 

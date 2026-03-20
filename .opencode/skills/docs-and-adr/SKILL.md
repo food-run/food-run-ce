@@ -6,7 +6,7 @@ description: Decide what durable documentation should change alongside implement
 
 ## TL;DR
 
-This skill helps determine which durable docs should change with the current work. It reduces docs lag and keeps reasoning current.
+This skill helps determine which durable docs should change with the current work. It reduces docs lag, keeps reasoning current, and aligns updates with the master packet and ADR discipline.
 
 ## What I Do
 
@@ -14,6 +14,7 @@ This skill helps determine which durable docs should change with the current wor
 - Draft reasoning deltas
 - Prevent docs lag and terminology drift
 - Flag ⚠️ Hotspot-File wording changes when they affect repo behavior
+- Distinguish what should be documented now versus what should be deferred outside current scope
 
 ## When to Use Me
 

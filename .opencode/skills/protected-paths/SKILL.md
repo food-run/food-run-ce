@@ -6,7 +6,7 @@ description: Classify high-blast-radius paths and decide when to escalate instea
 
 ## TL;DR
 
-This skill helps determine whether a path should be treated as protected. It supports deny-or-escalate behavior for high-blast-radius work.
+This skill helps determine whether a path should be treated as protected. It supports deny-or-escalate behavior for high-blast-radius work and keeps the human-only zones from the master packet explicit.
 
 ## What I Do
 
@@ -14,6 +14,7 @@ This skill helps determine whether a path should be treated as protected. It sup
 - Recommend deny-or-escalate behavior
 - Explain why a path is risky
 - Distinguish protected paths from ⚠️ Hotspot Files when both are relevant
+- Map risky work back to the human-only zones in the master packet
 
 ## When to Use Me
 

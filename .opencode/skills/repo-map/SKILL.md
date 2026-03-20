@@ -6,7 +6,7 @@ description: Understand Food Run path ownership, active rebuild surfaces, and wh
 
 ## TL;DR
 
-This skill helps identify the first correct home for a change. It reduces path drift, prevents duplicate surfaces, and keeps the active-vs-legacy boundary intact.
+This skill helps identify the first correct home for a change. It reduces path drift, prevents duplicate surfaces, keeps the active-vs-legacy boundary intact, and supports the target repo layout from the master packet.
 
 ## What I Do
 
@@ -14,6 +14,7 @@ This skill helps identify the first correct home for a change. It reduces path d
 - Distinguish active rebuild paths from archived legacy paths
 - Reduce duplicate-file creation and path drift
 - Surface ⚠️ hotspot files when repo-control surfaces are involved
+- Flag when a proposed new home is not meaningfully unique
 
 ## When to Use Me
 

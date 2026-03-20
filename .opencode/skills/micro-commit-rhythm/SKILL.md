@@ -12,6 +12,9 @@ This skill helps identify useful rollback points and stable commit boundaries. I
 
 - Identify useful rollback points
 - Draft Conventional Commit messages
+- Choose commit scopes using the first qualifying parent surface that preserves enough context for review and history, and fall back to `repo` only when needed
+- Recommend splitting a broad diff into smaller checkpoint commits when that avoids an unnecessary `repo` scope
+- Prefer commit subjects that read as 12-22 words of normal English rather than code identifiers or shorthand
 - Discourage giant “everything at once” commits
 - Keep checkpoint notes aligned with commit boundaries
 

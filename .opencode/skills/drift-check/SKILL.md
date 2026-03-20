@@ -6,7 +6,7 @@ description: Detect mismatch between planning docs, AGENTS, repo layout, and act
 
 ## TL;DR
 
-This skill compares the current diff and docs against the planning story. It catches terminology drift, structural drift, and false maturity before they spread.
+This skill compares the current diff and docs against the planning story and `.opencode/rules/master-packet-alignment.md`. It catches terminology drift, structural drift, and false maturity before they spread.
 
 ## What I Do
 
@@ -14,6 +14,7 @@ This skill compares the current diff and docs against the planning story. It cat
 - Catch terminology drift
 - Catch “future state described as current state”
 - Flag mismatch between repo-control docs and implementation
+- Flag places where repo-control behavior drifted away from master-packet non-negotiables
 
 ## When to Use Me
 
