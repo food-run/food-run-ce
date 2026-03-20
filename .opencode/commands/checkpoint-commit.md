@@ -26,6 +26,7 @@ Create:
 - A refresh to `docs/coordination/active.md` so the checkpoint is visible in the dashboard
 - A yes-or-no decision on whether the current diff should be committed now
 - A scope choice that uses the first qualifying parent surface, such as `coordination`, `templates`, or `opencode`, and falls back to `repo` only when no narrower context cleanly covers the diff
+- A split recommendation when the current diff is too broad and would force `repo` unnecessarily
 - If the diff is coherent, ask for approval to run `git add` and `git commit` instead of batching more unrelated work first
 
 ## Failure Conditions

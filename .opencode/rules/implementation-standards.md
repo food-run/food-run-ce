@@ -38,6 +38,7 @@ Implement narrowly, reuse before inventing, keep boundaries stable, and leave wo
 
 - stop at stable rollback points and recommend a checkpoint commit
 - choose Conventional Commit scopes using the first qualifying parent surface; prefer `coordination`, `templates`, or `opencode` when they cleanly fit the change, and fall back to `repo` only when no narrower context covers the diff
+- if a checkpoint would need an overly broad `repo` scope, split it into smaller coherent slices before committing
 - do not batch unrelated work after a coherent checkpoint is ready
 - keep `docs/coordination/` current as work progresses
 - include reused, created, refactored, and deferred consolidation notes at closeout
