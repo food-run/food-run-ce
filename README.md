@@ -154,29 +154,33 @@ In general:
 
 Food Run Community Edition (CE) is licensed under the GNU Affero General Public License, version 3 or any later version (AGPLv3-or-later).
 
-See `LICENSE` for the full license text.
+See [`LICENSE`](LICENSE) for the full license text.
 
-### Important trademark boundary
+### Trademark Boundary
 
 The software license does **not** grant rights to the Food Run name, logos, icons, or other brand assets.
 
 Those rights are governed separately by:
-- `TRADEMARKS.md`
-- `GOVERNANCE.md`
-- `CLA.md`
+- [`GOVERNANCE.md`](GOVERNANCE.md)
+- [`TRADEMARKS.md`](TRADEMARKS.md)
+- [`CLA.md`](CLA.md)
 
 If you publish a fork, modified version, or hosted service based on Food Run CE:
 - you must comply with the software license
 - you must use different branding unless you have written permission
 - you must not imply that your version is the official Food Run project
 
+### Security
+
+Please do **not** report vulnerabilities in public issues, pull requests, or discussions. Use the private reporting path described in [`SECURITY.md`](SECURITY.md).
+
 ### Commercial boundary
 
 The Project Owner may maintain separate hosted, commercial, enterprise, support, or partner offerings outside the Community Edition.
 
-## Forks and downstream use
+### Forks and downstream use
 
-Forks are allowed under the project’s software license, but forks and hosted derivatives must respect the trademark policy in `TRADEMARKS.md`.
+Forks are allowed under the project’s software license, but forks and hosted derivatives must respect the trademark policy in [`TRADEMARKS.md`](TRADEMARKS.md).
 
 In particular:
 - the code license does not grant branding rights
@@ -189,28 +193,12 @@ Contributions are welcome, but acceptance is at maintainer discretion. Do not ex
 
 Treat preserved legacy material as reference-only unless the roadmap says otherwise.
 
-Before contributing substantial new work, review:
-- `CONTRIBUTING.md`
-- `GOVERNANCE.md`
-- `TRADEMARKS.md`
-- `CLA.md`
-- `SECURITY.md`
-
 Please keep contributions:
 - scoped
 - reviewable
 - well explained
 - aligned with the rebuild direction
 - consistent with documented repo boundaries
-
----
-
-## Security
-
-Please do **not** report vulnerabilities in public issues, pull requests, or discussions.
-
-Use the private reporting path described in `SECURITY.md`.
-
 
 
 ---
