@@ -236,6 +236,8 @@ No meaningful change is done until the answer to each is yes:
 - Use Conventional Commits.
 - Choose the first meaningful parent surface that preserves enough context; use `repo` only when no narrower qualifying parent cleanly covers the whole change.
 - If a diff would force an overly broad `repo` scope, split the checkpoint into smaller coherent slices first so each commit can use a narrower qualifying parent surface.
+- Write commit subjects as clear English summaries in the 12-22 word range.
+- Do not use variable names, function names, or raw identifier spellings as commit-message wording; translate them into ordinary English.
 - Good: `docs(coordination): ...` for `docs/coordination/**`, `fix(templates): ...` for shared template work, `chore(opencode): ...` for cross-cutting `.opencode/**` changes, and `chore(repo): ...` when the diff spans root governance plus multiple surfaces.
 - Avoid: scopes that are too broad for the actual review context, or too narrow because they are only the last nested folder without enough meaning.
 - Avoid: `chore(rules): ...` or `chore(skills): ...` when those names are only the last nested folder and not the real review context.
