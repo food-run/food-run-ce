@@ -36,6 +36,29 @@ This file is the durable reasoning spine for major Food Run technical and proces
 
 ---
 
+### S0-D4 - Keep repo verification policy in one central script seam
+
+- ***What was built?***
+  - `tools/script/verify.py`, `.github/workflows/repo-verify.yml`, and `docs/testing.md` were aligned so merge-blocking repo verification stays owned by one central Python entrypoint and the workflow remains a thin CI wrapper around it.
+- ***Why was it chosen?***
+  - D4 needs automation that blocks bad changes before merge, but pushing policy logic into YAML would duplicate rules, hide failure reasoning, and make later workflow slices harder to review.
+- ***What boundaries does it own?***
+  - The shared repo-verification seam for script explainability, central workflow delegation, and CI-safe local-versus-CI behavior.
+- ***What breaks if it changes?***
+  - The repo-verify workflow can drift into a second policy engine, contributors can get inconsistent failure output, and later D4 workflows can start re-implementing checks in parallel.
+- ***What known edge cases or failure modes matter here?***
+  - CI checkouts do not include local-only coordination artifacts, so the verifier must keep that case explicit, and the workflow must stay thin enough that docs-guard and protected-path slices can add separate enforcement without overlap.
+- ***Why does this work matter?***
+  - It keeps D4 automation explainable and preserves one obvious place to extend repo verification as the governed rebuild grows.
+- ***What capability does it unlock?***
+  - Later workflows can compose around a stable central verifier instead of guessing which checks belong in Python versus YAML.
+- ***Why is the chosen design safer or more scalable?***
+  - A single verifier seam reduces duplicate policy, keeps failure messaging consistent, and lowers the review burden when later quality gates land.
+- ***What trade-off did the team accept?***
+  - The repo verifier now owns a clearer contract with CI, so later changes to `.github/workflows/repo-verify.yml` must preserve that thin-wrapper boundary instead of treating the workflow as a general automation scratchpad.
+
+---
+
 ### S0-D4 - Standardize the PR review contract and centralize the CLA owner exception
 
 - ***What was built?***

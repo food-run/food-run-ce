@@ -58,6 +58,10 @@ ALLOWED_TS_STUB_LINES = {'export {}', 'export {};'}
 CONSUMED_BY_LINE_RE = re.compile(r'^\s*-->\s+\S.+$', re.MULTILINE)
 # Require more than one section in implemented files.
 MIN_IMPLEMENTED_SECTION_MARKERS = 2
+# Keep the repo verification workflow bound to this entrypoint.
+CENTRAL_VERIFY_COMMAND = 'python3 tools/script/verify.py --ci'
+# Point to the canonical merge-blocking repo verification workflow.
+REPO_VERIFY_WORKFLOW_PATH = Path('.github/workflows/repo-verify.yml')
 
 # ---------- subprocess helpers ----------
 
@@ -148,6 +152,69 @@ def has_consumed_by_detail(text: str) -> bool:
     consumed_block = consumed_block.split('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~', 1)[0]
     # Accept one or more non-empty consumed-by lines.
     return CONSUMED_BY_LINE_RE.search(consumed_block) is not None
+
+
+# Extract every workflow shell run block in order.
+def workflow_run_blocks(text: str) -> list[str]:
+    # Split once so indentation-sensitive scanning stays simple.
+    lines = text.splitlines()
+    # Collect run blocks in encounter order.
+    blocks: list[str] = []
+    # Track the current line manually across multiline blocks.
+    index = 0
+
+    # Walk the workflow text one line at a time.
+    while index < len(lines):
+        line = lines[index]
+        stripped = line.lstrip()
+        indent = len(line) - len(stripped)
+
+        # Ignore lines that do not start a run block.
+        if not stripped.startswith('run:'):
+            index += 1
+            continue
+
+        # Capture the inline content after the run key.
+        content = stripped[4:].strip()
+        # Keep single-line run steps as-is.
+        if content and not content.startswith(('|', '>')):
+            blocks.append(content)
+            index += 1
+            continue
+
+        # Collect multiline run blocks until indentation unwinds.
+        block_lines: list[str] = []
+        index += 1
+        while index < len(lines):
+            next_line = lines[index]
+            next_stripped = next_line.lstrip()
+            next_indent = len(next_line) - len(next_stripped)
+
+            # Stop when the multiline block ends.
+            if next_stripped and next_indent <= indent:
+                break
+
+            # Preserve blank lines inside the run block.
+            if not next_stripped:
+                block_lines.append('')
+                index += 1
+                continue
+
+            # Record block lines without their YAML indentation.
+            block_lines.append(next_stripped)
+            index += 1
+
+        # Keep the reconstructed multiline command block.
+        blocks.append('\n'.join(block_lines).rstrip())
+
+    # Return every discovered run block.
+    return blocks
+
+
+# Confirm the workflow still delegates to the central verifier.
+def workflow_runs_central_verifier(text: str) -> bool:
+    # Accept only one exact single-line verifier command.
+    return workflow_run_blocks(text) == [CENTRAL_VERIFY_COMMAND]
 
 
 # Enforce the canonical Python wrapper position.
@@ -265,6 +332,54 @@ def verify_script_tldrs(repo_root: Path) -> int:
     return 0
 
 
+# Keep the merge-blocking workflow thin and script-driven.
+def verify_repo_workflow_contract(repo_root: Path) -> int:
+    # Announce the workflow-boundary verification stage.
+    print('==> repo verification workflow contract')
+    # Resolve the canonical workflow path from the repo root.
+    workflow_path = repo_root / REPO_VERIFY_WORKFLOW_PATH
+    # Fail clearly when the workflow is missing.
+    if not workflow_path.is_file():
+        print(f'FAIL: {REPO_VERIFY_WORKFLOW_PATH}: missing repo verification workflow')
+        return 1
+
+    # Read the workflow once for all contract checks.
+    workflow_text = workflow_path.read_text(encoding='utf-8')
+    # Collect workflow contract failures together.
+    failures: list[str] = []
+
+    # Inspect every shell run block in the workflow.
+    run_blocks = workflow_run_blocks(workflow_text)
+
+    # Keep YAML orchestration thin instead of encoding policy there.
+    if len(run_blocks) != 1:
+        failures.append(
+            f'{REPO_VERIFY_WORKFLOW_PATH}: expected exactly 1 shell run step so policy stays in tools/script/verify.py, found {len(run_blocks)}'
+        )
+
+    # Reject multiline shell blocks that could hide extra logic.
+    if any('\n' in block for block in run_blocks):
+        failures.append(
+            f"{REPO_VERIFY_WORKFLOW_PATH}: expected a single-line run command '{CENTRAL_VERIFY_COMMAND}', not a multiline shell block"
+        )
+
+    # Require the workflow to call the central verifier entrypoint exactly.
+    if run_blocks != [CENTRAL_VERIFY_COMMAND]:
+        failures.append(
+            f"{REPO_VERIFY_WORKFLOW_PATH}: expected the only shell run step to be '{CENTRAL_VERIFY_COMMAND}'"
+        )
+
+    # Report every contract failure together.
+    if failures:
+        for failure in failures:
+            print(f'FAIL: {failure}')
+        return 1
+
+    # Confirm the workflow contract passed.
+    print(f'PASS: {REPO_VERIFY_WORKFLOW_PATH}')
+    return 0
+
+
 # Run coordination freshness checks unless explicitly skipped.
 def verify_coordination(repo_root: Path, ci: bool, skip_coordination: bool) -> int:
     # Resolve the local-only coordination dashboard path.
@@ -307,6 +422,8 @@ def main() -> int:
     failures += verify_script_syntax(repo_root)
     # Check script explainability against repo policy.
     failures += verify_script_tldrs(repo_root)
+    # Keep the CI workflow routed through this verifier.
+    failures += verify_repo_workflow_contract(repo_root)
     # Check coordination freshness unless the caller skipped it.
     failures += verify_coordination(repo_root, ci=args.ci, skip_coordination=args.skip_coordination)
 

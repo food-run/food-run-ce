@@ -1,3 +1,9 @@
+## TL;DR
+# - keeps repo verification policy in `tools/script/verify.py`
+# - runs on pull request updates plus manual dispatches
+# - sets up Python and delegates to one CI-safe verifier command
+# - stays thin so later docs and protected-path workflows can compose beside it
+
 name: repo verify
 
 on:
@@ -14,13 +20,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Fetch the repository for the verifier run.
       - name: checkout repo
         uses: actions/checkout@v4
 
+      # Install the Python runtime used by repo verification.
       - name: setup python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
+      # Delegate merge-blocking repo checks to the central verifier.
       - name: run repo verification
         run: python3 tools/script/verify.py --ci
