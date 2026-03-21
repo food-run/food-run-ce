@@ -23,6 +23,7 @@ This file is the durable testing and verification guide for the rebuild. It shou
 - Sprint 0 has established shared test support in `shared/testkit/`
 - repo verification already runs through `python3 tools/script/verify.py`
 - `.github/workflows/repo-verify.yml` already enforces that verifier in CI
+- `python3 tools/script/coordination_status.py watch` now provides the local-only minute-level reminder loop without expanding the CI verifier contract
 - later deliverables should extend this file with deeper runtime, contract, and smoke-specific commands as those layers become real
 
 ## Merge Gates
@@ -32,6 +33,7 @@ This file is the durable testing and verification guide for the rebuild. It shou
 - `.github/workflows/docs-guard.yml` now checks governed changes for a real `Docs and ADR delta` plus an updated `docs/adr.md`
 - `.github/workflows/protected-paths.yml` now requires explicit PR acknowledgement when protected paths change, including repo-control workflow edits and the exact protected-path categories from `AGENTS.md`
 - `.github/workflows/cla-check.yml` now skips the CLA phrase gate for repository-owner-authored PRs while keeping the exact phrase requirement for outside contributors
+- `tools/script/test_coordination_status.py` now covers plural workstream parsing, per-subagent evidence checks, overdue reminder output, and the one-minute local `watch` runner defaults
 - later D4 release scaffolding should stay beside these workflows instead of duplicating their checks in YAML
 
 ## Current Verifier Scope

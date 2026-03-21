@@ -36,6 +36,29 @@ This file is the durable reasoning spine for major Food Run technical and proces
 
 ---
 
+### S0-D4 - Add a dedicated reporter lane and a local coordination reminder loop
+
+- ***What was built?***
+  - `.opencode/agents/reporter.md` now defines a packet-only coordination lane, PM can route packet normalization to it, and `tools/script/coordination_status.py` now exposes a local `watch` runner that reuses the shared reminder runtime every minute instead of creating a second coordination engine.
+- ***Why was it chosen?***
+  - D4 needed stronger progress-report automation, but adding another script or machine-specific scheduler artifact would have split coordination logic and made local-only reporting harder to explain and review.
+- ***What boundaries does it own?***
+  - Reporter-owned packet normalization, the PM handoff boundary for coordination formatting, and the local reminder loop that surfaces overdue scopes while keeping all coordination policy inside `tools/script/coordination_status.py`.
+- ***What breaks if it changes?***
+  - PM and subagents can drift into competing packet formats, overdue scopes can stop surfacing consistently, and local operators can lose the one obvious entrypoint for recurring coordination checks.
+- ***What known edge cases or failure modes matter here?***
+  - The reporter lane must stay narrow enough that it never takes PM orchestration ownership, the watch loop must stay honest about being local-only, and overdue output must remain per-scope so one stale workstream does not hide another healthy one.
+- ***Why does this work matter?***
+  - It turns the coordination packet into a first-class repo-control contract and gives active work a repeatable local reminder loop before more agents or workstreams overlap.
+- ***What capability does it unlock?***
+  - Later scopes can reuse one normalized reporting lane and one minute-level reminder loop instead of rebuilding coordination format or scheduling behavior ad hoc.
+- ***Why is the chosen design safer or more scalable?***
+  - Reusing the shared coordination runtime keeps policy in one home, reduces drift across PM and subagents, and lets local schedulers call one stable command instead of proliferating wrappers.
+- ***What trade-off did the team accept?***
+  - Operators still need to choose how to launch the local reminder loop on their machines, so the repo documents safe entrypoints without pretending a committed machine-specific scheduler file would generalize cleanly.
+
+---
+
 ### S0-D4 - Separate docs, protected-path, and CLA gates into explicit pull-request workflows
 
 - ***What was built?***

@@ -3,7 +3,7 @@
 TL;DR  -->  coordination cadence verifier and heartbeat reminder runtime
 
 - Later Extension Points:
-    --> Add reporter-packet normalization and scheduled local reminder execution
+    --> Add machine-specific scheduler adapters only if the repo later owns them explicitly
 
 - Role:
     --> Verifies that the active coordination scope stays fresh in `docs/coordination/`
@@ -12,7 +12,7 @@ TL;DR  -->  coordination cadence verifier and heartbeat reminder runtime
     --> Must remain a thin repo-control runner, not a hidden orchestration layer
 
 - Exports:
-    --> `verify` and `remind` command-line entrypoints
+    --> `verify`, `remind`, and `watch` command-line entrypoints
 
 - Consumed By:
     --> PM and local operators running coordination checks and reminder commands
@@ -22,6 +22,7 @@ from __future__ import annotations
 # ---------- imports and dependencies ----------
 
 import argparse
+import os
 import re
 import sys
 import time
@@ -42,6 +43,10 @@ WORKSTREAM_RE = re.compile(r'^###\s+(.+?)\s*$')
 OFFICIAL_NOTE_RE = re.compile(r'.+-N(\d+)$')
 # Keep the default reporting cadence centralized here.
 DEFAULT_MAX_GAP_MINUTES = 6
+# Keep the local scheduler loop interval centralized here.
+WATCH_INTERVAL_SECONDS = 60
+# Warn shortly before each one-minute scheduler pass reaches the due time.
+WATCH_WARN_BEFORE_MINUTES = 1
 # Require these structured fields in heartbeat notes.
 REQUIRED_HEARTBEAT_FIELDS = (
     'Time',
@@ -598,6 +603,22 @@ def remind_coordination(
         # Sleep between reminder cycles in loop mode.
         time.sleep(interval_seconds)
 
+
+# Run the default one-minute local reminder loop.
+def watch_coordination(repo_root: Path) -> int:
+    # Refuse watch mode in CI so the local-only loop stays honest.
+    if os.environ.get('CI'):
+        print('FAIL: watch is local-only and must not run in CI')
+        return 1
+    # Delegate the watch mode to the shared reminder runtime.
+    return remind_coordination(
+        repo_root,
+        loop=True,
+        interval_seconds=WATCH_INTERVAL_SECONDS,
+        warn_before_minutes=WATCH_WARN_BEFORE_MINUTES,
+        write_stub=True,
+    )
+
 # ---------- command-line bootstrap ----------
 
 # Build the bounded CLI parser for verification and reminders.
@@ -639,6 +660,12 @@ def build_parser() -> argparse.ArgumentParser:
         action='store_true',
         help='Create the next heartbeat draft when warning or overdue.',
     )
+
+    # Configure the one-minute local watch loop.
+    subparsers.add_parser(
+        'watch',
+        help='Run the local coordination reminder loop every minute with draft-note creation enabled.',
+    )
     # Return the fully configured parser.
     return parser
 
@@ -664,6 +691,9 @@ def main() -> int:
             warn_before_minutes=args.warn_before_minutes,
             write_stub=args.write_stub,
         )
+    # Route watch requests into the shared one-minute reminder loop.
+    if args.command == 'watch':
+        return watch_coordination(repo_root)
     # Keep unsupported commands impossible in normal use.
     parser.error(f'unsupported command: {args.command}')
     return 2

@@ -3,7 +3,7 @@
 TL;DR  -->  focused unit coverage for plural coordination status parsing and evidence checks
 
 - Later Extension Points:
-    --> Add reminder-scheduler and reporter-shape tests when those D4 slices land
+    --> Add machine-specific scheduler coverage only if the repo later owns those adapters
 
 - Role:
     --> Verifies legacy and plural active dashboard parsing without creating a second test harness
@@ -11,7 +11,7 @@ TL;DR  -->  focused unit coverage for plural coordination status parsing and evi
     --> Must stay close to `tools/script/coordination_status.py` so policy drift is obvious
 
 - Exports:
-    --> `CoordinationStatusTests` unittest coverage for `tools/script/coordination_status.py`
+    --> `CoordinationStatusTests` unittest coverage for `tools/script/coordination_status.py` watch and reminder behavior
 
 - Consumed By:
     --> `python3 -m unittest discover -s tools/script -p 'test_*.py'`
@@ -22,10 +22,12 @@ from __future__ import annotations
 
 import importlib.util
 import io
+import sys
 import tempfile
 import unittest
 from contextlib import redirect_stdout
 from pathlib import Path
+from unittest import mock
 
 # ---------- module loading ----------
 
@@ -377,3 +379,70 @@ class CoordinationStatusTests(unittest.TestCase):
 
         self.assertEqual(result, 1)
         self.assertIn('missing Chat Summary Sent At for subagent reporter', output.getvalue())
+
+    # Surface overdue reminders per scope in the reminder flow.
+    def test_remind_reports_overdue_scope(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            repo_root = Path(temp_dir)
+            active_text = "\n".join(
+                [
+                    '# 💠 Active Coordination Status',
+                    '',
+                    '- **Generated At:** 2026-03-21 11:00 local',
+                    '- **Updated By:** PM',
+                    '- **Active Scope:** `multiple`',
+                    '',
+                    '## Active Workstreams',
+                    '',
+                    '### `S0-D4-T5`',
+                    '- **Scope:** `S0-D4-T5`',
+                    '- **Current Agent:** PM',
+                    '- **Current Status:** active',
+                    '- **Active Paths:** .opencode/agents/reporter.md',
+                    '- **Active Subagents:** none',
+                    '- **Last Heartbeat:** 2000-03-21 11:00 local',
+                    '- **Next Expected Heartbeat:** 2000-03-21 11:01 local',
+                    '- **Latest Checkpoint:** `docs/coordination/checkpoints/S0-D4-T5-C1.md`',
+                    '- **Blockers:** none',
+                    '- **Next Recommended Action:** keep working',
+                ]
+            )
+            write_file(repo_root / 'docs' / 'coordination' / 'active.md', active_text)
+            (repo_root / 'docs' / 'coordination' / 'notes').mkdir(parents=True, exist_ok=True)
+
+            output = io.StringIO()
+            with redirect_stdout(output):
+                result = COORDINATION_MODULE.remind_coordination(
+                    repo_root,
+                    loop=False,
+                    interval_seconds=60,
+                    warn_before_minutes=1,
+                    write_stub=False,
+                )
+
+        self.assertEqual(result, 0)
+        self.assertIn('OVERDUE: S0-D4-T5 heartbeat due', output.getvalue())
+
+    # Keep the watch command bound to the shared one-minute reminder loop.
+    def test_main_watch_routes_to_default_loop(self) -> None:
+        with mock.patch.object(COORDINATION_MODULE, 'remind_coordination', return_value=0) as remind_mock:
+            with mock.patch.object(sys, 'argv', ['coordination_status.py', 'watch']):
+                result = COORDINATION_MODULE.main()
+
+        self.assertEqual(result, 0)
+        self.assertEqual(remind_mock.call_count, 1)
+        _, kwargs = remind_mock.call_args
+        self.assertTrue(kwargs['loop'])
+        self.assertEqual(kwargs['interval_seconds'], COORDINATION_MODULE.WATCH_INTERVAL_SECONDS)
+        self.assertEqual(kwargs['warn_before_minutes'], COORDINATION_MODULE.WATCH_WARN_BEFORE_MINUTES)
+        self.assertTrue(kwargs['write_stub'])
+
+    # Keep the watch loop explicitly local-only.
+    def test_watch_rejects_ci_environment(self) -> None:
+        with mock.patch.dict('os.environ', {'CI': 'true'}, clear=False):
+            output = io.StringIO()
+            with redirect_stdout(output):
+                result = COORDINATION_MODULE.watch_coordination(Path('/tmp/food-run-test'))
+
+        self.assertEqual(result, 1)
+        self.assertIn('watch is local-only', output.getvalue())
