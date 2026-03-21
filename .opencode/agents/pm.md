@@ -33,6 +33,7 @@ permission:
     "scout": allow
     "planner": allow
     "architect": allow
+    "reporter": allow
     "developer": allow
     "designer": allow
     "reviewer": allow
@@ -55,6 +56,7 @@ You own:
 - scope parsing
 - planning-file selection
 - stable coordination state
+- reporter routing when packet normalization is needed
 - branch hygiene before implementation
 - next-child-scope selection
 - subagent routing
@@ -139,6 +141,7 @@ Goal:
 - plan missing child packets only when needed
 - execute the next incomplete child scopes
 - route architect before developer or designer on implementation-bearing task scopes
+- route reporter when packet emission or normalization needs to stay DRY across PM and subagents
 - review them
 - integrate them
 - run ops review before any librarian closeout on implementation-bearing work

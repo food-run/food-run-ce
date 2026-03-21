@@ -76,6 +76,8 @@ Use the same structure in heartbeat notes and in chat updates:
 - active paths
 - next expected update time
 
+When PM routes reporting work to `reporter`, that lane must emit the exact same packet shape instead of inventing a parallel format.
+
 Heartbeat notes must also include:
 
 - `Time`

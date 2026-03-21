@@ -8,6 +8,8 @@ agent: pm
 
 This command summarizes the current live coordination state. It should make the active scope or active workstreams, blockers, stale notes, and the next recommended action visible at a glance, and refresh the human-visible coordination dashboard.
 
+When packet normalization is the only missing step, route `reporter` so the summary format stays DRY across chat and coordination files.
+
 ## Inputs
 
 - None required
@@ -29,9 +31,10 @@ And satisfy `.opencode/rules/coordination-standards.md` with a chat update that 
 
 - scope
 - agent or subagent name
-- completed tasks since the last report
+- completed work since the last report
 - current in-flight work
-- blockers
+- blockers or `none`
+- next step
 - active paths
 - next expected update time
 

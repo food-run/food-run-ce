@@ -136,6 +136,11 @@ Protected-path rules:
 
 - Owns orchestration, status, task routing, handoffs, course correction, and human-in-the-loop checkpoints
 
+### Reporter
+
+- Owns structured coordination packet emission and normalization for PM and subagents
+- Does not own scope selection, planning, implementation, or review decisions
+
 ### Scout
 
 - Owns discovery, grounding, reuse search, hotspot mapping, and packet inconsistency detection
