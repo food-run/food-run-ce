@@ -36,6 +36,29 @@ This file is the durable reasoning spine for major Food Run technical and proces
 
 ---
 
+### S0-D4 - Align the OpenCode bash allowlist with the CLI commands the repo actually needs
+
+- ***What was built?***
+  - `opencode.json` now explicitly allows `printf *` and the spaced `git log *` matcher that the current repo-control workflows already rely on.
+- ***Why was it chosen?***
+  - The shell allowlist had drifted from the real command shapes the governed repo-control flow uses, which could block valid local automation or force awkward command rewrites.
+- ***What boundaries does it own?***
+  - OpenCode bash-command permissions for low-risk local inspection helpers that PM and repo-control workflows need during governed execution.
+- ***What breaks if it changes?***
+  - Valid local command paths can be denied unexpectedly, and repo-control automation can drift toward less direct shell patterns just to satisfy stale permission rules.
+- ***What known edge cases or failure modes matter here?***
+  - The allowlist must stay narrow; adding broad shell permissions would weaken guardrails, while overly specific stale patterns would keep breaking legitimate commands.
+- ***Why does this work matter?***
+  - It keeps the tool policy aligned with the commands the repo actually expects during governed execution.
+- ***What capability does it unlock?***
+  - PM and related repo-control flows can keep using the expected `git log` and formatting paths without permission mismatches.
+- ***Why is the chosen design safer or more scalable?***
+  - Small, explicit allowlist repairs preserve the deny-by-default posture while reducing avoidable friction in everyday governed workflows.
+- ***What trade-off did the team accept?***
+  - The repo must keep reviewing shell-allowlist changes carefully because even tiny permission edits affect operator behavior across the tool surface.
+
+---
+
 ### S0-D4 - Rename the root legal files to explicit markdown filenames and repair the repo references
 
 - ***What was built?***
