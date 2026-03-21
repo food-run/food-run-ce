@@ -2,7 +2,7 @@
 
 ## TL;DR
 
-Implement narrowly, reuse before inventing, keep boundaries stable, and leave work easy to explain, review, and roll back. The repository must be deeply technical, well documented, and structured around exact permanent files rather than placeholders. Script-like files and automation surfaces must follow the team’s canonical TL;DR header and comment style from the first line.
+Implement narrowly, reuse before inventing, keep boundaries stable, and leave work easy to explain, review, and roll back. The repository must be deeply technical, well documented, and structured around exact permanent files rather than placeholders. Script-like files and automation surfaces must follow the team’s canonical TL;DR header and comment style from the first line. DRYness is a mandatory preflight and closeout gate, not optional cleanup.
 
 ## Index
 
@@ -11,8 +11,10 @@ Implement narrowly, reuse before inventing, keep boundaries stable, and leave wo
 - [🏷️ Naming Rules](#️-naming-rules)
 - [🧱 Path and Ownership Rules](#-path-and-ownership-rules)
 - [💬 Commenting and Scripting Style](#-commenting-and-scripting-style)
+- [♻️ DRYness Gates](#️-dryness-gates)
 - [📝 TODO Rules](#-todo-rules)
 - [🧪 Verification Rules](#-verification-rules)
+- [✅ Completion Checklist](#-completion-checklist)
 - [🧾 Commit and Coordination Rules](#-commit-and-coordination-rules)
 - [🚨 Escalate Instead of Guessing](#-escalate-instead-of-guessing)
 
@@ -25,6 +27,7 @@ Implement narrowly, reuse before inventing, keep boundaries stable, and leave wo
 - preserve active-vs-legacy boundaries
 - make the first version of a file look like the permanent version of that file, not a throwaway scaffold
 - keep comments DRY and useful instead of noisy or repetitive
+- treat reuse and consolidation as review gates, not as optional cleanup
 
 ## 🗂️ Documentation and File-Creation Rules
 
@@ -107,13 +110,9 @@ This section applies to any file that allows comments, excluding Markdown files.
 
 - every comment-capable file must be meaningfully documented
 - comments must stay DRY
-- comments should explain:
-  - ownership
-  - boundary
-  - runtime flow
-  - extension seams
-  - non-obvious logic
-- comments should not narrate trivial syntax line by line
+- comments should explain ownership, boundary, runtime flow, extension seams, non-obvious logic, and strategic intent
+- comments should make skimming possible without forcing humans to infer hidden reasoning
+- implemented files should feel heavily commented without collapsing into repetitive noise
 
 ### Canonical TL;DR Header Rule
 
@@ -132,14 +131,46 @@ The TL;DR block must:
   - `- Exports:`
   - `- Consumed By:`
 
+### Stub File Rule
+
+A stub-only file with no actual implementation may stop after the TL;DR block.
+
+Use this lighter stub shape when all of these are true:
+
+- the file has no real runtime or business logic yet
+- the file only reserves the permanent home for future work
+- any remaining body line is only a minimal syntax keeper such as `export {}`
+
+For stub-only files:
+
+- do not add section headers below the TL;DR
+- do not add body comments below the TL;DR
+- do not add placeholder code just to justify comments
+- keep the future seam described in the TL;DR instead
+
+### Implemented File Rule
+
+Once a file has actual implementation, it must use the heavy comment style.
+
+Implemented files must:
+
+- use section-group headers to divide major areas
+- use one-line comments for sections, mini-groups, and non-obvious lines
+- keep each comment line between 4 and 18 words when practical
+- prefer one one-line comment above a mini-group when the intent is shared
+- avoid repeating the same sentence on every line when a mini-group comment already explains the block
+- keep inline end-of-line comments rare and only for tight local clarification
+
 ### Internal Comment Rule
 
 All non-TL;DR comments must be single-line comments only.
 
 Allowed forms:
 
+- a single-line section header
 - a single-line comment above a mini-group
-- a single-line comment appended to the relevant code line
+- a single-line comment above an individual non-obvious line
+- a short appended comment on the relevant code line when proximity matters
 
 Not allowed:
 
@@ -149,7 +180,7 @@ Not allowed:
 
 ### Section Header Rule
 
-Use section-group headers to divide large areas of the file.
+Use section-group headers to divide large areas of implemented files.
 
 Examples:
 
@@ -171,15 +202,12 @@ Examples:
 
 ### Comment Density Rule
 
-- comments should be heavy enough that a teammate can understand the file quickly
-- comments should be sparse enough that they are not repeating every obvious line
-- prefer one strong section comment over five weak local comments
-- use inline comments only for:
-  - non-obvious logic
-  - edge-case handling
-  - ordering constraints
-  - TODOs
-  - boundary reminders
+- comment every major section
+- comment every mini-group whose shared purpose is not obvious at a glance
+- comment individual lines when the reasoning or strategy would otherwise stay implicit
+- prefer comments above the relevant lines over trailing explanation chains
+- keep comments short, concrete, and skimmable
+- if several adjacent lines share one intent, use one mini-group comment instead of repeating the same note
 
 ### TODO Rule Inside Code
 
@@ -215,9 +243,9 @@ Prefer:
         --> <direct current callers or operators>
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  """
 
-    # ---------- <first section> ----------
+    # ---------- <first implemented section> ----------
 
-    # TODO: <exact next cleanup or deferred implementation>
+    # <one-line section or mini-group comment>
 
 ### Canonical TypeScript / JavaScript Template
 
@@ -239,9 +267,9 @@ Prefer:
       --> <direct current callers or operators>
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  */
 
-    // ---------- <first section> ----------
+    // ---------- <first implemented section> ----------
 
-    // TODO: <exact next cleanup or deferred implementation>
+    // <one-line section or mini-group comment>
 
 ### Review Rule for Comment Style
 
@@ -249,11 +277,52 @@ Treat any of the following as explainability debt:
 
 - missing TL;DR header where this rule applies
 - vague TL;DR content
-- missing section-group headers in script-like files
+- missing section-group headers in implemented script-like files
+- missing body comments in implemented files whose logic is no longer self-explanatory
 - comment spam
 - trivial syntax narration
 - multi-line comments outside the TL;DR
+- body comments in stub-only files with no actual implementation
 - missing TODO markers for knowingly incomplete work
+
+## ♻️ DRYness Gates
+
+DRYness is a mandatory review gate before implementation begins and again before a scope can be called complete.
+
+### Preflight Gate
+
+Before implementation starts:
+
+- run a reuse scan for the relevant concept across the repository
+- identify what can be reused directly
+- identify what should be extended or refactored instead of duplicated
+- justify any newly created structure as meaningfully unique for the current boundary
+
+### Meaningfully Unique Means
+
+New code or structure must differ in at least one real way that matters to the repository, such as:
+
+- different deployable boundary or ownership
+- different runtime or execution model
+- different data contract or invariants
+- different user-facing responsibility
+- different protected-path or operational requirements
+
+If the change is not meaningfully unique, refactor or reuse instead of adding another copy.
+
+### Closeout Gate
+
+Before a scope is called complete:
+
+- PM must orchestrate a repository-wide DRYness review
+- reviewer must check for duplicate logic, duplicate concepts, and duplicate homes across the repository
+- if the result is not meaningfully unique, the scope is not complete and must refactor or retry first
+
+### DRYness Non-Goals
+
+- do not invent abstraction just to sound DRY
+- do not broaden scope just to chase every possible consolidation
+- do not approve near-duplicates without an explicit uniqueness reason
 
 ## 📝 TODO Rules
 
@@ -267,9 +336,29 @@ Treat any of the following as explainability debt:
 
 - pair meaningful implementation with the right level of verification
 - leave review hotspots and rollback notes when risk is non-trivial
-- keep documents and ADR context aligned when shared understanding changes
-- reject work that is not meaningfully unique under `.opencode/rules/dryness-review.md`
+- keep docs and ADR context aligned when shared understanding changes
 - check comment-style compliance during implementation and again during review closeout
+- run the DRYness preflight gate before implementation
+- run the DRYness closeout gate before declaring the scope complete
+
+## ✅ Completion Checklist
+
+Every completion or closeout summary must include:
+
+- what was reused
+- what was created
+- what was refactored
+- what should be consolidated elsewhere but is outside the current scope
+
+A scope is not complete until all of these are true:
+
+- ownership is clear
+- new structure is meaningfully unique where added
+- no avoidable duplicate homes were created
+- comment-capable files follow the repo comment standard
+- TODOs are explicit where work is partial or deferred
+- verification is complete at the right level for the change
+- durable docs or ADR context were updated when shared understanding changed
 
 ## 🧾 Commit and Coordination Rules
 
@@ -294,3 +383,4 @@ Escalate instead of guessing when you hit:
 - scope that cannot remain narrow
 - a file that does not yet have an exact permanent name
 - comment-style uncertainty that would affect repository-wide consistency
+- a DRYness conflict that would require broadening scope without approval
