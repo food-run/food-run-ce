@@ -29,8 +29,8 @@ jobs:
             const pullNumber = pr.number;
 
             const protectedMatchers = [
-              ["repo-control workflows", /^\.github\/workflows\/(repo-verify|cla-check|docs-guard|protected-paths)\.yml$/],
               ["release workflows", /^\.github\/workflows\/(cd|release.*)\.yml$/],
+              ["repo-control workflows", /^\.github\/workflows\//],
               ["release workflows", /^tools\/script\/release\.py$/],
               ["auth or session policy", /^apps\/domain\/auth\.py$/],
               ["auth or session policy", /^apps\/api\/middleware\.py$/],
@@ -87,9 +87,13 @@ jobs:
             const changedFiles = files.map((file) => file.filename);
             const protectedHits = changedFiles
               .map((filename) => {
-                const categories = protectedMatchers
-                  .filter(([, pattern]) => pattern.test(filename))
-                  .map(([category]) => category);
+                const categories = [
+                  ...new Set(
+                    protectedMatchers
+                      .filter(([, pattern]) => pattern.test(filename))
+                      .map(([category]) => category)
+                  ),
+                ];
                 return categories.length > 0 ? { filename, categories } : null;
               })
               .filter(Boolean);

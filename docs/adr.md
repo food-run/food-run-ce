@@ -36,6 +36,29 @@ This file is the durable reasoning spine for major Food Run technical and proces
 
 ---
 
+### S0-D4 - Make the PR narrative and every workflow edit subject to the documented merge gates
+
+- ***What was built?***
+  - `.github/workflows/docs-guard.yml` now blocks pull requests that leave `Summary`, `Why this change`, `Files and boundaries`, or `Verification` blank or placeholder-only, and `.github/workflows/protected-paths.yml` now treats any `.github/workflows/**` edit as a protected-path change.
+- ***Why was it chosen?***
+  - The earlier D4 slices documented PR-shape enforcement and workflow-path protection, but the actual automation still left those two gaps open, which meant reviewers could trust rules that were not fully enforced.
+- ***What boundaries does it own?***
+  - The minimum reviewer-facing PR narrative every change must provide, and the protected-path boundary for all workflow automation under `.github/workflows/**`.
+- ***What breaks if it changes?***
+  - Pull requests can slip through with vague review context, workflow changes can avoid the protected-path acknowledgement gate, and the repo's documented merge posture can drift away from reality again.
+- ***What known edge cases or failure modes matter here?***
+  - The docs gate must still keep `Docs and ADR delta` conditional on governed changes instead of requiring ADR churn for every PR, and the workflow matcher must stay broad enough to catch new workflow files without producing opaque failures.
+- ***Why does this work matter?***
+  - It closes the last D4 enforcement gap between the documented PR contract and the actual merge-blocking automation.
+- ***What capability does it unlock?***
+  - Reviewers can rely on every PR carrying a real summary and verification story, and workflow edits now consistently trigger the protected-path review path.
+- ***Why is the chosen design safer or more scalable?***
+  - Extending the existing D4 workflows keeps the logic in the same audited homes, preserves clear failure messages, and automatically covers future workflow files without another policy split.
+- ***What trade-off did the team accept?***
+  - More PRs will now fail fast on incomplete narrative or workflow-acknowledgement details, so contributors must keep the template sections and protected-path notes up to date before review.
+
+---
+
 ### S0-D4 - Align the OpenCode bash allowlist with the CLI commands the repo actually needs
 
 - ***What was built?***

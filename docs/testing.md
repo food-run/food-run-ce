@@ -34,12 +34,13 @@ This file is the durable testing and verification guide for the rebuild. It shou
 
 ## Docs and ADR Verification
 
-- `.github/workflows/docs-guard.yml` now checks governed changes for a real `Docs and ADR delta` plus an updated `docs/adr.md`
+- `.github/workflows/docs-guard.yml` now treats `Summary`, `Why this change`, `Files and boundaries`, and `Verification` as merge-blocking PR narrative sections for every PR
+- `.github/workflows/docs-guard.yml` also checks governed changes for a real `Docs and ADR delta` plus an updated `docs/adr.md`
 - meaningful repo-control and shared-understanding changes should keep `docs/adr.md` current before merge-ready status
 
 ## Protected-Path Verification
 
-- `.github/workflows/protected-paths.yml` now requires explicit PR acknowledgement when protected paths change, including repo-control workflow edits and the exact protected-path categories from `AGENTS.md`
+- `.github/workflows/protected-paths.yml` now requires explicit PR acknowledgement when protected paths change, including any `.github/workflows/**` edit and the exact protected-path categories from `AGENTS.md`
 - `.github/workflows/cla-check.yml` now skips the CLA phrase gate for repository-owner-authored PRs while keeping the exact phrase requirement for outside contributors
 - `tools/script/test_coordination_status.py` now covers plural workstream parsing, per-subagent evidence checks, overdue reminder output, and the one-minute local `watch` runner defaults
 - `tools/script/test_release.py` now keeps `.github/workflows/cd.yml` bound to `tools/script/release.py` and verifies the D4 release scaffold stays prepare-only
