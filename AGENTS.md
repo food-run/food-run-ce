@@ -176,14 +176,14 @@ At the start of each work unit:
 2. Restate the exact scope and boundaries.
 3. Identify active paths, protected paths, and hotspot files.
 4. Create or update a live task note in `docs/coordination/tasks/`.
-5. Follow `.opencode/rules/coordination-naming.md` for every coordination artifact.
+5. Follow `.opencode/rules/coordination-standards.md` for every coordination artifact.
 6. Create or switch to the scoped working branch before implementation begins.
 
 During work:
 
 - Leave a checkpoint note after each meaningful step.
-- Follow `.opencode/rules/progress-reporting.md`.
-- Follow `.opencode/rules/dryness-review.md` before implementation starts and before calling work complete.
+- Follow `.opencode/rules/coordination-standards.md`.
+- Follow the `DRYness Gates` section in `.opencode/rules/implementation-standards.md` before implementation starts and before calling work complete.
 - Keep tracked work recorded in small Conventional Commit slices that match the current checkpoint rhythm.
 - Leave a handoff note before switching lanes.
 - Keep task scope narrow.
