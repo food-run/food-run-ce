@@ -157,6 +157,23 @@ Changes become mergeable by extending the current committed repo structure, keep
 - update root guidance and technical docs when repo-control behavior changes
 - pass the repo verification and review gates before closeout
 
+## Merge Discipline
+
+- use `.github/pull_request_template.md` and `.opencode/commands/pr-prepare.md` together so the branch summary, verification, docs delta, protected-path notes, and CLA wording stay aligned
+- update `docs/adr.md` for meaningful repo-control and shared-understanding changes before treating a branch as PR-ready
+- expect merge-gate automation in `.github/workflows/repo-verify.yml`, `.github/workflows/docs-guard.yml`, `.github/workflows/protected-paths.yml`, `.github/workflows/cla-check.yml`, and `.github/workflows/cd.yml` to enforce the documented repo contract
+
+## Protected Paths
+
+- protected surfaces include `.github/workflows/**`, `.opencode/**`, `AGENTS.md`, `opencode.json`, auth/session policy, migrations, tenancy or role enforcement, secrets handling, queue replay controls, and failover controls
+- changes on those paths need explicit risk acknowledgement, narrow diffs, and matching durable docs when they alter shared understanding
+
+## CI and Docs Expectations
+
+- keep `tools/script/verify.py`, `tools/script/coordination_status.py`, and `tools/script/release.py` as the central script seams instead of duplicating policy in workflow YAML
+- keep `docs/testing.md`, `docs/operations.md`, and `docs/adr.md` aligned with the actual workflow and script behavior
+- treat the local `python3 tools/script/coordination_status.py watch` loop as operator-owned coordination support, not as CI-owned automation
+
 ---
 
 ## Where To Start
