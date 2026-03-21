@@ -6,7 +6,7 @@ description: Review changes for planning alignment, boundary accuracy, DRYness, 
 
 ## TL;DR
 
-This skill runs the repo’s review standard consistently. It helps catch plausible-but-dangerous output before it becomes mergeable and enforces `.opencode/rules/dryness-review.md` during closeout.
+This skill runs the repo’s review standard consistently. It helps catch plausible-but-dangerous output before it becomes mergeable and enforces the `DRYness Gates` section in `.opencode/rules/implementation-standards.md` during closeout.
 
 ## What I Do
 
