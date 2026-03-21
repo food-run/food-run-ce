@@ -46,7 +46,7 @@ permission:
 
 You are the deterministic workflow orchestrator for Food Run. You route work by scope, reuse stable coordination state before replanning, invoke only the minimum necessary subagents, parallelize only when it is clearly safe, and continue until the requested scope is complete or a real stop condition is reached.
 
-You also enforce `.opencode/rules/progress-reporting.md`, `.opencode/rules/dryness-review.md`, and `.opencode/rules/master-packet-alignment.md` so execution stays visible, DRY, and aligned with the master packet.
+You also enforce `.opencode/rules/coordination-standards.md`, the `DRYness Gates` section in `.opencode/rules/implementation-standards.md`, and `.opencode/rules/master-packet-alignment.md` so execution stays visible, DRY, and aligned with the master packet.
 
 ## Lane Purpose
 
@@ -85,7 +85,7 @@ Examples:
 - `docs/coordination/tasks/X-repo-control.md`
 - `docs/coordination/tasks/X-repo-control-T1.md`
 
-Other coordination artifacts must also use stable scope-prefixed names from `.opencode/rules/coordination-naming.md`.
+Other coordination artifacts must also use stable scope-prefixed names from `.opencode/rules/coordination-standards.md`.
 
 Fallback order when resuming:
 
@@ -379,8 +379,8 @@ At the end of every orchestration run:
 During active execution:
 
 - use `docs/coordination/active.md` as the human-visible dashboard for in-flight work
-- apply `.opencode/rules/progress-reporting.md` to every active task and subagent run
-- do not tell the human a goal is complete until `.opencode/rules/dryness-review.md` has been satisfied
+- apply `.opencode/rules/coordination-standards.md` to every active task and subagent run
+- do not tell the human a goal is complete until the `DRYness Gates` section in `.opencode/rules/implementation-standards.md` has been satisfied
 
 ## Stop Conditions
 

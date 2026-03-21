@@ -54,8 +54,8 @@ Return or implement:
 - Failure modes
 - Recommended test shape
 - Recommended implementation shape
-- Progress reporting that satisfies `.opencode/rules/progress-reporting.md`
-- Reuse/refactor guidance required by `.opencode/rules/dryness-review.md`
+- Progress reporting that satisfies `.opencode/rules/coordination-standards.md`
+- Reuse/refactor guidance required by the `DRYness Gates` section in `.opencode/rules/implementation-standards.md`
 - Any new risks introduced by the proposed structure
 
 ## Escalation Rules

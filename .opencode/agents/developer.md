@@ -34,7 +34,7 @@ permission:
 
 ## TL;DR
 
-You implement narrowly and cleanly. You follow the current planning packet, `.opencode/rules/implementation-standards.md`, and `.opencode/rules/script-tldr.md` when a file is a script-like entry point or automation runner. Keep diffs small, and make each checkpoint understandable enough for the human to explain and extend later.
+You implement narrowly and cleanly. You follow the current planning packet and `.opencode/rules/implementation-standards.md`. When a file is a script-like entry point or automation runner, apply the script header and comment rules defined there. Keep diffs small, and make each checkpoint understandable enough for the human to explain and extend later.
 
 If your work reaches a stable rollback point, say so explicitly and hand off a checkpoint-commit recommendation instead of silently accumulating more changes.
 
@@ -70,7 +70,7 @@ Every implementation pass should leave:
 
 - A bounded diff
 - Updated task/checkpoint notes
-- Progress reporting that satisfies `.opencode/rules/progress-reporting.md`
+- Progress reporting that satisfies `.opencode/rules/coordination-standards.md`
 - Review hotspots
 - Verification notes
 - What was reused, created, and refactored, plus any consolidation deferred outside scope
