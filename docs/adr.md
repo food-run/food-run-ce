@@ -36,6 +36,29 @@ This file is the durable reasoning spine for major Food Run technical and proces
 
 ---
 
+### S0-D4 - Rename the root legal files to explicit markdown filenames and repair the repo references
+
+- ***What was built?***
+  - The root legal docs now live as `LICENSE.md` and `NOTICE.md`, and the matching repo references in `README.md`, `SECURITY.md`, `GOVERNANCE.md`, `CLA.md`, and planning docs were updated to the new explicit markdown filenames.
+- ***Why was it chosen?***
+  - The repo already treats these as markdown documents, so the filename change keeps the root legal surfaces explicit and prevents broken links after the human rename landed.
+- ***What boundaries does it own?***
+  - Root legal-document naming, the canonical repo references to those files, and the planning-tree examples that describe the committed repo shape.
+- ***What breaks if it changes?***
+  - Root docs and planning material can point at missing files, contributors can miss the canonical legal text, and the repo can drift between actual filenames and documented references.
+- ***What known edge cases or failure modes matter here?***
+  - The rename must keep every root-policy reference aligned at once; partial link updates would leave the repo in a broken but plausible state.
+- ***Why does this work matter?***
+  - It keeps the legal boundary readable and prevents contributor-facing docs from pointing at stale filenames after the rename.
+- ***What capability does it unlock?***
+  - Later legal or governance updates can treat the markdown files as the stable homes without carrying filename ambiguity forward.
+- ***Why is the chosen design safer or more scalable?***
+  - Explicit markdown filenames match the repo’s document surfaces, reduce broken-link risk, and make future doc tooling behavior easier to explain.
+- ***What trade-off did the team accept?***
+  - Existing references had to be updated together, so even a small rename carried cross-doc coordination cost.
+
+---
+
 ### S0-D4 - Replace the misleading pages deploy stub with honest release-preparation scaffolding
 
 - ***What was built?***

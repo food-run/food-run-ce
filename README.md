@@ -162,7 +162,7 @@ Changes become mergeable by extending the current committed repo structure, keep
 ## Where To Start
 
 Before opening substantial work, review:
-- [`LICENSE`](LICENSE)
+- [`LICENSE.md`](LICENSE.md)
 - [`CONTRIBUTING.md`](CONTRIBUTING.md)
 - [`GOVERNANCE.md`](GOVERNANCE.md)
 - [`TRADEMARKS.md`](TRADEMARKS.md)
@@ -186,7 +186,7 @@ In general:
 
 Food Run Community Edition (CE) is licensed under the GNU Affero General Public License, version 3 or any later version (AGPLv3-or-later).
 
-See [`LICENSE`](LICENSE) for the full license text.
+See [`LICENSE.md`](LICENSE.md) for the full license text.
 
 ### Trademark Boundary
 

@@ -36,7 +36,7 @@ your Contribution as part of the Project or derivative works maintained by the P
 ## 4) Outbound licensing of CE
 
 You understand that:
-- Food Run CE may be distributed under the open source license stated in the repository `LICENSE` file
+- Food Run CE may be distributed under the open source license stated in the repository `LICENSE.md` file
 - your Contribution may therefore be distributed to the public under that open source license as part of CE
 - this Agreement is separate from, and in addition to, the outbound open source license applied to CE
 

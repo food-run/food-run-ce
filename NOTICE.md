@@ -2,7 +2,7 @@ Food Run Community Edition (CE)
 Copyright (c) 2025 Food Run project owner and contributors
 
 This repository contains software licensed under the GNU Affero General Public License v3.0 or later.
-See LICENSE for the full license text.
+See LICENSE.md for the full license text.
 
 The Food Run name, logos, icons, and related brand assets are not licensed under the software license.
 Trademark and brand use are governed separately by TRADEMARKS.md.
