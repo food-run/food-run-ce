@@ -5,6 +5,8 @@
 - **Active Scope:**
 - **Current Agent:**
 - **Current Status:**
+- **Active Paths:**
+- **Active Subagents:**
 - **Last Heartbeat:**
 - **Next Expected Heartbeat:**
 - **Latest Checkpoint:**
