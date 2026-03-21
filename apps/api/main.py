@@ -1,10 +1,18 @@
-"""
-TL;DR
-Starter surface for the public API runtime.
+"""  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+TL;DR  -->  public API runtime entrypoint
 
-Runtime role
-- Own the future request entrypoint and contract-facing startup path.
+- Later Extension Points:
+    --> Compose routes, middleware, schemas, and startup wiring here
 
-Later extension points
-- Compose routes, middleware, and schemas from this module.
-"""
+- Role:
+    --> Establishes the active request-facing runtime entry point for the rebuild API surface
+    --> Owns the startup boundary where route and middleware wiring will later assemble
+    --> Exists as the single executable entry file for the governed API runtime
+    --> Must remain thin: startup and composition only, not a second home for domain logic
+
+- Exports:
+    --> API runtime entry path
+
+- Consumed By:
+    --> local operators starting the API runtime
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  """
