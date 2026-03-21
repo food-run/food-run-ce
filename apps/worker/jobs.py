@@ -1,10 +1,18 @@
-"""
-TL;DR
-Starter surface for worker job definitions.
+"""  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+TL;DR  -->  worker job definition surface
 
-Runtime role
-- Hold future async job orchestration owned by the worker boundary.
+- Later Extension Points:
+    --> Add background job handlers and dispatch metadata here
 
-Later extension points
-- Add background work definitions once queue semantics are introduced.
-"""
+- Role:
+    --> Holds job-definition ownership for the worker runtime boundary
+    --> Owns async job structure so queue wiring and retry policy stay in their own files
+    --> Exists as the single home for worker job definitions
+    --> Must remain job-focused instead of turning into a second queue adapter layer
+
+- Exports:
+    --> worker job definition surface
+
+- Consumed By:
+    --> local operators and implementers defining background job behavior
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  """

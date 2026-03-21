@@ -1,10 +1,18 @@
-"""
-TL;DR
-Starter surface for worker retry policy.
+"""  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+TL;DR  -->  worker retry policy surface
 
-Runtime role
-- Hold future retry and backoff behavior for async execution.
+- Later Extension Points:
+    --> Add retry windows, backoff rules, and failure classification here
 
-Later extension points
-- Add retry policy when queue and job semantics exist.
-"""
+- Role:
+    --> Holds retry-policy ownership for asynchronous worker execution
+    --> Owns retry semantics so queue consumers and job handlers do not duplicate backoff decisions
+    --> Exists as the single home for worker retry and failure-recovery policy
+    --> Must remain policy-focused instead of hiding queue wiring or job behavior
+
+- Exports:
+    --> worker retry policy surface
+
+- Consumed By:
+    --> local operators and implementers defining worker retry behavior
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  """

@@ -1,10 +1,18 @@
-"""
-TL;DR
-Starter surface for worker queue integration.
+"""  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+TL;DR  -->  worker queue-consumer surface
 
-Runtime role
-- Hold future queue-consumer wiring for async execution.
+- Later Extension Points:
+    --> Add queue polling, message handling, and worker-consumer wiring here
 
-Later extension points
-- Add queue adapters without promoting the worker to domain authority.
-"""
+- Role:
+    --> Holds queue-consumer ownership for the worker runtime boundary
+    --> Owns async queue wiring so job definitions and retry policy stay narrowly focused
+    --> Exists as the single home for worker-side queue consumption behavior
+    --> Must remain worker-focused instead of becoming a shared adapter abstraction
+
+- Exports:
+    --> worker queue-consumer surface
+
+- Consumed By:
+    --> local operators and implementers defining worker queue consumption
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  """
