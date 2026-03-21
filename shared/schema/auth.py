@@ -1,10 +1,18 @@
-"""
-TL;DR
-Starter surface for reusable authorization-related shape definitions.
+"""  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+TL;DR  -->  shared authorization schema surface
 
-Runtime role
-- Hold shared auth shape vocabulary reused across runtimes.
+- Later Extension Points:
+    --> Add reusable auth-related schema primitives shared across runtime boundaries
 
-Later extension points
-- Add shared auth-related shapes without turning this file into policy authority.
-"""
+- Role:
+    --> Holds shared auth vocabulary for transport-safe or reuse-proven schema shapes
+    --> Owns reusable auth shape definitions so runtimes do not duplicate the same contract primitives
+    --> Exists as the single home for shared authorization-related schema shapes
+    --> Must remain shape-focused instead of becoming the home for business authorization policy
+
+- Exports:
+    --> shared authorization schema surface
+
+- Consumed By:
+    --> local operators and implementers defining shared auth schema primitives
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  """

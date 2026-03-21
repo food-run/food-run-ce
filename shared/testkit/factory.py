@@ -1,10 +1,18 @@
-"""
-TL;DR
-Starter surface for shared deterministic test factories.
+"""  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+TL;DR  -->  shared test factory surface
 
-Runtime role
-- Hold reusable factory helpers for test setup across runtimes.
+- Later Extension Points:
+    --> Add deterministic object-construction helpers reused across tests
 
-Later extension points
-- Add shared test object construction without duplicating setup helpers.
-"""
+- Role:
+    --> Holds shared test-factory ownership for reusable setup construction
+    --> Owns object-construction seams so tests do not fork duplicate fixture builders
+    --> Exists as the single home for shared deterministic test factories
+    --> Must remain test-focused instead of becoming a general-purpose object helper bucket
+
+- Exports:
+    --> shared test factory surface
+
+- Consumed By:
+    --> local operators and implementers defining shared test factories
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  """

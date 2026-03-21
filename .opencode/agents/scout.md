@@ -59,8 +59,8 @@ Return:
 - Packet inconsistencies
 - ⚠️ Hotspot Files
 - Risks and blockers
-- Progress reporting that satisfies `.opencode/rules/progress-reporting.md`
-- Reuse candidates and DRYness risks from `.opencode/rules/dryness-review.md`
+- Progress reporting that satisfies `.opencode/rules/coordination-standards.md`
+- Reuse candidates and DRYness risks from the `DRYness Gates` section in `.opencode/rules/implementation-standards.md`
 - Questions for the human if needed
 
 ## Escalation Rules

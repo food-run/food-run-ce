@@ -6,11 +6,9 @@ This folder holds shared execution rules that multiple agents and commands must 
 
 ## Rule Set
 
-- `coordination-naming.md` - stable naming for coordination files across planned and ad hoc work
-- `dryness-review.md` - preflight and closeout DRY/reuse gates for implementation and review
+- `coordination-standards.md` - stable coordination naming plus live reporting cadence and packet rules
 - `master-packet-alignment.md` - how repo-control surfaces stay aligned with the master planning packet
-- `progress-reporting.md` - how active work reports status in `docs/coordination/` and in chat
-- `implementation-standards.md` - shared coding standards and implementation guidelines for active rebuild work
+- `implementation-standards.md` - shared coding standards, commenting rules, and implementation guidelines for active rebuild work
 
 ## Template Guidance
 

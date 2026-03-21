@@ -1,10 +1,18 @@
-"""
-TL;DR
-Starter surface for governed agent workflow graphs.
+"""  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+TL;DR  -->  governed agent graph composition surface
 
-Runtime role
-- Hold future agent workflow composition.
+- Later Extension Points:
+    --> Add graph nodes, transitions, and artifact-aware execution flow here
 
-Later extension points
-- Add graph logic once governed agent flows are introduced.
-"""
+- Role:
+    --> Holds the future workflow-composition seam for governed agent behavior
+    --> Owns graph assembly so runtime startup does not become a hidden orchestration layer
+    --> Exists as the single home for agent graph structure and execution topology
+    --> Must remain graph-focused instead of turning into a grab bag for runtime helpers
+
+- Exports:
+    --> agent graph composition surface
+
+- Consumed By:
+    --> local operators and implementers extending governed agent graph behavior
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  """

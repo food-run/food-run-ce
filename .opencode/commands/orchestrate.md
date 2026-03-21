@@ -6,7 +6,7 @@ agent: pm
 
 ## TL;DR
 
-This is the main workflow entrypoint for planning, resuming, executing, and reviewing scoped work. Reuse stable coordination state whenever possible, invoke only the minimum necessary subagents, parallelize only when it is clearly safe, continue until the requested scope is complete or a real stop condition is reached, and enforce `.opencode/rules/progress-reporting.md`.
+This is the main workflow entrypoint for planning, resuming, executing, and reviewing scoped work. Reuse stable coordination state whenever possible, invoke only the minimum necessary subagents, parallelize only when it is clearly safe, continue until the requested scope is complete or a real stop condition is reached, and enforce `.opencode/rules/coordination-standards.md`.
 
 ## Inputs
 
@@ -121,7 +121,7 @@ When scoped coordination artifacts exist but a stable scope file does not:
 - use the stable scope file from then on
 - seed or refresh `docs/coordination/active.md` so humans can see live progress without opening chat history
 
-All coordination filenames must follow `.opencode/rules/coordination-naming.md`.
+All coordination filenames must follow `.opencode/rules/coordination-standards.md`.
 
 ## Reuse-First Rule
 
@@ -138,6 +138,13 @@ Do **not** rerun Scout or Planner unless one of these is true:
 - the planning files changed materially
 - the repo state invalidates the packet
 - the human explicitly requests fresh discovery or replanning
+
+When the planning packet and the committed repo differ:
+
+- treat the current committed permanent structure as canonical by default
+- refine the packet to match repo reality instead of recreating stale packet-era file names
+- stub a missing durable doc only when the exact permanent home is absent and the expected content is not already sufficiently covered elsewhere
+- escalate only if the committed repo and planning packet differ in a way that materially changes ownership, safety, or scope
 
 ## Branch Rule
 
@@ -189,8 +196,9 @@ Before implementation begins for a deliverable or task scope:
 
 1. reviewer
 2. integrator
-3. librarian if durable sprint docs changed
-4. final sprint status
+3. ops for implementation-bearing work
+4. librarian if durable sprint docs changed
+5. final sprint status
 
 ### Deliverable Scope
 
@@ -221,12 +229,13 @@ Before implementation begins for a deliverable or task scope:
 2. identify next incomplete task
 3. execute one task at a time unless `parallel-lane-policy` explicitly approves safe fan-out
 4. after each task:
-   - reviewer
-   - integrator
-   - apply `.opencode/rules/progress-reporting.md`
-   - run repo-wide DRYness review before treating the task as done
-   - evaluate checkpoint readiness against the commit rhythm rule
-   - route `checkpoint-commit` before continuing when the diff is a stable rollback point
+    - reviewer
+    - integrator
+    - ops before librarian whenever implementation-bearing work passed review and integration
+    - apply `.opencode/rules/coordination-standards.md`
+    - run repo-wide DRYness review before treating the task as done
+    - evaluate checkpoint readiness against the commit rhythm rule
+    - route `checkpoint-commit` before continuing when the diff is a stable rollback point
    - librarian if durable docs changed
    - update deliverable state
 5. continue until:
@@ -240,8 +249,9 @@ Before implementation begins for a deliverable or task scope:
 
 1. reviewer
 2. integrator
-3. librarian if durable docs changed
-4. final deliverable status
+3. ops for implementation-bearing work
+4. librarian if durable docs changed
+5. final deliverable status
 
 ### Task Scope
 
@@ -250,7 +260,8 @@ Before implementation begins for a deliverable or task scope:
 1. load task packet
 2. scout only if grounding is missing
 3. planner only if decomposition is missing
-4. stop with a bounded execution packet
+4. architect only if implementation-bearing strategy, TDD shape, or scaffolding guidance is missing
+5. stop with a bounded execution packet
 
 #### `resume`
 
@@ -267,24 +278,27 @@ Before implementation begins for a deliverable or task scope:
    - active paths
    - protected paths
    - ⚠️ Hotspot Files
-2. choose exactly one implementation lane:
+2. if the task is implementation-bearing, route `architect` first to define invariants, failure modes, TDD shape, and scaffolding
+3. choose exactly one implementation lane from the architect handoff:
    - `developer` for code, structure, relocations, tests
    - `designer` for UX or UI work
-   - `librarian` for docs-only work
-3. reviewer
-4. integrator
-5. apply `.opencode/rules/progress-reporting.md`
-6. run repo-wide DRYness review before marking the task complete
-7. if the task produced a stable checkpoint, route `checkpoint-commit` before advancing or closing the task
-8. librarian only if durable docs changed
-9. final task status
+   - `librarian` for docs-only work when no implementation lane is needed
+4. reviewer
+5. integrator
+6. ops for implementation-bearing work before any librarian closeout
+7. apply `.opencode/rules/coordination-standards.md`
+8. run repo-wide DRYness review before marking the task complete
+9. if the task produced a stable checkpoint, route `checkpoint-commit` before advancing or closing the task
+10. librarian only if durable docs changed
+11. final task status
 
 #### `review`
 
 1. reviewer
 2. integrator
-3. librarian if docs changed
-4. final task status
+3. ops for implementation-bearing work
+4. librarian if docs changed
+5. final task status
 
 ## Parallelism Policy
 
@@ -307,7 +321,7 @@ At the end of the run:
 - update the stable coordination file
 - refresh `docs/coordination/active.md`
 - state whether a checkpoint commit is due, completed, or intentionally deferred
-- state whether `.opencode/rules/progress-reporting.md` was satisfied
+- state whether `.opencode/rules/coordination-standards.md` was satisfied
 - state what was reused, created, refactored, and deferred for later consolidation
 - state whether branch hygiene and checkpoint rhythm were satisfied
 - mention planning files opened

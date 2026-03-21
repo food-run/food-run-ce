@@ -58,7 +58,7 @@ Return or leave behind:
 - Rollback-risk notes
 - Confidence level
 - Checkpoint-commit readiness
-- Progress reporting that satisfies `.opencode/rules/progress-reporting.md`
+- Progress reporting that satisfies `.opencode/rules/coordination-standards.md`
 - What was reused, created, refactored, and what should be consolidated elsewhere outside scope
 - Any regressions or open concerns
 

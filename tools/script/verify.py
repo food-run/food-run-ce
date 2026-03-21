@@ -1,0 +1,326 @@
+#!/usr/bin/env python3
+"""  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+TL;DR  -->  repo verification entrypoint for script and coordination checks
+
+- Later Extension Points:
+    --> Add broader repo-control checks as later quality gates become active
+
+- Role:
+    --> Runs the bounded verification checks that keep repo-control changes explainable and safe
+    --> Verifies script syntax, required script TL;DR headers, stub-only shapes, and coordination cadence from one entrypoint
+    --> Exists as the shared verification runner for local checks and CI-safe repo verification
+    --> Must remain a thin verifier, not a hidden policy engine with branching workflow logic
+
+- Exports:
+    --> `main()` command-line verification entrypoint
+
+- Consumed By:
+    --> reviewers, integrators, and local operators running repo verification
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  """
+from __future__ import annotations
+
+# ---------- imports and dependencies ----------
+
+import argparse
+import re
+import subprocess
+import sys
+from pathlib import Path
+
+# ---------- runtime identity ----------
+
+# Keep required TL;DR markers centralized for every script audit.
+TLDR_REQUIRED_MARKERS = (
+    'TL;DR  -->',
+    '- Later Extension Points:',
+    '- Role:',
+    '- Exports:',
+    '- Consumed By:',
+)
+# Scan only active rebuild Python script surfaces.
+PYTHON_SCRIPT_PATTERNS = (
+    'tools/script/**/*.py',
+    'apps/**/*.py',
+    'shared/**/*.py',
+)
+# Audit script headers across Python and TypeScript entrypoints.
+SCRIPT_HEADER_PATTERNS = PYTHON_SCRIPT_PATTERNS + (
+    'apps/web/src/**/*.ts',
+    'apps/**/*.js',
+)
+# Match canonical Python section headers in implemented files.
+PYTHON_SECTION_MARKER_RE = re.compile(r'^# ---------- [a-z0-9][a-z0-9 -]* ----------$', re.MULTILINE)
+# Match canonical JavaScript section headers in implemented files.
+JS_SECTION_MARKER_RE = re.compile(r'^// ---------- [a-z0-9][a-z0-9 -]* ----------$', re.MULTILINE)
+# Permit the minimal syntax keeper in TypeScript stubs.
+ALLOWED_TS_STUB_LINES = {'export {}', 'export {};'}
+# Match one consumed-by bullet with real detail.
+CONSUMED_BY_LINE_RE = re.compile(r'^\s*-->\s+\S.+$', re.MULTILINE)
+# Require more than one section in implemented files.
+MIN_IMPLEMENTED_SECTION_MARKERS = 2
+
+# ---------- subprocess helpers ----------
+
+# Run a child verifier and mirror its output.
+def run_script(label: str, command: list[str], cwd: Path) -> int:
+    # Announce the verification stage before child logs.
+    print(f'==> {label}')
+    # Capture text output for readable local and CI logs.
+    result = subprocess.run(command, cwd=cwd, text=True, capture_output=True)
+    # Preserve child standard output for the calling human.
+    if result.stdout:
+        print(result.stdout, end='')
+    # Preserve child standard error for failure diagnosis.
+    if result.stderr:
+        print(result.stderr, file=sys.stderr, end='')
+    # Return the child exit code unchanged.
+    return result.returncode
+
+# ---------- script shape helpers ----------
+
+# Confirm that every required TL;DR marker appears in order.
+def has_structured_tldr(text: str) -> bool:
+    # Track the prior marker position across the scan.
+    previous_index = -1
+    # Require the canonical marker order without reordering.
+    for marker in TLDR_REQUIRED_MARKERS:
+        # Find the next marker after the prior one.
+        current_index = text.find(marker, previous_index + 1)
+        # Fail when any required marker is missing.
+        if current_index == -1:
+            return False
+        # Advance the scan window to this marker.
+        previous_index = current_index
+    # Confirm the full ordered marker chain passed.
+    return True
+
+
+# Pick the canonical TL;DR wrapper terminator by language.
+def tldr_terminator(path: Path) -> str:
+    # Use the JavaScript wrapper for frontend entrypoints.
+    if path.suffix in {'.ts', '.js'}:
+        return '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  */'
+    # Use the Python wrapper for all Python scripts.
+    return '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  """'
+
+
+# Slice the file body that appears after the TL;DR.
+def script_body_after_tldr(path: Path, text: str) -> str:
+    # Split on the canonical wrapper terminator once.
+    terminator = tldr_terminator(path)
+    # Treat missing wrappers as empty for later failure paths.
+    if terminator not in text:
+        return ''
+    # Return only the executable body region.
+    return text.split(terminator, 1)[1]
+
+
+# Treat empty Python bodies and bare TypeScript exports as stubs.
+def is_stub_only_script(path: Path, text: str) -> bool:
+    # Normalize away blank lines after the TL;DR.
+    meaningful_lines = [line.strip() for line in script_body_after_tldr(path, text).splitlines() if line.strip()]
+    # Empty bodies are valid stubs in Python.
+    if not meaningful_lines:
+        return True
+    # Keep the minimal TypeScript syntax keeper allowed.
+    if path.suffix in {'.ts', '.js'} and set(meaningful_lines) <= ALLOWED_TS_STUB_LINES:
+        return True
+    # Everything else counts as real implementation.
+    return False
+
+
+# Count section headers only once real code exists.
+def section_marker_count(path: Path, text: str) -> int:
+    # Match section syntax by language family.
+    marker_re = JS_SECTION_MARKER_RE if path.suffix in {'.ts', '.js'} else PYTHON_SECTION_MARKER_RE
+    # Count every canonical section marker in the file.
+    return len(marker_re.findall(text))
+
+
+# Require at least one real consumed-by detail line.
+def has_consumed_by_detail(text: str) -> bool:
+    # Fail fast when the section is missing.
+    if '- Consumed By:' not in text:
+        return False
+    # Inspect only the consumed-by block content.
+    consumed_block = text.split('- Consumed By:', 1)[1]
+    # Stop scanning at the TL;DR wrapper edge.
+    consumed_block = consumed_block.split('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~', 1)[0]
+    # Accept one or more non-empty consumed-by lines.
+    return CONSUMED_BY_LINE_RE.search(consumed_block) is not None
+
+
+# Enforce the canonical Python wrapper position.
+def has_canonical_python_wrapper(text: str) -> bool:
+    # Allow an initial shebang before the wrapper.
+    if text.startswith('#!'):
+        newline_index = text.find('\n')
+        # Reject one-line shebang files with no wrapper.
+        if newline_index == -1:
+            return False
+        # Resume checking after the shebang line.
+        text = text[newline_index + 1 :]
+    # Require the canonical opening wrapper immediately next.
+    return text.startswith('"""  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+
+# ---------- verification checks ----------
+
+# Compile every Python script without emitting cache files.
+def verify_script_syntax(repo_root: Path) -> int:
+    # Announce the syntax verification stage.
+    print('==> python script syntax')
+    # Collect compile failures for one combined report.
+    failures: list[str] = []
+    # Avoid double-checking overlapping glob matches.
+    seen: set[Path] = set()
+    # Walk each active Python script pattern.
+    for pattern in PYTHON_SCRIPT_PATTERNS:
+        # Keep output order stable across runs.
+        for path in sorted(repo_root.glob(pattern)):
+            # Skip duplicate matches and directories.
+            if path in seen or not path.is_file():
+                continue
+            # Record the path before compiling.
+            seen.add(path)
+            try:
+                # Read the source without importing the module.
+                source = path.read_text(encoding='utf-8')
+                # Compile in memory so no cache files leak.
+                compile(source, str(path), 'exec')
+                # Report each passing file explicitly.
+                print(f'PASS: {path.relative_to(repo_root)}')
+            except SyntaxError as exc:
+                # Store detailed failures for the summary block.
+                failures.append(f'{path.relative_to(repo_root)}: {exc.msg} (line {exc.lineno})')
+    # Print failures together after the scan finishes.
+    if failures:
+        for failure in failures:
+            print(f'FAIL: {failure}')
+        return 1
+    # Return success when every file compiles.
+    return 0
+
+
+# Verify TL;DR wrappers, stub rules, and section headers.
+def verify_script_tldrs(repo_root: Path) -> int:
+    # Announce the explainability verification stage.
+    print('==> script explainability headers')
+    # Collect failures for one readable summary.
+    failures: list[str] = []
+    # Avoid duplicate checks across overlapping globs.
+    seen: set[Path] = set()
+    # Walk every governed script header target.
+    for pattern in SCRIPT_HEADER_PATTERNS:
+        # Keep output ordering stable across runs.
+        for path in sorted(repo_root.glob(pattern)):
+            # Skip duplicate matches and non-files.
+            if path in seen or not path.is_file():
+                continue
+            # Record the file before validating it.
+            seen.add(path)
+            # Read the full file for body-shape checks.
+            text = path.read_text(encoding='utf-8')
+            # Limit header scans to the early file window.
+            header_window = text[:1600]
+            # Require the full TL;DR marker set.
+            if not has_structured_tldr(header_window):
+                failures.append(
+                    f'{path.relative_to(repo_root)}: missing structured TL;DR header required by .opencode/rules/implementation-standards.md'
+                )
+                continue
+            # Keep Python wrappers in the canonical opening position.
+            if path.suffix == '.py' and not has_canonical_python_wrapper(header_window):
+                failures.append(
+                    f'{path.relative_to(repo_root)}: python TL;DR header must use the canonical wrapper immediately after the optional shebang'
+                )
+                continue
+            # Keep TypeScript and JavaScript wrappers canonical too.
+            if path.suffix in {'.ts', '.js'} and not header_window.startswith('/*  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'):
+                failures.append(f'{path.relative_to(repo_root)}: script TL;DR header must use the canonical wrapper')
+                continue
+            # Keep consumed-by detail present and reviewable.
+            if not has_consumed_by_detail(header_window):
+                failures.append(
+                    f'{path.relative_to(repo_root)}: Consumed By must include at least one non-empty detail line'
+                )
+                continue
+            # Allow true stubs to stop after the TL;DR.
+            if is_stub_only_script(path, text):
+                print(f'PASS: {path.relative_to(repo_root)}')
+                continue
+            # Require multiple section headers once implementation exists.
+            if section_marker_count(path, text) < MIN_IMPLEMENTED_SECTION_MARKERS:
+                failures.append(
+                    f'{path.relative_to(repo_root)}: implemented files need at least {MIN_IMPLEMENTED_SECTION_MARKERS} section-group comments required by .opencode/rules/implementation-standards.md'
+                )
+                continue
+            # Report the file once every explainability rule passes.
+            print(f'PASS: {path.relative_to(repo_root)}')
+    # Print failures together after the scan finishes.
+    if failures:
+        for failure in failures:
+            print(f'FAIL: {failure}')
+        return 1
+    # Return success when every file passes.
+    return 0
+
+
+# Run coordination freshness checks unless explicitly skipped.
+def verify_coordination(repo_root: Path, ci: bool, skip_coordination: bool) -> int:
+    # Resolve the local-only coordination dashboard path.
+    active_path = repo_root / 'docs' / 'coordination' / 'active.md'
+    # Skip cadence checks when the caller asked.
+    if skip_coordination:
+        print('==> coordination cadence')
+        print('SKIP: coordination check disabled by flag')
+        return 0
+    # Skip local-only coordination in CI checkouts.
+    if ci and not active_path.exists():
+        print('==> coordination cadence')
+        print('SKIP: docs/coordination/active.md is local-only and not available in CI checkout')
+        return 0
+    # Delegate coordination policy to its dedicated script.
+    return run_script(
+        'coordination cadence',
+        [sys.executable, 'tools/script/coordination_status.py', 'verify'],
+        repo_root,
+    )
+
+# ---------- command-line bootstrap ----------
+
+# Parse flags and run the bounded verification stages.
+def main() -> int:
+    # Keep the CLI description short and operator-friendly.
+    parser = argparse.ArgumentParser(description='Run repo verification checks.')
+    # Let CI suppress local-only coordination requirements.
+    parser.add_argument('--ci', action='store_true', help='Use CI-safe behavior for local-only artifacts.')
+    # Allow local users to skip cadence checks deliberately.
+    parser.add_argument('--skip-coordination', action='store_true', help='Skip coordination cadence checks.')
+    # Parse the incoming command-line flags.
+    args = parser.parse_args()
+
+    # Resolve the repository root from this script location.
+    repo_root = Path(__file__).resolve().parents[2]
+    # Aggregate failures without hiding later check results.
+    failures = 0
+    # Compile Python scripts before higher-level policy checks.
+    failures += verify_script_syntax(repo_root)
+    # Check script explainability against repo policy.
+    failures += verify_script_tldrs(repo_root)
+    # Check coordination freshness unless the caller skipped it.
+    failures += verify_coordination(repo_root, ci=args.ci, skip_coordination=args.skip_coordination)
+
+    # Fail the run when any stage reported issues.
+    if failures:
+        print('VERIFY FAILED')
+        return 1
+
+    # Report success once every stage passed.
+    print('VERIFY PASSED')
+    return 0
+
+
+# Keep the module executable as a direct script.
+if __name__ == '__main__':
+    # Exit with the verifier status code.
+    sys.exit(main())

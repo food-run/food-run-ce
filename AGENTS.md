@@ -46,6 +46,8 @@ Rules:
 - Do not pin the full master packet into project instructions.
 - Load only the smallest planning set needed for the current work unit.
 - If planning files conflict, escalate the conflict before editing code or docs.
+- If current committed repo reality has already evolved beyond an older packet, refine the packet to the committed permanent structure by default instead of recreating stale file names.
+- Stub a missing durable doc only when the exact permanent home is absent and its expected content is not already sufficiently covered elsewhere.
 - Follow `.opencode/rules/master-packet-alignment.md` when translating master-packet intent into repo-control behavior.
 
 ## Active vs Archived Paths
@@ -61,6 +63,7 @@ Active rebuild surfaces:
 - `platform/**`
 - `tools/**`
 - `docs/**`
+- `.github/**`
 - `.opencode/**`
 - `AGENTS.md`
 - `opencode.json`
@@ -143,6 +146,7 @@ Protected-path rules:
 ### Architect
 
 - Owns edge cases, scaffolding, TDD shaping, invariants, and implementation structure
+- Must shape implementation-bearing task work before `developer` or `designer` starts so the implementation lane inherits an explicit strategy, test shape, and boilerplate boundary
 
 ### Developer
 
@@ -176,14 +180,16 @@ At the start of each work unit:
 2. Restate the exact scope and boundaries.
 3. Identify active paths, protected paths, and hotspot files.
 4. Create or update a live task note in `docs/coordination/tasks/`.
-5. Follow `.opencode/rules/coordination-naming.md` for every coordination artifact.
+5. Follow `.opencode/rules/coordination-standards.md` for every coordination artifact.
 6. Create or switch to the scoped working branch before implementation begins.
 
 During work:
 
 - Leave a checkpoint note after each meaningful step.
-- Follow `.opencode/rules/progress-reporting.md`.
-- Follow `.opencode/rules/dryness-review.md` before implementation starts and before calling work complete.
+- Follow `.opencode/rules/coordination-standards.md`.
+- Follow the `DRYness Gates` section in `.opencode/rules/implementation-standards.md` before implementation starts and before calling work complete.
+- Route architect first on implementation-bearing tasks so invariants, failure modes, TDD shape, and scaffolding are defined before developer or designer execution.
+- Route ops review after reviewer and integrator pass implementation-bearing work, and do that before librarian closeout or merge preparation.
 - Keep tracked work recorded in small Conventional Commit slices that match the current checkpoint rhythm.
 - Leave a handoff note before switching lanes.
 - Keep task scope narrow.
@@ -228,8 +234,10 @@ No meaningful change is done until the answer to each is yes:
 - Does it keep ownership boundaries intact?
 - Can the human explain every changed line?
 - Can the human modify it without reprompting?
+- Did architect shape the implementation-bearing task before developer or designer execution?
 - Are live coordination notes current?
 - Is the related docs or ADR delta prepared when needed?
+- Did ops review the implementation-bearing change before librarian closeout or merge preparation?
 - If protected paths or hotspot files changed, was the slower review standard followed?
 
 ## Commit Rhythm
@@ -255,6 +263,7 @@ No meaningful change is done until the answer to each is yes:
 - Durable docs live in committed repo paths.
 - Live coordination belongs in `docs/coordination/` and is Git-ignored.
 - If a change affects shared understanding, the relevant durable docs must be updated with it.
+- ADR entries must be completed before PRs or merge commits for meaningful changes, using the master packet documentation questions in recency-first order.
 - Do not create side-channel process docs in random folders.
 
 ## Done Means
@@ -265,6 +274,7 @@ A meaningful change is only complete when all of the following are true:
 - Repo-wide DRYness review has passed for the affected concept areas.
 - Coordination notes are current.
 - Review or integration output exists when relevant.
+- Ops review output exists for implementation-bearing work before merge-ready status.
 - Durable docs are updated when shared understanding changed.
 - Protected-path handling was explicit where required.
 - The next agent or human can continue without chat archaeology.

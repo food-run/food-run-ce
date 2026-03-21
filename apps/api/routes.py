@@ -1,10 +1,18 @@
-"""
-TL;DR
-Starter surface for public route definitions.
+"""  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+TL;DR  -->  public API route registration surface
 
-Runtime role
-- Hold the future route map for externally visible endpoints.
+- Later Extension Points:
+    --> Add externally visible route groups and registration helpers here
 
-Later extension points
-- Add route registration once contract work begins.
-"""
+- Role:
+    --> Holds the bounded route-map seam for the public API runtime
+    --> Owns endpoint registration so transport wiring does not sprawl across startup modules
+    --> Exists as the single home for API-facing route composition
+    --> Must remain route-focused instead of absorbing request schemas or domain rules
+
+- Exports:
+    --> API route registration surface
+
+- Consumed By:
+    --> local operators and implementers extending the public API route map
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  """

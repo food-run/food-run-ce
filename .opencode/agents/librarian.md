@@ -60,7 +60,7 @@ Return or update:
 - Doc changes
 - Summary of what changed
 - Terminology adjustments
-- Progress reporting that satisfies `.opencode/rules/progress-reporting.md`
+- Progress reporting that satisfies `.opencode/rules/coordination-standards.md`
 - What was reused, created, and refactored in docs, plus any out-of-scope consolidation callouts
 - Whether a checkpoint commit is due now
 - Any needed follow-up docs

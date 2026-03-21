@@ -1,10 +1,18 @@
-"""
-TL;DR
-Starter surface for agent runtime storage boundaries.
+"""  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+TL;DR  -->  agent runtime storage boundary surface
 
-Runtime role
-- Hold future artifact and state storage wiring for the agent runtime.
+- Later Extension Points:
+    --> Add artifact persistence and state-storage integration for the agent runtime
 
-Later extension points
-- Add storage integration without turning this module into a shared utility bucket.
-"""
+- Role:
+    --> Holds the bounded storage seam for agent-specific runtime state and artifacts
+    --> Owns storage wiring so persistence concerns do not leak into graph or startup modules
+    --> Exists as the single home for agent runtime storage boundaries
+    --> Must remain a storage seam rather than becoming a generic shared utility bucket
+
+- Exports:
+    --> agent storage boundary surface
+
+- Consumed By:
+    --> local operators and implementers defining agent artifact storage seams
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  """

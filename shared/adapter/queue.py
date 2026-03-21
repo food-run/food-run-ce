@@ -1,10 +1,18 @@
-"""
-TL;DR
-Starter surface for shared queue adapter boundaries.
+"""  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+TL;DR  -->  shared queue adapter surface
 
-Runtime role
-- Hold reusable queue integration seams shared across runtimes.
+- Later Extension Points:
+    --> Add reusable queue contracts and shared queue capability seams here
 
-Later extension points
-- Add queue adapter types without duplicating queue concepts inside worker code.
-"""
+- Role:
+    --> Holds shared queue-adapter ownership for reusable async integration seams
+    --> Owns queue capability vocabulary so worker and other runtimes do not fork the same contract
+    --> Exists as the single home for shared queue adapter boundaries
+    --> Must remain contract-focused instead of becoming a worker implementation module
+
+- Exports:
+    --> shared queue adapter surface
+
+- Consumed By:
+    --> local operators and implementers defining shared queue seams
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  """

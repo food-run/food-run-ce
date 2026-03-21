@@ -55,7 +55,7 @@ Return or implement:
 - UX rationale
 - Accessibility-minded notes
 - Files touched
-- Progress reporting that satisfies `.opencode/rules/progress-reporting.md`
+- Progress reporting that satisfies `.opencode/rules/coordination-standards.md`
 - What was reused, created, and refactored, plus any consolidation deferred outside scope
 - Whether a checkpoint commit is due now
 - Follow-up items or trade-offs

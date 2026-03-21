@@ -99,12 +99,13 @@ At a high level, Food Run:
 
 ## Current Status
 
-The repo is in rebuild mode. The validated prototype is preserved under `legacy-v0/`, and Sprint 0 is establishing the governed baseline that later deliverables will use to seed the active application tree.
+The repo is in rebuild mode. The validated prototype is preserved under `legacy-v0/`, and Sprint 0 is establishing the governed baseline that later deliverables will extend across the active rebuild tree.
 
 ### What This Repo Contains Now
 
 - repo-governance files such as `AGENTS.md`, `opencode.json`, and `.opencode/`
 - planning and coordination material under `docs/`
+- seeded active rebuild homes under `apps/`, `shared/`, and `tools/`
 - contributor and governance documents at the root
 - the archived prototype under `legacy-v0/`
 
@@ -112,18 +113,49 @@ The repo is in rebuild mode. The validated prototype is preserved under `legacy-
 
 New implementation work belongs only on the active rebuild surfaces described in `AGENTS.md`: `apps/`, `shared/`, `platform/`, `tools/`, and `docs/`, with repo-control surfaces such as `.opencode/`, `.github/`, `AGENTS.md`, and `opencode.json` remaining active for governance and automation.
 
-The active rebuild tree is now seeded under `apps/` and `shared/`. Later Sprint 0 deliverables will add agent controls, platform parity, CI/CD gates, and deeper documentation on top of these permanent homes.
+The rebuild now includes a governed agent workflow contract in `AGENTS.md`, project-level OpenCode guidance in `opencode.json` and `.opencode/`, and a technical docs spine in `/docs`. Later changes are expected to extend these files instead of creating new side-channel process docs.
+
+The active rebuild tree is now seeded under `apps/`, `shared/`, and `tools/`. Later Sprint 0 deliverables will extend platform parity, CI/CD gates, and runtime observability on top of these permanent homes.
 
 ### Repo Layout Direction
 
 - `apps/` holds deployable runtime homes
 - `shared/` holds reusable seam vocabulary and deterministic test support
-- `platform/` and `tools/` remain later Sprint 0 layers and are not seeded by D2
+- `tools/` already holds shared repo automation and verification entrypoints
+- `platform/` remains a later Sprint 0 layer for runtime parity work
 
 ### Next Structural Layers
 
-- later Sprint 0 work will add platform parity, quality gates, deeper docs, and runtime observability
-- future feature work should extend `apps/` and `shared/` rather than create parallel roots
+- later Sprint 0 work will extend platform parity, deepen the existing quality gates, add deeper docs, and seed runtime observability
+- future feature work should extend the current committed rebuild structure rather than recreate stale packet-era homes
+
+## Agent-Governed Rebuild
+
+Food Run now uses a governed rebuild workflow. `AGENTS.md` is the always-on operating contract, `opencode.json` defines repo-level OpenCode behavior, and `.opencode/` holds lane docs, commands, rules, and skills that extend the same operating theory.
+
+When planning packets drift from current committed repo reality, the default behavior is to refine the packet to the committed permanent structure rather than recreate older filenames or duplicate control surfaces.
+
+## Technical Docs
+
+The durable docs spine lives in `docs/`.
+
+- `docs/repo.md` explains active versus archived structure and path ownership
+- `docs/adr.md` records durable technical and process decisions
+- `docs/architecture.md` maps the rebuild's runtime and boundary posture
+- `docs/agent.md` explains governed agent workflow behavior
+- `docs/testing.md` captures verification posture and testing layers
+- `docs/operations.md` captures operator-facing runtime and release expectations
+
+If one of these durable homes is missing, stub only that exact permanent file, and only when the expected content is not already sufficiently covered elsewhere.
+
+## How Changes Become Mergeable
+
+Changes become mergeable by extending the current committed repo structure, keeping coordination current, and updating the matching durable docs when shared understanding changes.
+
+- open the smallest relevant planning packet and `AGENTS.md`
+- prefer reusing current permanent homes over introducing duplicate structures
+- update root guidance and technical docs when repo-control behavior changes
+- pass the repo verification and review gates before closeout
 
 ---
 

@@ -1,6 +1,6 @@
 ---
-description: Edge-case and TDD-shaping agent for scaffolding, implementation boundaries, and failure-mode awareness
-mode: subagent
+description: Staff-level implementation agent generating edge-case and TDD-shaping for scaffolding, implementation boundaries, and failure-mode awareness your senior-level developers can build off of
+mode: primary
 tools:
   write: true
   edit: true
@@ -54,8 +54,8 @@ Return or implement:
 - Failure modes
 - Recommended test shape
 - Recommended implementation shape
-- Progress reporting that satisfies `.opencode/rules/progress-reporting.md`
-- Reuse/refactor guidance required by `.opencode/rules/dryness-review.md`
+- Progress reporting that satisfies `.opencode/rules/coordination-standards.md`
+- Reuse/refactor guidance required by the `DRYness Gates` section in `.opencode/rules/implementation-standards.md`
 - Any new risks introduced by the proposed structure
 
 ## Escalation Rules

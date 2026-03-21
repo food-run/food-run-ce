@@ -1,10 +1,18 @@
-"""
-TL;DR
-Starter surface for domain-owned business services.
+"""  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+TL;DR  -->  domain service orchestration surface
 
-Runtime role
-- Hold future business rules and workflow orchestration.
+- Later Extension Points:
+    --> Add deterministic business services and use-case orchestration here
 
-Later extension points
-- Add deterministic domain services without leaking truth into the API or worker runtimes.
-"""
+- Role:
+    --> Holds service ownership for domain-side business rules and workflows
+    --> Owns bounded domain orchestration so API and worker layers do not become truth engines
+    --> Exists as the single home for core service behavior in the domain boundary
+    --> Must remain business-focused instead of becoming a transport or adapter helper bucket
+
+- Exports:
+    --> domain service orchestration surface
+
+- Consumed By:
+    --> local operators and implementers adding business-rule services
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  """

@@ -1,10 +1,18 @@
-"""
-TL;DR
-Starter surface for shared cache adapter boundaries.
+"""  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+TL;DR  -->  shared cache adapter surface
 
-Runtime role
-- Hold reusable cache integration seams shared across runtimes.
+- Later Extension Points:
+    --> Add reusable cache contracts and cache capability seams here
 
-Later extension points
-- Add cache adapter types without making cache correctness a domain rule.
-"""
+- Role:
+    --> Holds shared cache-adapter ownership for reusable caching seams
+    --> Owns cache capability vocabulary so runtimes do not duplicate the same contract surface
+    --> Exists as the single home for shared cache adapter boundaries
+    --> Must remain boundary-focused instead of hiding correctness or invalidation policy
+
+- Exports:
+    --> shared cache adapter surface
+
+- Consumed By:
+    --> local operators and implementers defining shared cache seams
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  """

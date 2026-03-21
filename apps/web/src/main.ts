@@ -1,12 +1,20 @@
-/*
-TL;DR
-Bootstrap-only entrypoint for the Food Run web application surface.
+/*  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+TL;DR  -->  user-facing application shell
 
-Runtime role
-- Starts the future user-facing application shell.
+- Later Extension Points:
+  --> Wire Angular bootstrap here
 
-Later extension points
-- Wire Angular bootstrap here in later deliverables.
-*/
+- Role:
+  --> Establishes the active browser entry point for the rebuild
+  --> Boots the app shell, route wiring, and global app configuration later
+  --> Exists as the single startup file the frontend grows from
+  --> Must remain thin: bootstrap only, no domain logic
+
+- Exports:
+  --> app bootstrap path only
+
+- Consumed By:
+  --> local operators running the web bootstrap entry
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  */
 
 export {}

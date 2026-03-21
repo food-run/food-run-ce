@@ -1,10 +1,18 @@
-"""
-TL;DR
-Starter surface for API-specific schema wiring.
+"""  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+TL;DR  -->  API schema wiring surface
 
-Runtime role
-- Hold the public request and response shapes owned by the API runtime.
+- Later Extension Points:
+    --> Add request and response shapes that reuse shared schema primitives
 
-Later extension points
-- Reuse shared schema primitives without turning this file into domain authority.
-"""
+- Role:
+    --> Holds transport-level schema ownership for the public API boundary
+    --> Owns API-facing shapes so domain models do not leak straight into request contracts
+    --> Exists as the single home for API schema composition and validation wiring
+    --> Must remain transport-focused instead of becoming domain authority
+
+- Exports:
+    --> API schema wiring surface
+
+- Consumed By:
+    --> local operators and implementers defining public API request and response shapes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  """

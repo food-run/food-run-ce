@@ -108,7 +108,9 @@ Seed the permanent control documents that later work must follow, so:
 
 - `opencode.json`
 
-### New `.opencode/` permanent files
+### Current `.opencode/` permanent surfaces to extend in place
+
+This inventory is the current committed `.opencode/` structure that D3 should treat as canonical during closeout. Later edits should extend these permanent homes already present in the repo instead of recreating packet-era file names.
 
 - `.opencode/agents/pm.md`
 - `.opencode/agents/scout.md`
@@ -120,16 +122,42 @@ Seed the permanent control documents that later work must follow, so:
 - `.opencode/agents/integrator.md`
 - `.opencode/agents/ops.md`
 - `.opencode/agents/librarian.md`
-- `.opencode/commands/plan.md`
-- `.opencode/commands/verify.md`
-- `.opencode/commands/adr.md`
-- `.opencode/rules/paths.md`
-- `.opencode/rules/approvals.md`
-- `.opencode/rules/reviews.md`
-- `.opencode/skills/repo_map.md`
-- `.opencode/skills/sprint_flow.md`
+- `.opencode/commands/adr-delta.md`
+- `.opencode/commands/checkpoint-commit.md`
+- `.opencode/commands/close-scope.md`
+- `.opencode/commands/docs-sync.md`
+- `.opencode/commands/orchestrate.md`
+- `.opencode/commands/generate.md`
+- `.opencode/commands/handoff.md`
+- `.opencode/commands/kickoff.md`
+- `.opencode/commands/plan-work.md`
+- `.opencode/commands/pr-prepare.md`
+- `.opencode/commands/scout.md`
+- `.opencode/commands/split-work.md`
+- `.opencode/commands/start-task.md`
+- `.opencode/commands/sync-status.md`
+- `.opencode/commands/verify-change.md`
+- `.opencode/rules/README.md`
+- `.opencode/rules/coordination-standards.md`
+- `.opencode/rules/implementation-standards.md`
+- `.opencode/rules/master-packet-alignment.md`
+- `.opencode/skills/active-vs-legacy/SKILL.md`
+- `.opencode/skills/async-splitting/SKILL.md`
+- `.opencode/skills/coordination-handoff/SKILL.md`
+- `.opencode/skills/coordination-state/SKILL.md`
+- `.opencode/skills/docs-and-adr/SKILL.md`
+- `.opencode/skills/drift-check/SKILL.md`
+- `.opencode/skills/micro-commit-rhythm/SKILL.md`
+- `.opencode/skills/parallel-lane-policy/SKILL.md`
+- `.opencode/skills/planning-reader/SKILL.md`
+- `.opencode/skills/protected-paths/SKILL.md`
+- `.opencode/skills/release-safety/SKILL.md`
+- `.opencode/skills/repo-map/SKILL.md`
+- `.opencode/skills/review-rubric/SKILL.md`
+- `.opencode/skills/scope-router/SKILL.md`
+- `.opencode/skills/tdd-loop/SKILL.md`
 
-### New docs spine files
+### Seeded docs spine files to extend in place
 
 - `docs/adr.md`
 - `docs/architecture.md`
@@ -161,7 +189,7 @@ Seed the permanent control documents that later work must follow, so:
 
 - `scout`
 - `planner`
-- `coder`
+- `developer`
 - `reviewer`
 - `integrator`
 
@@ -204,6 +232,8 @@ Key reminders:
 - `AGENTS.md` is the top-level operating contract
 - `opencode.json` is the root project config, not `.opencode/opencode.json`
 - `.opencode/` should hold agents, commands, rules, and skills
+- when a planning packet drifts from the committed repo, refine the packet to the current committed structure instead of recreating stale file names
+- stub missing durable docs only when their exact permanent home is missing and their contents are not already sufficiently covered elsewhere
 - later changes are expected to extend these files rather than creating process side-channels elsewhere
 
 `README.md` should add:
@@ -226,9 +256,9 @@ These files define the operating contract for the entire repo:
 
 - `AGENTS.md`
 - `opencode.json`
-- `.opencode/rules/paths.md`
-- `.opencode/rules/approvals.md`
-- `.opencode/rules/reviews.md`
+- `.opencode/rules/coordination-standards.md`
+- `.opencode/rules/implementation-standards.md`
+- `.opencode/rules/master-packet-alignment.md`
 - `docs/adr.md`
 - `docs/architecture.md`
 
@@ -243,7 +273,7 @@ These files define the operating contract for the entire repo:
 
 #### Purpose
 
-Create the top-level operating contract so every human and agent knows the allowed lanes, the protected-path model, and the questions that block merge.
+Define and refine the top-level operating contract so every human and agent knows the allowed lanes, the protected-path model, and the questions that block merge.
 
 ### 🎟️ S0-D3-T2 — 🧭 Seed `.opencode/` with lane, path, and command rules
 
@@ -252,7 +282,7 @@ Create the top-level operating contract so every human and agent knows the allow
 
 #### Purpose
 
-Translate the root operating contract into agent-consumable lane files, rules, and commands so actual agent runs can follow the same structure humans review against.
+Translate the root operating contract into the agent-consumable lane files, rules, and commands that already exist in the repo so actual runs can follow the same structure humans review against.
 
 ### 🎟️ S0-D3-T3 — 📚 Seed the technical docs and ADR spine
 
@@ -261,7 +291,7 @@ Translate the root operating contract into agent-consumable lane files, rules, a
 
 #### Purpose
 
-Create the first permanent technical-doc surfaces so later changes update shared theory in place.
+Seed and refine the permanent technical-doc surfaces so later changes update shared theory in place.
 
 ### 🎟️ S0-D3-T4 — 🧾 Refactor root guidance so process, structure, and docs point to the same truth
 
@@ -271,6 +301,15 @@ Create the first permanent technical-doc surfaces so later changes update shared
 #### Purpose
 
 Ensure the root narrative, repo guide, agent rules, and docs spine all tell the same story about how work happens in the rebuild.
+
+### Execution rule for evolved repos
+
+If current committed repo reality has already evolved beyond the original packet naming:
+
+- treat the committed structure as canonical by default
+- update the packet to name the current permanent files
+- do not recreate stale packet-era duplicates just to satisfy an older plan
+- stub a missing durable doc only when the exact permanent home is absent and the expected content is not already covered elsewhere
 
 ---
 
@@ -311,6 +350,7 @@ S0-D3 is done only when:
 - `opencode.json` exists at the repo root and the `.opencode/` control surface is seeded
 - `docs/adr.md`, `docs/architecture.md`, `docs/agent.md`, `docs/testing.md`, and `docs/operations.md` exist
 - `README.md`, `docs/repo.md`, `AGENTS.md`, `opencode.json`, and `.opencode/` do not contradict each other
+- stale packet-era file names have been reconciled to the current committed repo structure without creating duplicate homes
 
 ---
 
