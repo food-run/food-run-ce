@@ -22,6 +22,9 @@
 - keep `AGENTS.md` as the always-on human and agent contract
 - keep agents, commands, and skills short by referencing rules instead of restating them
 - expand skills only where unique behavior is needed to help meet the master packet standards
+- when current committed repo reality has already evolved beyond an older planning packet, treat the committed permanent structure as canonical by default
+- refine planning docs to name the current permanent files instead of recreating stale packet-era homes
+- stub a missing durable doc only when the exact permanent home is absent and its expected content is not already sufficiently covered elsewhere
 
 ## Emoji Rule
 
