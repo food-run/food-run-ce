@@ -102,7 +102,7 @@ before it can be merged.
 
 - `.github/pull_request_template.md`
 - `.github/workflows/repo-verify.yml`
-- `.github/workflows/static.yml`
+- `.github/workflows/cd.yml`
 - `.github/workflows/cla-check.yml`
 - `.github/workflows/docs-guard.yml`
 - `.github/workflows/protected-paths.yml`
@@ -140,7 +140,7 @@ before it can be merged.
 ### Current committed workflow files
 
 - `.github/workflows/repo-verify.yml`
-- `.github/workflows/static.yml` (to be narrowed, repurposed, or replaced during the release-scaffolding slice)
+- `.github/workflows/cd.yml`
 - `.github/workflows/cla-check.yml`
 - `.github/workflows/docs-guard.yml`
 - `.github/workflows/protected-paths.yml`
@@ -167,7 +167,7 @@ D4 should apply the exact Sprint 0 TL;DR content to:
 
 - `.github/pull_request_template.md`
 - `.github/workflows/repo-verify.yml`
-- `.github/workflows/static.yml`
+- `.github/workflows/cd.yml`
 - `.github/workflows/cla-check.yml`
 - `.github/workflows/docs-guard.yml`
 - `.github/workflows/protected-paths.yml`

@@ -34,6 +34,7 @@ This file is the durable testing and verification guide for the rebuild. It shou
 - `.github/workflows/protected-paths.yml` now requires explicit PR acknowledgement when protected paths change, including repo-control workflow edits and the exact protected-path categories from `AGENTS.md`
 - `.github/workflows/cla-check.yml` now skips the CLA phrase gate for repository-owner-authored PRs while keeping the exact phrase requirement for outside contributors
 - `tools/script/test_coordination_status.py` now covers plural workstream parsing, per-subagent evidence checks, overdue reminder output, and the one-minute local `watch` runner defaults
+- `tools/script/test_release.py` now keeps `.github/workflows/cd.yml` bound to `tools/script/release.py` and verifies the D4 release scaffold stays prepare-only
 - later D4 release scaffolding should stay beside these workflows instead of duplicating their checks in YAML
 
 ## Current Verifier Scope
@@ -42,6 +43,11 @@ This file is the durable testing and verification guide for the rebuild. It shou
 - governed TL;DR header and section-comment checks for script files
 - repo-verification workflow contract checks so CI keeps delegating to the central verifier
 - coordination cadence checks outside CI, with an explicit CI-safe skip for local-only coordination artifacts
+
+## Release Scaffolding
+
+- `.github/workflows/cd.yml` is now a manual release-preparation workflow, not a deploy pipeline
+- `tools/script/release.py` owns D4 release-readiness messaging and rejects deploy or publish claims until D5 lands
 
 ## Future CI Extensions
 

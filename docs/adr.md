@@ -36,6 +36,29 @@ This file is the durable reasoning spine for major Food Run technical and proces
 
 ---
 
+### S0-D4 - Replace the misleading pages deploy stub with honest release-preparation scaffolding
+
+- ***What was built?***
+  - `.github/workflows/cd.yml` now runs `tools/script/release.py --ci prepare`, `tools/script/release.py` emits release-readiness metadata without deploying anything, and the old Pages deploy workflow was retired so D4 no longer implies D5-level delivery maturity.
+- ***Why was it chosen?***
+  - The repo needed a visible release-control seam in Sprint 0, but the existing Pages deploy workflow oversold deployment maturity and hid too much behavior in YAML.
+- ***What boundaries does it own?***
+  - Manual release-preparation control flow, honest release-readiness messaging, and the boundary that D4 prepares releases while D5 will own real rollout behavior.
+- ***What breaks if it changes?***
+  - Reviewers and operators can mistake release scaffolding for a real deployment pipeline, workflow names can promise runtime behavior the repo does not own yet, and future rollout work can lose one obvious place to start from.
+- ***What known edge cases or failure modes matter here?***
+  - The workflow must stay manual-only, the script must reject deploy requests clearly, and later D5 work must extend this seam instead of reintroducing a second release path.
+- ***Why does this work matter?***
+  - It gives the repo a truthful release-control checkpoint before runtime parity exists, which keeps CI/CD vocabulary aligned with actual repo maturity.
+- ***What capability does it unlock?***
+  - Later D5 rollout work can extend one named release seam instead of starting from a misleading Pages deployment stub.
+- ***Why is the chosen design safer or more scalable?***
+  - A thin workflow wrapper plus one script seam keeps release policy explainable, reviewable, and easy to roll back while the platform story is still forming.
+- ***What trade-off did the team accept?***
+  - The repo now has a release workflow that intentionally stops short of deployment, so operators must accept a more modest but honest control loop until D5 lands.
+
+---
+
 ### S0-D4 - Add a dedicated reporter lane and a local coordination reminder loop
 
 - ***What was built?***

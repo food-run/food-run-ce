@@ -33,3 +33,13 @@ This file is the durable operations guide for the rebuild. It should capture run
 
 - the new `reporter` lane normalizes packets, but PM still owns orchestration decisions, branch hygiene, and `docs/coordination/active.md` refresh policy
 - coordination reminders may surface overdue scopes every minute, but they do not change scope order or override protected-path approval gates
+
+## Release Marker Discipline
+
+- `python3 tools/script/release.py prepare` emits release-readiness metadata only; it does not publish, deploy, or claim runtime parity that does not exist yet
+- `.github/workflows/cd.yml` is manual-only so the repo can exercise release controls without pretending an always-on deployment path exists
+
+## Rollback-Aware Delivery
+
+- the D4 release scaffold is easy to roll back because it only changes release-preparation messaging and manual workflow control surfaces
+- any real deploy or publish behavior remains deferred to D5, where runtime parity and rollback mechanics will have durable homes
