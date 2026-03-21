@@ -1,10 +1,18 @@
-"""
-TL;DR
-Starter surface for shared contract versioning primitives.
+"""  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+TL;DR  -->  shared contract version surface
 
-Runtime role
-- Hold the reusable version vocabulary for externally visible contracts.
+- Later Extension Points:
+    --> Add reusable contract version markers and compatibility helpers here
 
-Later extension points
-- Add version markers once the public contract is defined.
-"""
+- Role:
+    --> Holds shared versioning ownership for externally visible contracts
+    --> Owns reusable contract-version vocabulary so boundary consumers do not fork version markers
+    --> Exists as the single home for shared contract version primitives
+    --> Must remain version-focused instead of becoming a changelog or release-notes surface
+
+- Exports:
+    --> shared contract version surface
+
+- Consumed By:
+    --> local operators and implementers defining shared contract version markers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  """
