@@ -6,7 +6,7 @@ agent: pm
 
 ## TL;DR
 
-This is the main workflow entrypoint for planning, resuming, executing, and reviewing scoped work. Reuse stable coordination state whenever possible, invoke only the minimum necessary subagents, parallelize only when it is clearly safe, continue until the requested scope is complete or a real stop condition is reached, and enforce `.opencode/rules/progress-reporting.md`.
+This is the main workflow entrypoint for planning, resuming, executing, and reviewing scoped work. Reuse stable coordination state whenever possible, invoke only the minimum necessary subagents, parallelize only when it is clearly safe, continue until the requested scope is complete or a real stop condition is reached, and enforce `.opencode/rules/coordination-standards.md`.
 
 ## Inputs
 
@@ -121,7 +121,7 @@ When scoped coordination artifacts exist but a stable scope file does not:
 - use the stable scope file from then on
 - seed or refresh `docs/coordination/active.md` so humans can see live progress without opening chat history
 
-All coordination filenames must follow `.opencode/rules/coordination-naming.md`.
+All coordination filenames must follow `.opencode/rules/coordination-standards.md`.
 
 ## Reuse-First Rule
 
@@ -223,7 +223,7 @@ Before implementation begins for a deliverable or task scope:
 4. after each task:
    - reviewer
    - integrator
-   - apply `.opencode/rules/progress-reporting.md`
+   - apply `.opencode/rules/coordination-standards.md`
    - run repo-wide DRYness review before treating the task as done
    - evaluate checkpoint readiness against the commit rhythm rule
    - route `checkpoint-commit` before continuing when the diff is a stable rollback point
@@ -273,7 +273,7 @@ Before implementation begins for a deliverable or task scope:
    - `librarian` for docs-only work
 3. reviewer
 4. integrator
-5. apply `.opencode/rules/progress-reporting.md`
+5. apply `.opencode/rules/coordination-standards.md`
 6. run repo-wide DRYness review before marking the task complete
 7. if the task produced a stable checkpoint, route `checkpoint-commit` before advancing or closing the task
 8. librarian only if durable docs changed
@@ -307,7 +307,7 @@ At the end of the run:
 - update the stable coordination file
 - refresh `docs/coordination/active.md`
 - state whether a checkpoint commit is due, completed, or intentionally deferred
-- state whether `.opencode/rules/progress-reporting.md` was satisfied
+- state whether `.opencode/rules/coordination-standards.md` was satisfied
 - state what was reused, created, refactored, and deferred for later consolidation
 - state whether branch hygiene and checkpoint rhythm were satisfied
 - mention planning files opened

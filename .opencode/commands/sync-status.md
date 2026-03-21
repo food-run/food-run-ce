@@ -25,7 +25,7 @@ Then refresh `docs/coordination/active.md` with:
 - whether the current workstream is stale after more than 6 minutes without a heartbeat
 - next recommended action
 
-And satisfy `.opencode/rules/progress-reporting.md` with a chat update that includes:
+And satisfy `.opencode/rules/coordination-standards.md` with a chat update that includes:
 
 - scope
 - agent or subagent name

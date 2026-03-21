@@ -21,8 +21,7 @@ Before writing anything:
 
 - open the relevant planning packet
 - confirm the intended ownership boundary
-- check for reuse under `.opencode/rules/dryness-review.md`
-- apply `.opencode/rules/implementation-standards.md`
+- check for reuse and consolidation under `.opencode/rules/implementation-standards.md`
 - identify whether the file is:
   - a script-like entry file
   - an automation runner
@@ -37,7 +36,7 @@ When generating code:
 - keep the first checkpoint bounded and explainable
 - if the file allows comments and is not Markdown:
   - start with the canonical all-caps `TL;DR` multi-line header wrapped with `~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
-  - use only single-line comments outside the TL;DR
+  - use only single-line comments outside the TL;DR: should be 1 line per intent
   - add section-group comments using the shared style for the language
   - mark partial or deferred work with `TODO:`
 - if the exact permanent file cannot be named yet:
@@ -51,13 +50,13 @@ When generating documentation:
 - stub only the first exact permanent file that will actually be needed first
 - if that file cannot be named yet, omit it
 
-Return:
+Before returning:
 
-- what was reused
-- what was created
-- why the chosen home is correct
-- which implementation-standard rules were applied
-- whether a checkpoint commit is due
+- state what was reused
+- state what was created
+- state what was refactored
+- state what should be consolidated elsewhere but is outside the current scope
+- say whether a checkpoint commit is due
 
 ## Failure Conditions
 
@@ -67,6 +66,7 @@ Return:
 - a comment-capable code file is generated without the canonical TL;DR header when required
 - multi-line comments are used outside the TL;DR
 - generic placeholder files are created instead of exact permanent files
+- the generated structure is not meaningfully unique for the current boundary
 
 ## Escalation Rules
 
@@ -76,3 +76,4 @@ Escalate when:
 - the ownership boundary is unclear
 - the exact permanent file cannot be named yet
 - the planning packet does not support the requested structure
+- reuse or consolidation would require a broader scope decision

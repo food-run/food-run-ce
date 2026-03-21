@@ -39,7 +39,7 @@ Then create or refresh:
 - the first expected 6-minute heartbeat target under `docs/coordination/notes/`
 - the scoped working branch if it is not already active
 
-Do not start implementation until `.opencode/rules/dryness-review.md` has a credible pre-implementation answer.
+Do not start implementation until the `DRYness Gates` section in `.opencode/rules/implementation-standards.md` has a credible pre-implementation answer.
 Do not start implementation until `git branch --show-current` matches the intended scoped branch.
 
 ## Failure Conditions
