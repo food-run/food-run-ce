@@ -36,6 +36,29 @@ This file is the durable reasoning spine for major Food Run technical and proces
 
 ---
 
+### S0-D4 - Separate docs, protected-path, and CLA gates into explicit pull-request workflows
+
+- ***What was built?***
+  - `.github/workflows/docs-guard.yml`, `.github/workflows/protected-paths.yml`, and the updated `.github/workflows/cla-check.yml` now enforce docs and ADR coverage for governed changes, protected-path acknowledgement for high-blast-radius files, and the repository-owner CLA exception already documented in `CLA.md`.
+- ***Why was it chosen?***
+  - D4 needed merge-blocking automation for reviewer-visible PR obligations, but folding every rule into `repo-verify.yml` or `tools/script/verify.py` would have blurred ownership and made the workflow surface harder to explain.
+- ***What boundaries does it own?***
+  - Pull-request body contract enforcement for docs and ADR deltas, protected-path acknowledgement across repo-control workflows and the other protected-path categories named in `AGENTS.md`, and CLA phrase handling for outside contributors versus repository-owner-authored PRs.
+- ***What breaks if it changes?***
+  - Governed repo-control changes can land without durable reasoning, protected files can merge without explicit risk acknowledgement, or the CLA gate can block the wrong authors.
+- ***What known edge cases or failure modes matter here?***
+  - The workflows must use the repo's exact protected-path vocabulary, distinguish repo-control workflows from true release scaffolding, avoid treating `docs/coordination/**` as a merge target, and keep the owner exception narrow enough that outside contributors still need the exact phrase from `CLA.md`.
+- ***Why does this work matter?***
+  - It turns the PR template obligations into explicit merge gates instead of leaving docs, protected-path notes, and CLA nuance to reviewer memory.
+- ***What capability does it unlock?***
+  - Later sprint work can rely on clear PR-level guardrails for governed changes before release scaffolding and runtime parity work land.
+- ***Why is the chosen design safer or more scalable?***
+  - Separate workflows keep each gate explainable, reduce policy overlap with the central repo verifier, and make later changes easier to review and roll back.
+- ***What trade-off did the team accept?***
+  - The repo now carries more workflow files and PR-body contract logic, so later governance edits must keep the template, docs, and workflow checks aligned.
+
+---
+
 ### S0-D4 - Keep repo verification policy in one central script seam
 
 - ***What was built?***

@@ -29,7 +29,10 @@ This file is the durable testing and verification guide for the rebuild. It shou
 
 - `tools/script/verify.py` is the central repo verification entrypoint for local and CI-safe checks
 - `.github/workflows/repo-verify.yml` should stay a thin wrapper that sets up Python and calls `python3 tools/script/verify.py --ci`
-- later D4 workflows should add docs parity, protected-path, and release scaffolding beside the central verifier instead of duplicating its checks in YAML
+- `.github/workflows/docs-guard.yml` now checks governed changes for a real `Docs and ADR delta` plus an updated `docs/adr.md`
+- `.github/workflows/protected-paths.yml` now requires explicit PR acknowledgement when protected paths change, including repo-control workflow edits and the exact protected-path categories from `AGENTS.md`
+- `.github/workflows/cla-check.yml` now skips the CLA phrase gate for repository-owner-authored PRs while keeping the exact phrase requirement for outside contributors
+- later D4 release scaffolding should stay beside these workflows instead of duplicating their checks in YAML
 
 ## Current Verifier Scope
 
@@ -40,6 +43,4 @@ This file is the durable testing and verification guide for the rebuild. It shou
 
 ## Future CI Extensions
 
-- add docs and ADR parity checks in a dedicated docs-guard workflow
-- add protected-path escalation checks in a dedicated protected-paths workflow
 - keep release-readiness scaffolding separate from repo verification so rollout logic stays reviewable

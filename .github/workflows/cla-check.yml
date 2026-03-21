@@ -1,3 +1,8 @@
+## TL;DR
+# - keeps the exact CLA phrase requirement for outside contributors
+# - skips the phrase check when the repository owner authors the PR
+# - logs the owner-aware branch clearly so contributors know why the gate passed or failed
+
 name: cla phrase check
 
 on:
@@ -14,6 +19,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Inspect the PR body without checking out the repo.
       - name: check pr body for required cla phrase
         uses: actions/github-script@v7
         with:
@@ -22,6 +28,13 @@ jobs:
 
             const pr = context.payload.pull_request;
             const body = (pr && pr.body) ? pr.body : "";
+            const author = (pr && pr.user && pr.user.login) ? pr.user.login : "";
+            const repositoryOwner = context.payload.repository.owner.login;
+
+            if (author === repositoryOwner) {
+              core.info("owner-authored PR detected; skipping CLA phrase enforcement for the repository owner.");
+              return;
+            }
 
             if (!body.includes(required)) {
               core.setFailed(

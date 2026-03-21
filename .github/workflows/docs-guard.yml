@@ -1,0 +1,113 @@
+## TL;DR
+# - checks repo-control and shared-understanding changes for matching docs and ADR evidence
+# - reads PR files plus the Docs and ADR delta section from the PR body
+# - fails clearly when governed changes land without the expected narrative updates
+
+name: docs guard
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  verify_docs:
+    name: verify docs and adr coverage
+    runs-on: ubuntu-latest
+
+    steps:
+      # Inspect the PR diff and body directly through GitHub metadata.
+      - name: check docs and adr delta
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const body = (pr && pr.body) ? pr.body : "";
+            const pullNumber = pr.number;
+
+            const requiresAdrPatterns = [
+              /^\.github\//,
+              /^\.opencode\//,
+              /^tools\/script\//,
+              /^docs\/planning\//,
+              /^docs\/(adr|agent|architecture|operations|repo|testing)\.md$/,
+              /^README\.md$/,
+              /^CLA\.md$/,
+              /^CONTRIBUTING\.md$/,
+              /^GOVERNANCE\.md$/,
+              /^SECURITY\.md$/,
+              /^AGENTS\.md$/,
+              /^opencode\.json$/,
+            ];
+
+            function escapeRegex(value) {
+              return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+            }
+
+            function readSection(markdown, heading) {
+              const pattern = new RegExp(`##\\s+${escapeRegex(heading)}\\s*\\n([\\s\\S]*?)(?=\\n##\\s+|$)`, "i");
+              const match = markdown.match(pattern);
+              return match ? match[1].trim() : "";
+            }
+
+            function isPlaceholder(text) {
+              if (!text) {
+                return true;
+              }
+
+              const normalized = text
+                .replace(/`[^`]*`/g, "")
+                .replace(/^[-*]\s*/gm, "")
+                .replace(/\s+/g, " ")
+                .trim()
+                .toLowerCase();
+
+              return ["_", "none", "n/a", "not needed", "same as above"].includes(normalized);
+            }
+
+            const files = await github.paginate(github.rest.pulls.listFiles, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pullNumber,
+              per_page: 100,
+            });
+
+            const changedFiles = files.map((file) => file.filename);
+            const governedFiles = changedFiles.filter((filename) => requiresAdrPatterns.some((pattern) => pattern.test(filename)));
+            const docsDelta = readSection(body, "Docs and ADR delta");
+            const adrTouched = changedFiles.includes("docs/adr.md");
+            const failures = [];
+
+            if (governedFiles.length === 0) {
+              core.info("no governed docs or repo-control surfaces changed; docs guard passes.");
+              return;
+            }
+
+            if (isPlaceholder(docsDelta)) {
+              failures.push(
+                "fill in the 'Docs and ADR delta' section with the durable docs and ADR changes that match the governed files in this PR."
+              );
+            }
+
+            if (!adrTouched) {
+              failures.push("update docs/adr.md for governed repo-control or shared-understanding changes before merge.");
+            }
+
+            if (failures.length > 0) {
+              core.setFailed(
+                [
+                  "docs guard failed for governed changes.",
+                  "",
+                  "governed files:",
+                  ...governedFiles.map((filename) => `- ${filename}`),
+                  "",
+                  ...failures.map((failure) => `- ${failure}`),
+                ].join("\n")
+              );
+              return;
+            }
+
+            core.info("docs and ADR delta look present for governed changes.");

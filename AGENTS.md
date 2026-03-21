@@ -113,6 +113,7 @@ Treat these as protected and escalate by default:
 
 - Auth or session policy
 - Migrations and schema-destructive changes
+- Repo-control workflows
 - Tenancy and role enforcement
 - Secrets handling
 - Release workflows
