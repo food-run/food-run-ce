@@ -7,7 +7,7 @@ subtask: true
 
 ## TL;DR
 
-This command drafts the reasoning delta for the current work. It should explain what changed, why it was chosen, what it owns, and what breaks if it changes.
+This command drafts the reasoning delta for the current work. It should answer the full master-packet ADR questions, stay sorted recency first, and be complete before PRs or merge commits are prepared.
 
 ## Inputs
 
@@ -25,12 +25,21 @@ Current diff:
 
 Draft:
 
-- What changed
+- What was built
 - Why it was chosen
-- What it owns
+- What boundaries it owns
 - What breaks if it changes
-- Why it matters technically
-- Why it matters non-technically
+- Known edge cases or failure modes
+- Why this work matters
+- What capability it unlocks
+- Why the chosen design is safer or more scalable
+- What trade-off the team accepted
+
+Also ensure:
+
+- the entry is inserted in recency-first order
+- the slice is as small as current understanding allows without creating duplicate ADR noise
+- out-of-scope human edits are planned separately unless the human explicitly includes them
 
 ## Failure Conditions
 

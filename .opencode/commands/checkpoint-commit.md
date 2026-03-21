@@ -24,6 +24,7 @@ Create:
 - An optional commit body
 - A short checkpoint summary for `docs/coordination/checkpoints/`
 - A confirmation that `docs/coordination/` reflects the checkpoint before the commit is created
+- A confirmation that any required ADR entry is complete before the commit is considered merge-ready
 - A refresh to `docs/coordination/active.md` so the checkpoint is visible in the dashboard
 - A yes-or-no decision on whether the current diff should be committed now
 - A scope choice that uses the first qualifying parent surface, such as `coordination`, `templates`, or `opencode`, and falls back to `repo` only when no narrower context cleanly covers the diff
@@ -36,6 +37,7 @@ Create:
 - The diff is not coherent enough for a useful rollback point.
 - The checkpoint mixes unrelated changes.
 - Coordination notes are not current enough to support the commit.
+- A meaningful change is missing its completed ADR entry.
 
 ## Escalation Rules
 

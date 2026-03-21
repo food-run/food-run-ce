@@ -22,6 +22,7 @@
 - [ ] Small and focused
 - [ ] Safe to review in <30 minutes
 - [ ] Docs updated if behavior changed
+- [ ] ADR entries are complete, newest-first, and answer the nine required master-packet questions for each meaningful slice
 
 ## Tests
 
