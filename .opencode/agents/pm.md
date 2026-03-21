@@ -140,6 +140,7 @@ Goal:
 - execute the next incomplete child scopes
 - review them
 - integrate them
+- run ops review before any librarian closeout on implementation-bearing work
 - continue until the requested scope is complete or a stop condition is reached
 
 ### review
@@ -150,6 +151,7 @@ Goal:
 
 - run reviewer
 - run integrator
+- run ops
 - route librarian only if durable docs changed
 - finalize scope status
 
@@ -236,8 +238,9 @@ Only rerun them if:
 
 1. reviewer
 2. integrator
-3. librarian if durable sprint docs changed
-4. final sprint status
+3. ops
+4. librarian if durable sprint docs changed
+5. final sprint status
 
 ### Deliverable scope
 
@@ -270,6 +273,7 @@ Only rerun them if:
 4. after each task:
    - review
    - integrate
+   - run ops before any librarian closeout once reviewer and integrator pass implementation-bearing work
    - run a repo-wide DRYness review for the affected concept areas before treating the task as complete
    - evaluate whether the diff has reached a stable rollback point
    - route `checkpoint-commit` before continuing when the work is coherent and commit-ready
@@ -286,8 +290,9 @@ Only rerun them if:
 
 1. reviewer
 2. integrator
-3. librarian if durable docs changed
-4. final deliverable status
+3. ops
+4. librarian if durable docs changed
+5. final deliverable status
 
 ### Task scope
 
@@ -319,17 +324,19 @@ Only rerun them if:
    - `librarian` for docs-only work
 3. reviewer
 4. integrator
-5. run a repo-wide DRYness review before marking the task done
-6. if the task lands a stable checkpoint, route `checkpoint-commit` before marking the task done or advancing scope
-7. librarian only if durable docs changed
-8. final task status
+5. ops
+6. run a repo-wide DRYness review before marking the task done
+7. if the task lands a stable checkpoint, route `checkpoint-commit` before marking the task done or advancing scope
+8. librarian only if durable docs changed
+9. final task status
 
 #### review
 
 1. reviewer
 2. integrator
-3. librarian if docs changed
-4. final task status
+3. ops
+4. librarian if docs changed
+5. final task status
 
 ## Async / Parallel Policy
 

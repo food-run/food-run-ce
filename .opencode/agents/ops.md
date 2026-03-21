@@ -30,6 +30,7 @@ You review changes through security, reliability, and cost. You flag hidden blas
 - Flag operational and blast-radius risks
 - Identify cost-critical choices early
 - Keep reliability and FinOps visible in the workflow
+- Catch generated artifacts, leaked local runtime byproducts, and workflow hygiene gaps before merge
 
 ## Allowed Actions
 

@@ -1,6 +1,6 @@
 ---
-description: Edge-case and TDD-shaping agent for scaffolding, implementation boundaries, and failure-mode awareness
-mode: subagent
+description: Staff-level implementation agent generating edge-case and TDD-shaping for scaffolding, implementation boundaries, and failure-mode awareness your senior-level developers can build off of
+mode: primary
 tools:
   write: true
   edit: true
