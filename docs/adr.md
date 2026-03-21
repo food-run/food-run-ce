@@ -36,6 +36,29 @@ This file is the durable reasoning spine for major Food Run technical and proces
 
 ---
 
+### S0-D4 - Standardize the PR review contract and centralize the CLA owner exception
+
+- ***What was built?***
+  - The D4 planning packet, `.github/pull_request_template.md`, `.opencode/commands/pr-prepare.md`, `CLA.md`, and `CONTRIBUTING.md` were aligned around one reviewer-facing PR structure, one canonical CLA confirmation phrase, and one documented repository-owner exception for the CLA phrase check.
+- ***Why was it chosen?***
+  - The repo already had partial PR and CLA guidance, but the template, PR-prep command, and contributor docs could drift from each other and force workflow automation to guess which wording was canonical.
+- ***What boundaries does it own?***
+  - Reviewer-facing PR narrative structure, canonical CLA confirmation wording, and the documentation boundary between outside contributors and repository-owner-authored PRs.
+- ***What breaks if it changes?***
+  - PR preparation can produce the wrong sections, workflow automation can block the wrong authors, and reviewers can lose a stable contract for summary, verification, docs, and protected-path notes.
+- ***What known edge cases or failure modes matter here?***
+  - Owner-authored PRs need a narrow exception without weakening the CLA requirement for outside contributors, and the PR template plus PR-prep command must stay structurally identical enough to avoid future drift.
+- ***Why does this work matter?***
+  - It gives the later D4 workflow changes one durable policy source instead of scattering PR and CLA semantics across markdown files, chat, and YAML.
+- ***What capability does it unlock?***
+  - Later automation can enforce PR structure and CLA rules against a stable documented contract.
+- ***Why is the chosen design safer or more scalable?***
+  - Centralizing the policy details reduces duplicate rule text and makes later workflow or script changes easier to audit for drift.
+- ***What trade-off did the team accept?***
+  - The repository now carries a slightly more explicit PR and CLA narrative, which requires future repo-control edits to keep the shared structure in sync.
+
+---
+
 ### S0-D3 - Reconcile planning drift to current repo reality
 
 - ***What was built?*** 

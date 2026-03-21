@@ -127,6 +127,8 @@ By opening a contribution, you must confirm in the PR description:
 
 If CLA automation is enabled, your PR may be blocked until the required confirmation is present.
 
+If the repository owner opens their own PR, the automation may skip that phrase check for the owner-authored PR. `CLA.md` remains the canonical source for that exception.
+
 ## 10) License note
 
 By contributing to this repository, you agree that:
@@ -148,4 +150,4 @@ Maintainers may close or decline a contribution for project, legal, quality, sec
 
 ---
 
-Last updated: 2026-03-20
+Last updated: 2026-03-21

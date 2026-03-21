@@ -4,7 +4,7 @@
   - _
 - Why it changed:
   - _
-- How to test:
+- How to verify:
   - _
 
 ---
@@ -13,7 +13,18 @@
 
 ## Why this change
 
-## How to test
+## Files and boundaries
+
+## Verification
+
+## Docs and ADR delta
+
+## Protected-path and hotspot notes
+
+- Protected paths touched:
+  - none
+- Hotspot files touched:
+  - none
 
 ---
 
@@ -34,12 +45,15 @@
 
 ---
 
-## CLA (required)
+## CLA
 
-- [ ] I agree to the cla in CLA.md
+- [ ] I agree to the CLA in CLA.md
 
-**This required phrase (must be present in this PR description exactly):**
+Non-owner contributors must include this exact line in the PR description:
+
 I agree to the CLA in CLA.md
+
+See `CLA.md` for repository-owner exception details and current automation expectations.
 
 ---
 

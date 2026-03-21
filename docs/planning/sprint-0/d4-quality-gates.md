@@ -98,16 +98,16 @@ before it can be merged.
 
 ## 📂 Files touched
 
-### New workflow/control files
+### Workflow and control surfaces to extend or create
 
 - `.github/pull_request_template.md`
-- `.github/workflows/ci.yml`
-- `.github/workflows/cd.yml`
-- `.github/workflows/cla_check.yml`
-- `.github/workflows/docs_guard.yml`
-- `.github/workflows/protected_paths.yml`
+- `.github/workflows/repo-verify.yml`
+- `.github/workflows/static.yml`
+- `.github/workflows/cla-check.yml`
+- `.github/workflows/docs-guard.yml`
+- `.github/workflows/protected-paths.yml`
 
-### New permanent script entry points
+### Permanent script entry points
 
 - `tools/script/verify.py`
 - `tools/script/release.py`
@@ -124,11 +124,18 @@ before it can be merged.
 
 ### Workflow names
 
-- `ci`
-- `cd`
-- `cla_check`
-- `docs_guard`
-- `protected_paths`
+- `repo verify`
+- `cla phrase check`
+- `docs guard`
+- `protected paths`
+
+### Current committed workflow files
+
+- `.github/workflows/repo-verify.yml`
+- `.github/workflows/static.yml` (to be narrowed, repurposed, or replaced during the release-scaffolding slice)
+- `.github/workflows/cla-check.yml`
+- `.github/workflows/docs-guard.yml`
+- `.github/workflows/protected-paths.yml`
 
 ### Job names
 
@@ -151,11 +158,11 @@ before it can be merged.
 D4 should apply the exact Sprint 0 TL;DR content to:
 
 - `.github/pull_request_template.md`
-- `.github/workflows/ci.yml`
-- `.github/workflows/cd.yml`
-- `.github/workflows/cla_check.yml`
-- `.github/workflows/docs_guard.yml`
-- `.github/workflows/protected_paths.yml`
+- `.github/workflows/repo-verify.yml`
+- `.github/workflows/static.yml`
+- `.github/workflows/cla-check.yml`
+- `.github/workflows/docs-guard.yml`
+- `.github/workflows/protected-paths.yml`
 - `tools/script/verify.py`
 - `tools/script/release.py`
 
@@ -186,9 +193,9 @@ D4 should apply the exact Sprint 0 TL;DR content to:
 These files define how unsafe or under-documented work gets stopped:
 
 - `.github/pull_request_template.md`
-- `.github/workflows/ci.yml`
-- `.github/workflows/docs_guard.yml`
-- `.github/workflows/protected_paths.yml`
+- `.github/workflows/repo-verify.yml`
+- `.github/workflows/docs-guard.yml`
+- `.github/workflows/protected-paths.yml`
 - `tools/script/verify.py`
 - `tools/script/release.py`
 
@@ -200,6 +207,12 @@ These files define how unsafe or under-documented work gets stopped:
 
 **Commit title:**  
 `docs(pr): define a pull request contract that forces scope clarity verification notes and docs accountability`
+
+Task focus:
+
+- align `.github/pull_request_template.md` and `.opencode/commands/pr-prepare.md`
+- update `CLA.md` and `CONTRIBUTING.md` so the exact confirmation phrase and repository-owner exception are canonical before workflow automation depends on them
+- refine this deliverable packet to the current committed workflow filenames before protected workflow edits begin
 
 ### 🎟️ S0-D4-T2 — 🧪 Seed the CI verification workflow and repo verification script
 
@@ -237,9 +250,9 @@ These files define how unsafe or under-documented work gets stopped:
 S0-D4 is done only when:
 
 - the PR template forces bounded summary, verification notes, docs/ADR context, and protected-path acknowledgement
-- `.github/workflows/ci.yml` and `tools/script/verify.py` exist
+- `.github/workflows/repo-verify.yml` and `tools/script/verify.py` exist
 - docs and protected-path enforcement workflows exist and align with D3 rules
-- `.github/workflows/cd.yml` and `tools/script/release.py` exist as release-preparation scaffolds
+- a release-preparation workflow plus `tools/script/release.py` exist as scaffolds without overclaiming D5 deployment maturity
 - automation and documentation tell the same story
 
 ---
@@ -253,6 +266,8 @@ Reject immediately if an agent tries to:
 - create vague failure messages like “validation failed”
 - redefine protected-path categories differently from D3
 - oversell `cd.yml` as a complete deployment pipeline before D5 exists
+- leave `.github/pull_request_template.md` and `.opencode/commands/pr-prepare.md` describing different reviewer contracts
+- make CLA automation stricter than the canonical `CLA.md` wording for owner-authored PRs
 - turn the PR template into a generic checklist that ignores repo-specific cognitive-debt concerns
 
 ---

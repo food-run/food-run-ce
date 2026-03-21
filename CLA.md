@@ -74,6 +74,10 @@ You accept this Agreement by:
 
 If CLA automation is enabled, your PR may be blocked until the required confirmation is present.
 
+When the repository owner opens a pull request against this repository, that pull request may omit the confirmation line because the repository owner already controls the repository and the downstream rights posture that this Agreement is meant to document for outside contributions.
+
+Until the matching D4 workflow update lands, the current automation may still require the line to be present even on an owner-authored pull request.
+
 ---
 
-Last updated: 2026-03-20
+Last updated: 2026-03-21

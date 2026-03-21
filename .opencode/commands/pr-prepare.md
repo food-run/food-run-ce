@@ -31,14 +31,15 @@ Prepare:
 - Files and boundaries
 - Verification
 - Docs and ADR delta
-- Protected-path notes
-- ⚠️ Hotspot-files notes if relevant
+- Protected-path and hotspot notes
+- CLA
 
 Before returning:
 
 - confirm every meaningful change has a completed ADR entry
 - confirm the ADR file is ordered newest first
 - confirm each ADR entry answers the full nine-question master-packet template
+- confirm the `CLA` section matches `.github/pull_request_template.md`, including the repository-owner exception documented in `CLA.md`
 - confirm ops review output exists for implementation-bearing changes before calling the branch PR-ready
 - call out any intentionally excluded out-of-scope human edits
 
