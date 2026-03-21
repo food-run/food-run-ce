@@ -110,7 +110,15 @@ before it can be merged.
 ### Permanent script entry points
 
 - `tools/script/verify.py`
+- `tools/script/coordination_status.py`
 - `tools/script/release.py`
+
+### Repo-control and coordination extensions
+
+- `.opencode/agents/reporter.md`
+- `.opencode/commands/start-task.md`
+- `.opencode/commands/sync-status.md`
+- `docs/templates/coordination/active-template.md`
 
 ### Meaningfully refactored docs
 
@@ -224,7 +232,29 @@ Task focus:
 **Commit title:**  
 `ci(paths): enforce docs parity and escalate risky path changes before they can merge silently`
 
-### 🎟️ S0-D4-T4 — 🚢 Seed release scaffolding and align testing/operations docs
+### 🎟️ S0-D4-T4 — 💠 Support plural active workstreams and verify per-scope coordination evidence
+
+**Commit title:**  
+`feat(coordination): support plural active workstreams and verify per-scope reporting evidence with legacy fallback`
+
+Task focus:
+
+- extend `tools/script/coordination_status.py` instead of creating a second coordination runtime
+- keep `docs/coordination/active.md` backward-compatible while adding plural active-workstream parsing
+- add tests for plural-scope parsing, overdue detection, latest-note selection, and per-subagent reporting evidence before any reporter path becomes mandatory
+
+### 🎟️ S0-D4-T5 — 📣 Add the reporter agent contract and scheduled reminder escalation
+
+**Commit title:**  
+`chore(opencode): add reporter guidance and scheduled local reminders for overdue coordination scopes`
+
+Task focus:
+
+- add a dedicated `reporter` agent contract whose only job is emitting and normalizing the structured packet used by PM and subagents
+- align `.opencode/commands/start-task.md`, `.opencode/commands/sync-status.md`, templates, and coordination rules to the same packet shape
+- add local scheduled execution guidance or a lightweight runner so `tools/script/coordination_status.py remind` can run every minute and escalate overdue scopes without pretending CI owns local coordination state
+
+### 🎟️ S0-D4-T6 — 🚢 Seed release scaffolding and align testing/operations docs
 
 **Commit title:**  
 `ci(release): seed release-readiness scaffolding and document how CI/CD acts as an operational control layer`
@@ -243,6 +273,11 @@ Task focus:
 **Commit title:**  
 `test(verify): verify workflow and script failures explain what is missing and where the contributor must fix it`
 
+### 👾 S0-D4-T4-V — ⏱️ Verify plural workstream parsing and overdue coordination evidence
+
+**Commit title:**  
+`test(coordination): verify plural workstream parsing overdue detection and subagent reporting evidence`
+
 ---
 
 ## ✅ Deliverable verification
@@ -252,6 +287,8 @@ S0-D4 is done only when:
 - the PR template forces bounded summary, verification notes, docs/ADR context, and protected-path acknowledgement
 - `.github/workflows/repo-verify.yml` and `tools/script/verify.py` exist
 - docs and protected-path enforcement workflows exist and align with D3 rules
+- `tools/script/coordination_status.py` supports plural active workstreams with per-scope freshness checks and tests before any reporter path becomes mandatory
+- a dedicated `reporter` agent contract and local scheduled reminder path exist without overstating CI or deployment maturity
 - a release-preparation workflow plus `tools/script/release.py` exist as scaffolds without overclaiming D5 deployment maturity
 - automation and documentation tell the same story
 
@@ -265,6 +302,9 @@ Reject immediately if an agent tries to:
 - make CI check only syntax/build status while skipping docs and protected-path concerns
 - create vague failure messages like “validation failed”
 - redefine protected-path categories differently from D3
+- split coordination reporting across multiple runtimes instead of extending `tools/script/coordination_status.py`
+- make the reporter agent mandatory before tests prove the per-scope evidence model
+- commit machine-specific scheduler artifacts instead of a lightweight repo-owned runner or documented local scheduler path
 - oversell `cd.yml` as a complete deployment pipeline before D5 exists
 - leave `.github/pull_request_template.md` and `.opencode/commands/pr-prepare.md` describing different reviewer contracts
 - make CLA automation stricter than the canonical `CLA.md` wording for owner-authored PRs
