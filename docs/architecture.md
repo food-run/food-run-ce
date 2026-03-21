@@ -18,5 +18,6 @@ This file is the durable architecture map for the active rebuild. It should expl
 
 ## Current Status
 
-- Sprint 0 has seeded the active tree under `apps/` and `shared/`
+- Sprint 0 has seeded the active tree under `apps/`, `shared/`, and `tools/`
+- `platform/` remains a later Sprint 0 layer for runtime parity work
 - later deliverables should extend this file instead of introducing separate architecture side notes

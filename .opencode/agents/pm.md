@@ -138,6 +138,7 @@ Goal:
 
 - plan missing child packets only when needed
 - execute the next incomplete child scopes
+- route architect before developer or designer on implementation-bearing task scopes
 - review them
 - integrate them
 - run ops review before any librarian closeout on implementation-bearing work
@@ -151,7 +152,7 @@ Goal:
 
 - run reviewer
 - run integrator
-- run ops
+- run ops for implementation-bearing work
 - route librarian only if durable docs changed
 - finalize scope status
 
@@ -238,7 +239,7 @@ Only rerun them if:
 
 1. reviewer
 2. integrator
-3. ops
+3. ops for implementation-bearing work
 4. librarian if durable sprint docs changed
 5. final sprint status
 
@@ -290,7 +291,7 @@ Only rerun them if:
 
 1. reviewer
 2. integrator
-3. ops
+3. ops for implementation-bearing work
 4. librarian if durable docs changed
 5. final deliverable status
 
@@ -301,7 +302,8 @@ Only rerun them if:
 1. load task state
 2. scout only if grounding is missing
 3. planner only if decomposition is missing
-4. stop with a bounded execution packet
+4. architect only if implementation-bearing strategy, TDD shape, or scaffolding guidance is missing
+5. stop with a bounded execution packet
 
 #### resume
 
@@ -318,23 +320,24 @@ Only rerun them if:
    - protected paths
    - ⚠️ Hotspot Files
    - non-goals
-2. choose exactly one implementation lane:
+2. if the task is implementation-bearing, route `architect` first to define invariants, failure modes, TDD shape, and scaffolding
+3. choose exactly one implementation lane from the architect handoff:
    - `developer` for code, structure, moves, tests
    - `designer` for UX or UI work
-   - `librarian` for docs-only work
-3. reviewer
-4. integrator
-5. ops
-6. run a repo-wide DRYness review before marking the task done
-7. if the task lands a stable checkpoint, route `checkpoint-commit` before marking the task done or advancing scope
-8. librarian only if durable docs changed
-9. final task status
+   - `librarian` for docs-only work when no implementation lane is needed
+4. reviewer
+5. integrator
+6. ops for implementation-bearing work before any librarian closeout
+7. run a repo-wide DRYness review before marking the task done
+8. if the task lands a stable checkpoint, route `checkpoint-commit` before marking the task done or advancing scope
+9. librarian only if durable docs changed
+10. final task status
 
 #### review
 
 1. reviewer
 2. integrator
-3. ops
+3. ops for implementation-bearing work
 4. librarian if docs changed
 5. final task status
 

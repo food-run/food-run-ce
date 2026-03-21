@@ -1,13 +1,13 @@
 ---
 description: Generate a new implementation file or scaffold that matches repository standards from the first line
-agent: developer
+agent: architect
 ---
 
 # Generate Command
 
 ## TL;DR
 
-This command generates new implementation files without creating cleanup debt. New files must start in their real long-term home, follow the current planning packet, and comply with `.opencode/rules/implementation-standards.md` from the first line.
+This command generates new implementation files or scaffolding without creating cleanup debt. It belongs to `architect` so implementation-bearing generation starts from an explicit TDD shape, invariants, and boundary plan before `developer` or `designer` extends it.
 
 ## Inputs
 
@@ -20,6 +20,7 @@ This command generates new implementation files without creating cleanup debt. N
 Before writing anything:
 
 - open the relevant planning packet
+- if the packet drifted from committed repo reality, refine the packet target to the current permanent structure before generating files
 - confirm the intended ownership boundary
 - check for reuse and consolidation under `.opencode/rules/implementation-standards.md`
 - identify whether the file is:
@@ -48,6 +49,7 @@ When generating documentation:
 - put deep technical documents under `docs/**`
 - do not create generic placeholder documents
 - stub only the first exact permanent file that will actually be needed first
+- if the expected durable home already exists or its content is already sufficiently covered elsewhere, extend that home instead of creating another doc
 - if that file cannot be named yet, omit it
 
 Before returning:
@@ -57,6 +59,7 @@ Before returning:
 - state what was refactored
 - state what should be consolidated elsewhere but is outside the current scope
 - say whether a checkpoint commit is due
+- say whether the next lane should be `developer`, `designer`, or `librarian`
 
 ## Failure Conditions
 

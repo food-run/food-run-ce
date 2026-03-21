@@ -20,5 +20,7 @@ This file is the durable testing and verification guide for the rebuild. It shou
 
 ## Current Status
 
-- Sprint 0 has established the need for shared test support in `shared/testkit/`
-- later deliverables should extend this file as concrete test commands and gates appear
+- Sprint 0 has established shared test support in `shared/testkit/`
+- repo verification already runs through `python3 tools/script/verify.py`
+- `.github/workflows/repo-verify.yml` already enforces that verifier in CI
+- later deliverables should extend this file with deeper runtime, contract, and smoke-specific commands as those layers become real

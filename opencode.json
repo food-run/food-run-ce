@@ -36,6 +36,7 @@
       "git diff*": "allow",
       "true": "allow",
       "git status *": "allow",
+      "git branch *": "allow",
       "git show *": "allow",
       "git ls-files *": "allow",
       "git log*": "allow",
@@ -50,7 +51,7 @@
       "git merge *": "deny",
       "git rebase *": "deny",
       "git push *": "deny",
-      "rm *": "deny",
+      "rm *": "deny"
     }
   }
 }

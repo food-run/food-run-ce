@@ -12,6 +12,10 @@ This repo preserves validated prototype evidence while the team rebuilds Food Ru
 
 Active rebuild surfaces:
 
+- `apps/`
+- `shared/`
+- `tools/`
+- `platform/`
 - `docs/`
 - `.opencode/`
 - `.github/`
@@ -23,12 +27,11 @@ Archived prototype surface:
 
 - `legacy-v0/`
 
-Planned active rebuild homes that later Sprint 0 deliverables will seed:
+Current posture for active rebuild homes:
 
-- `apps/`
-- `shared/`
-- `platform/`
-- `tools/`
+- `apps/` and `shared/` are already seeded and should be extended in place
+- `tools/` is already seeded for shared repo automation and verification work
+- `platform/` remains the later Sprint 0 runtime-parity layer and should be added only when the current planning packet calls for it
 
 ## Root Directory Rules
 
@@ -40,10 +43,20 @@ Planned active rebuild homes that later Sprint 0 deliverables will seed:
 ## Path Ownership
 
 - `legacy-v0/` preserves the validated prototype as a coherent snapshot
+- `apps/` holds deployable runtime homes for active rebuild work
+- `shared/` holds seam-level shared contracts, schemas, adapters, and test support
+- `tools/` holds shared automation, verification, and operator-facing scripts for the rebuild
 - `docs/` holds planning, coordination, and durable technical documentation
-- `.opencode/` holds agent operating rules and reusable skills
+- `.opencode/` holds agent lane docs, commands, rules, and reusable skills
 - `.github/` holds repository automation and review workflow files
 - future application and shared-code ownership belongs in the active rebuild tree, not in archived prototype paths
+
+## Planning Drift Rule
+
+- when the committed repo has already evolved beyond an older planning packet, treat the current committed permanent structure as canonical by default
+- refine the planning packet to name the current permanent files instead of recreating stale packet-era filenames
+- stub a missing durable doc only when the exact permanent home is absent and its expected content is not already sufficiently covered elsewhere
+- do not create duplicate repo-control or docs-spine files just to satisfy stale planning wording
 
 ## Prohibited Drift Patterns
 
@@ -51,6 +64,7 @@ Planned active rebuild homes that later Sprint 0 deliverables will seed:
 - recreating archived prototype paths at the root by convenience
 - mixing prototype build artifacts into active planning or technical-doc paths
 - describing future Sprint 0 scaffolding as if it already exists in the repo
+- recreating stale packet-era repo-control files after the committed repo has already converged on a better permanent home
 
 ## Naming and Depth Rules
 

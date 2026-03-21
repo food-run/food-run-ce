@@ -32,6 +32,11 @@ Restate:
 - Reuse candidates and why any new structure would be meaningfully unique
 - Structured 6-minute reporting packet fields for chat and heartbeat notes
 
+If the task is implementation-bearing:
+
+- the recommended next agent must be `architect` unless a valid architect packet already exists for the same scope
+- the implementation lane should not begin until architect output covers invariants, failure modes, TDD shape, and scaffolding boundaries
+
 Then create or refresh:
 
 - the stable task file in `docs/coordination/tasks/`
