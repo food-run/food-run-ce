@@ -1,10 +1,18 @@
-"""
-TL;DR
-Starter surface for shared capability-based adapter ports.
+"""  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+TL;DR  -->  shared adapter port surface
 
-Runtime role
-- Hold the reusable dependency seams that app runtimes implement or consume.
+- Later Extension Points:
+    --> Add narrow capability ports for cache, queue, store, and related dependencies
 
-Later extension points
-- Add narrow ports for cache, queue, storage, and related dependencies.
-"""
+- Role:
+    --> Holds reusable adapter-port ownership for shared runtime seams
+    --> Owns capability boundaries so app runtimes can depend on explicit contracts instead of direct implementations
+    --> Exists as the single home for shared adapter port definitions
+    --> Must remain contract-focused instead of becoming an implementation registry
+
+- Exports:
+    --> shared adapter port surface
+
+- Consumed By:
+    --> local operators and implementers defining shared dependency contracts
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  """

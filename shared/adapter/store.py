@@ -1,10 +1,18 @@
-"""
-TL;DR
-Starter surface for shared storage adapter boundaries.
+"""  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+TL;DR  -->  shared storage adapter surface
 
-Runtime role
-- Hold reusable storage integration seams shared across runtimes.
+- Later Extension Points:
+    --> Add reusable storage contracts and selection helpers here
 
-Later extension points
-- Add storage adapter types without duplicating store concepts inside agent code.
-"""
+- Role:
+    --> Holds shared storage-adapter ownership for reusable persistence seams
+    --> Owns storage integration vocabulary so app runtimes do not duplicate the same contract
+    --> Exists as the single home for shared storage adapter boundaries
+    --> Must remain boundary-focused instead of embedding app-specific persistence logic
+
+- Exports:
+    --> shared storage adapter surface
+
+- Consumed By:
+    --> local operators and implementers defining shared storage seams
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  """
