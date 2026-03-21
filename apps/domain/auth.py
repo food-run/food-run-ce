@@ -1,10 +1,18 @@
-"""
-TL;DR
-Starter surface for domain-owned authorization rules.
+"""  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+TL;DR  -->  domain authorization policy surface
 
-Runtime role
-- Hold future role, scope, and policy checks owned by the business truth boundary.
+- Later Extension Points:
+    --> Add role, scope, and business-owned authorization checks here
 
-Later extension points
-- Add policy logic here rather than scattering it across runtimes.
-"""
+- Role:
+    --> Holds authorization ownership for the domain truth boundary
+    --> Owns policy evaluation so transport middleware and worker entrypoints do not become policy authorities
+    --> Exists as the single home for business-owned authorization rules
+    --> Must remain policy-focused instead of becoming a generic identity helper bucket
+
+- Exports:
+    --> domain authorization policy surface
+
+- Consumed By:
+    --> local operators and implementers defining business-owned authorization checks
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  """
