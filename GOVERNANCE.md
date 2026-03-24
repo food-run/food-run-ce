@@ -17,7 +17,7 @@ This governance document does **not** grant any rights to:
 - the Food Run name, logos, icons, or other brand assets
 - any separately licensed commercial, enterprise, hosted, or partner offerings maintained by the Project Owner
 
-See `TRADEMARKS.md`, `LICENSE`, and `CLA.md` for those boundaries.
+See `TRADEMARKS.md`, `LICENSE.md`, and `CLA.md` for those boundaries.
 
 ## 2) Project roles
 
@@ -162,7 +162,7 @@ Public discussion of a feature does not guarantee acceptance, scheduling, or imp
 
 ## 7) Licensing and commercial boundary
 
-Food Run CE is maintained under the license stated in `LICENSE`.
+Food Run CE is maintained under the license stated in `LICENSE.md`.
 
 Contributions to CE are reviewed under the contribution rules in `CONTRIBUTING.md` and the Contributor License Agreement in `CLA.md`.
 

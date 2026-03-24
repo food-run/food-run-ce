@@ -844,7 +844,7 @@ food-run-ce/
 ├── CLA.md
 ├── GOVERNANCE.md
 ├── TRADEMARKS.md
-├── LICENSE
+├── LICENSE.md
 ├── .env.example
 ├── .gitignore
 ├── bunfig.toml

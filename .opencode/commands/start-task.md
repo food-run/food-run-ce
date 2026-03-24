@@ -30,7 +30,7 @@ Restate:
 - Expected checkpoint and commit point
 - Expected heartbeat note location in `docs/coordination/notes/`
 - Reuse candidates and why any new structure would be meaningfully unique
-- Structured 6-minute reporting packet fields for chat and heartbeat notes
+- Reporter-normalized 6-minute packet fields for chat and heartbeat notes: scope, agent or subagent name, completed work since the last report, current in-flight work, blockers or `none`, next step, active paths, next expected update time
 
 If the task is implementation-bearing:
 

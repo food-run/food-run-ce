@@ -70,7 +70,7 @@ Unless explicitly stated elsewhere, this project does not currently offer a bug 
 ## Related files
 
 For more about project authority and policy boundaries, see:
-- [`LICENSE`](LICENSE)
+- [`LICENSE.md`](LICENSE.md)
 - [`CONTRIBUTING.md`](CONTRIBUTING.md)
 - [`GOVERNANCE.md`](GOVERNANCE.md)
 - [`TRADEMARKS.md`](TRADEMARKS.md)

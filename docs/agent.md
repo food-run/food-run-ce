@@ -27,6 +27,7 @@ This file explains how Food Run uses governed agent workflows. It should stay al
 
 ## Required Lane Order
 
+- `reporter` may normalize heartbeat and dashboard packets, but PM still owns orchestration and scope routing
 - implementation-bearing task work starts with `architect`
 - `architect` defines invariants, failure modes, TDD shape, and scaffolding before `developer` or `designer` begins
 - `developer` or `designer` executes one bounded implementation lane at a time
@@ -36,6 +37,7 @@ This file explains how Food Run uses governed agent workflows. It should stay al
 
 ## Why This Order Exists
 
+- it lets reporting format stay DRY without turning packet emission into hidden orchestration logic
 - it keeps implementation strategy explicit instead of burying it inside the first code patch
 - it makes TDD shape and boilerplate a designed input rather than an accidental side effect
 - it gives reviewer and integrator a bounded diff before ops evaluates blast radius, workflow hygiene, and cost or reliability risk

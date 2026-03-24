@@ -113,6 +113,7 @@ Treat these as protected and escalate by default:
 
 - Auth or session policy
 - Migrations and schema-destructive changes
+- Repo-control workflows
 - Tenancy and role enforcement
 - Secrets handling
 - Release workflows
@@ -134,6 +135,11 @@ Protected-path rules:
 ### PM
 
 - Owns orchestration, status, task routing, handoffs, course correction, and human-in-the-loop checkpoints
+
+### Reporter
+
+- Owns structured coordination packet emission and normalization for PM and subagents
+- Does not own scope selection, planning, implementation, or review decisions
 
 ### Scout
 

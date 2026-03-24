@@ -154,7 +154,7 @@ food-run-ce/
 ├── CLA.md
 ├── GOVERNANCE.md
 ├── TRADEMARKS.md
-├── LICENSE
+├── LICENSE.md
 ├── .env.example
 ├── .gitignore
 ├── bunfig.toml
@@ -399,11 +399,11 @@ Purpose: turn process agreements into merge-blocking automation that catches dri
 Primary outputs:
 
 - `.github/pull_request_template.md`
-- `.github/workflows/ci.yml`
+- `.github/workflows/repo-verify.yml`
 - `.github/workflows/cd.yml`
-- `.github/workflows/cla_check.yml`
-- `.github/workflows/docs_guard.yml`
-- `.github/workflows/protected_paths.yml`
+- `.github/workflows/cla-check.yml`
+- `.github/workflows/docs-guard.yml`
+- `.github/workflows/protected-paths.yml`
 - `tools/script/verify.py`
 - `tools/script/release.py`
 

@@ -36,6 +36,190 @@ This file is the durable reasoning spine for major Food Run technical and proces
 
 ---
 
+### S0-D4 - Make the PR narrative and every workflow edit subject to the documented merge gates
+
+- ***What was built?***
+  - `.github/workflows/docs-guard.yml` now blocks pull requests that leave `Summary`, `Why this change`, `Files and boundaries`, or `Verification` blank or placeholder-only, and `.github/workflows/protected-paths.yml` now treats any `.github/workflows/**` edit as a protected-path change.
+- ***Why was it chosen?***
+  - The earlier D4 slices documented PR-shape enforcement and workflow-path protection, but the actual automation still left those two gaps open, which meant reviewers could trust rules that were not fully enforced.
+- ***What boundaries does it own?***
+  - The minimum reviewer-facing PR narrative every change must provide, and the protected-path boundary for all workflow automation under `.github/workflows/**`.
+- ***What breaks if it changes?***
+  - Pull requests can slip through with vague review context, workflow changes can avoid the protected-path acknowledgement gate, and the repo's documented merge posture can drift away from reality again.
+- ***What known edge cases or failure modes matter here?***
+  - The docs gate must still keep `Docs and ADR delta` conditional on governed changes instead of requiring ADR churn for every PR, and the workflow matcher must stay broad enough to catch new workflow files without producing opaque failures.
+- ***Why does this work matter?***
+  - It closes the last D4 enforcement gap between the documented PR contract and the actual merge-blocking automation.
+- ***What capability does it unlock?***
+  - Reviewers can rely on every PR carrying a real summary and verification story, and workflow edits now consistently trigger the protected-path review path.
+- ***Why is the chosen design safer or more scalable?***
+  - Extending the existing D4 workflows keeps the logic in the same audited homes, preserves clear failure messages, and automatically covers future workflow files without another policy split.
+- ***What trade-off did the team accept?***
+  - More PRs will now fail fast on incomplete narrative or workflow-acknowledgement details, so contributors must keep the template sections and protected-path notes up to date before review.
+
+---
+
+### S0-D4 - Align the OpenCode bash allowlist with the CLI commands the repo actually needs
+
+- ***What was built?***
+  - `opencode.json` now explicitly allows `printf *` and the spaced `git log *` matcher that the current repo-control workflows already rely on.
+- ***Why was it chosen?***
+  - The shell allowlist had drifted from the real command shapes the governed repo-control flow uses, which could block valid local automation or force awkward command rewrites.
+- ***What boundaries does it own?***
+  - OpenCode bash-command permissions for low-risk local inspection helpers that PM and repo-control workflows need during governed execution.
+- ***What breaks if it changes?***
+  - Valid local command paths can be denied unexpectedly, and repo-control automation can drift toward less direct shell patterns just to satisfy stale permission rules.
+- ***What known edge cases or failure modes matter here?***
+  - The allowlist must stay narrow; adding broad shell permissions would weaken guardrails, while overly specific stale patterns would keep breaking legitimate commands.
+- ***Why does this work matter?***
+  - It keeps the tool policy aligned with the commands the repo actually expects during governed execution.
+- ***What capability does it unlock?***
+  - PM and related repo-control flows can keep using the expected `git log` and formatting paths without permission mismatches.
+- ***Why is the chosen design safer or more scalable?***
+  - Small, explicit allowlist repairs preserve the deny-by-default posture while reducing avoidable friction in everyday governed workflows.
+- ***What trade-off did the team accept?***
+  - The repo must keep reviewing shell-allowlist changes carefully because even tiny permission edits affect operator behavior across the tool surface.
+
+---
+
+### S0-D4 - Rename the root legal files to explicit markdown filenames and repair the repo references
+
+- ***What was built?***
+  - The root legal docs now live as `LICENSE.md` and `NOTICE.md`, and the matching repo references in `README.md`, `SECURITY.md`, `GOVERNANCE.md`, `CLA.md`, and planning docs were updated to the new explicit markdown filenames.
+- ***Why was it chosen?***
+  - The repo already treats these as markdown documents, so the filename change keeps the root legal surfaces explicit and prevents broken links after the human rename landed.
+- ***What boundaries does it own?***
+  - Root legal-document naming, the canonical repo references to those files, and the planning-tree examples that describe the committed repo shape.
+- ***What breaks if it changes?***
+  - Root docs and planning material can point at missing files, contributors can miss the canonical legal text, and the repo can drift between actual filenames and documented references.
+- ***What known edge cases or failure modes matter here?***
+  - The rename must keep every root-policy reference aligned at once; partial link updates would leave the repo in a broken but plausible state.
+- ***Why does this work matter?***
+  - It keeps the legal boundary readable and prevents contributor-facing docs from pointing at stale filenames after the rename.
+- ***What capability does it unlock?***
+  - Later legal or governance updates can treat the markdown files as the stable homes without carrying filename ambiguity forward.
+- ***Why is the chosen design safer or more scalable?***
+  - Explicit markdown filenames match the repo’s document surfaces, reduce broken-link risk, and make future doc tooling behavior easier to explain.
+- ***What trade-off did the team accept?***
+  - Existing references had to be updated together, so even a small rename carried cross-doc coordination cost.
+
+---
+
+### S0-D4 - Replace the misleading pages deploy stub with honest release-preparation scaffolding
+
+- ***What was built?***
+  - `.github/workflows/cd.yml` now runs `tools/script/release.py --ci prepare`, `tools/script/release.py` emits release-readiness metadata without deploying anything, and the old Pages deploy workflow was retired so D4 no longer implies D5-level delivery maturity.
+- ***Why was it chosen?***
+  - The repo needed a visible release-control seam in Sprint 0, but the existing Pages deploy workflow oversold deployment maturity and hid too much behavior in YAML.
+- ***What boundaries does it own?***
+  - Manual release-preparation control flow, honest release-readiness messaging, and the boundary that D4 prepares releases while D5 will own real rollout behavior.
+- ***What breaks if it changes?***
+  - Reviewers and operators can mistake release scaffolding for a real deployment pipeline, workflow names can promise runtime behavior the repo does not own yet, and future rollout work can lose one obvious place to start from.
+- ***What known edge cases or failure modes matter here?***
+  - The workflow must stay manual-only, the script must reject deploy requests clearly, and later D5 work must extend this seam instead of reintroducing a second release path.
+- ***Why does this work matter?***
+  - It gives the repo a truthful release-control checkpoint before runtime parity exists, which keeps CI/CD vocabulary aligned with actual repo maturity.
+- ***What capability does it unlock?***
+  - Later D5 rollout work can extend one named release seam instead of starting from a misleading Pages deployment stub.
+- ***Why is the chosen design safer or more scalable?***
+  - A thin workflow wrapper plus one script seam keeps release policy explainable, reviewable, and easy to roll back while the platform story is still forming.
+- ***What trade-off did the team accept?***
+  - The repo now has a release workflow that intentionally stops short of deployment, so operators must accept a more modest but honest control loop until D5 lands.
+
+---
+
+### S0-D4 - Add a dedicated reporter lane and a local coordination reminder loop
+
+- ***What was built?***
+  - `.opencode/agents/reporter.md` now defines a packet-only coordination lane, PM can route packet normalization to it, and `tools/script/coordination_status.py` now exposes a local `watch` runner that reuses the shared reminder runtime every minute instead of creating a second coordination engine.
+- ***Why was it chosen?***
+  - D4 needed stronger progress-report automation, but adding another script or machine-specific scheduler artifact would have split coordination logic and made local-only reporting harder to explain and review.
+- ***What boundaries does it own?***
+  - Reporter-owned packet normalization, the PM handoff boundary for coordination formatting, and the local reminder loop that surfaces overdue scopes while keeping all coordination policy inside `tools/script/coordination_status.py`.
+- ***What breaks if it changes?***
+  - PM and subagents can drift into competing packet formats, overdue scopes can stop surfacing consistently, and local operators can lose the one obvious entrypoint for recurring coordination checks.
+- ***What known edge cases or failure modes matter here?***
+  - The reporter lane must stay narrow enough that it never takes PM orchestration ownership, the watch loop must stay honest about being local-only, and overdue output must remain per-scope so one stale workstream does not hide another healthy one.
+- ***Why does this work matter?***
+  - It turns the coordination packet into a first-class repo-control contract and gives active work a repeatable local reminder loop before more agents or workstreams overlap.
+- ***What capability does it unlock?***
+  - Later scopes can reuse one normalized reporting lane and one minute-level reminder loop instead of rebuilding coordination format or scheduling behavior ad hoc.
+- ***Why is the chosen design safer or more scalable?***
+  - Reusing the shared coordination runtime keeps policy in one home, reduces drift across PM and subagents, and lets local schedulers call one stable command instead of proliferating wrappers.
+- ***What trade-off did the team accept?***
+  - Operators still need to choose how to launch the local reminder loop on their machines, so the repo documents safe entrypoints without pretending a committed machine-specific scheduler file would generalize cleanly.
+
+---
+
+### S0-D4 - Separate docs, protected-path, and CLA gates into explicit pull-request workflows
+
+- ***What was built?***
+  - `.github/workflows/docs-guard.yml`, `.github/workflows/protected-paths.yml`, and the updated `.github/workflows/cla-check.yml` now enforce docs and ADR coverage for governed changes, protected-path acknowledgement for high-blast-radius files, and the repository-owner CLA exception already documented in `CLA.md`.
+- ***Why was it chosen?***
+  - D4 needed merge-blocking automation for reviewer-visible PR obligations, but folding every rule into `repo-verify.yml` or `tools/script/verify.py` would have blurred ownership and made the workflow surface harder to explain.
+- ***What boundaries does it own?***
+  - Pull-request body contract enforcement for docs and ADR deltas, protected-path acknowledgement across repo-control workflows and the other protected-path categories named in `AGENTS.md`, and CLA phrase handling for outside contributors versus repository-owner-authored PRs.
+- ***What breaks if it changes?***
+  - Governed repo-control changes can land without durable reasoning, protected files can merge without explicit risk acknowledgement, or the CLA gate can block the wrong authors.
+- ***What known edge cases or failure modes matter here?***
+  - The workflows must use the repo's exact protected-path vocabulary, distinguish repo-control workflows from true release scaffolding, avoid treating `docs/coordination/**` as a merge target, and keep the owner exception narrow enough that outside contributors still need the exact phrase from `CLA.md`.
+- ***Why does this work matter?***
+  - It turns the PR template obligations into explicit merge gates instead of leaving docs, protected-path notes, and CLA nuance to reviewer memory.
+- ***What capability does it unlock?***
+  - Later sprint work can rely on clear PR-level guardrails for governed changes before release scaffolding and runtime parity work land.
+- ***Why is the chosen design safer or more scalable?***
+  - Separate workflows keep each gate explainable, reduce policy overlap with the central repo verifier, and make later changes easier to review and roll back.
+- ***What trade-off did the team accept?***
+  - The repo now carries more workflow files and PR-body contract logic, so later governance edits must keep the template, docs, and workflow checks aligned.
+
+---
+
+### S0-D4 - Keep repo verification policy in one central script seam
+
+- ***What was built?***
+  - `tools/script/verify.py`, `.github/workflows/repo-verify.yml`, and `docs/testing.md` were aligned so merge-blocking repo verification stays owned by one central Python entrypoint and the workflow remains a thin CI wrapper around it.
+- ***Why was it chosen?***
+  - D4 needs automation that blocks bad changes before merge, but pushing policy logic into YAML would duplicate rules, hide failure reasoning, and make later workflow slices harder to review.
+- ***What boundaries does it own?***
+  - The shared repo-verification seam for script explainability, central workflow delegation, and CI-safe local-versus-CI behavior.
+- ***What breaks if it changes?***
+  - The repo-verify workflow can drift into a second policy engine, contributors can get inconsistent failure output, and later D4 workflows can start re-implementing checks in parallel.
+- ***What known edge cases or failure modes matter here?***
+  - CI checkouts do not include local-only coordination artifacts, so the verifier must keep that case explicit, and the workflow must stay thin enough that docs-guard and protected-path slices can add separate enforcement without overlap.
+- ***Why does this work matter?***
+  - It keeps D4 automation explainable and preserves one obvious place to extend repo verification as the governed rebuild grows.
+- ***What capability does it unlock?***
+  - Later workflows can compose around a stable central verifier instead of guessing which checks belong in Python versus YAML.
+- ***Why is the chosen design safer or more scalable?***
+  - A single verifier seam reduces duplicate policy, keeps failure messaging consistent, and lowers the review burden when later quality gates land.
+- ***What trade-off did the team accept?***
+  - The repo verifier now owns a clearer contract with CI, so later changes to `.github/workflows/repo-verify.yml` must preserve that thin-wrapper boundary instead of treating the workflow as a general automation scratchpad.
+
+---
+
+### S0-D4 - Standardize the PR review contract and centralize the CLA owner exception
+
+- ***What was built?***
+  - The D4 planning packet, `.github/pull_request_template.md`, `.opencode/commands/pr-prepare.md`, `CLA.md`, and `CONTRIBUTING.md` were aligned around one reviewer-facing PR structure, one canonical CLA confirmation phrase, and one documented repository-owner exception for the CLA phrase check.
+- ***Why was it chosen?***
+  - The repo already had partial PR and CLA guidance, but the template, PR-prep command, and contributor docs could drift from each other and force workflow automation to guess which wording was canonical.
+- ***What boundaries does it own?***
+  - Reviewer-facing PR narrative structure, canonical CLA confirmation wording, and the documentation boundary between outside contributors and repository-owner-authored PRs.
+- ***What breaks if it changes?***
+  - PR preparation can produce the wrong sections, workflow automation can block the wrong authors, and reviewers can lose a stable contract for summary, verification, docs, and protected-path notes.
+- ***What known edge cases or failure modes matter here?***
+  - Owner-authored PRs need a narrow exception without weakening the CLA requirement for outside contributors, and the PR template plus PR-prep command must stay structurally identical enough to avoid future drift.
+- ***Why does this work matter?***
+  - It gives the later D4 workflow changes one durable policy source instead of scattering PR and CLA semantics across markdown files, chat, and YAML.
+- ***What capability does it unlock?***
+  - Later automation can enforce PR structure and CLA rules against a stable documented contract.
+- ***Why is the chosen design safer or more scalable?***
+  - Centralizing the policy details reduces duplicate rule text and makes later workflow or script changes easier to audit for drift.
+- ***What trade-off did the team accept?***
+  - The repository now carries a slightly more explicit PR and CLA narrative, which requires future repo-control edits to keep the shared structure in sync.
+
+---
+
 ### S0-D3 - Reconcile planning drift to current repo reality
 
 - ***What was built?*** 

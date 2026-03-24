@@ -76,6 +76,8 @@ Use the same structure in heartbeat notes and in chat updates:
 - active paths
 - next expected update time
 
+When PM routes reporting work to `reporter`, that lane must emit the exact same packet shape instead of inventing a parallel format.
+
 Heartbeat notes must also include:
 
 - `Time`
@@ -85,7 +87,7 @@ Heartbeat notes must also include:
 - `Current Paths`
 - `Next Check-In Due`
 
-Subagent runs may share the parent scope note, but they must identify themselves in the `Agent` field and emit their own structured chat completion update. Until plural-workstream automation lands, PM remains responsible for keeping shared coordination evidence current.
+Subagent runs may share the parent scope note, but they must identify themselves in the `Agent` field and emit their own structured chat completion update. PM remains responsible for keeping shared coordination evidence current, including plural active-workstream dashboards when more than one scope is live.
 
 ## Coordination Artifacts
 
@@ -94,6 +96,23 @@ Subagent runs may share the parent scope note, but they must identify themselves
 - add stable, scope-prefixed notes in `docs/coordination/notes/` for heartbeats
 - add checkpoint notes in `docs/coordination/checkpoints/` after meaningful steps
 - add handoff notes in `docs/coordination/handoffs/` before switching lanes
+
+When more than one scope is active, `docs/coordination/active.md` may use an `## Active Workstreams` section with one `###` block per live scope. Each block must include:
+
+- `Scope`
+- `Current Agent`
+- `Current Status`
+- `Active Paths`
+- `Active Subagents`
+- `Last Heartbeat`
+- `Next Expected Heartbeat`
+- `Latest Checkpoint`
+- `Blockers`
+- `Next Recommended Action`
+
+Use a comma-separated list or `none` for `Active Subagents`.
+
+The legacy single-scope top-level `Active Scope` shape remains valid when only one scope is active.
 
 ## Chat Update Minimum
 

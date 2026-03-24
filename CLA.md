@@ -36,7 +36,7 @@ your Contribution as part of the Project or derivative works maintained by the P
 ## 4) Outbound licensing of CE
 
 You understand that:
-- Food Run CE may be distributed under the open source license stated in the repository `LICENSE` file
+- Food Run CE may be distributed under the open source license stated in the repository `LICENSE.md` file
 - your Contribution may therefore be distributed to the public under that open source license as part of CE
 - this Agreement is separate from, and in addition to, the outbound open source license applied to CE
 
@@ -74,6 +74,8 @@ You accept this Agreement by:
 
 If CLA automation is enabled, your PR may be blocked until the required confirmation is present.
 
+When the repository owner opens a pull request against this repository, that pull request may omit the confirmation line because the repository owner already controls the repository and the downstream rights posture that this Agreement is meant to document for outside contributions.
+
 ---
 
-Last updated: 2026-03-20
+Last updated: 2026-03-21

@@ -1,0 +1,121 @@
+## TL;DR
+# - checks PRs for edits to protected repo-control and high-blast-radius paths
+# - requires explicit protected-path notes in the PR body when those paths change
+# - fails with the exact protected files and categories that need human attention
+
+name: protected paths
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  verify_paths:
+    name: verify protected path notes
+    runs-on: ubuntu-latest
+
+    steps:
+      # Inspect the PR diff and body directly through GitHub metadata.
+      - name: check protected path acknowledgement
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const body = (pr && pr.body) ? pr.body : "";
+            const pullNumber = pr.number;
+
+            const protectedMatchers = [
+              ["release workflows", /^\.github\/workflows\/(cd|release.*)\.yml$/],
+              ["repo-control workflows", /^\.github\/workflows\//],
+              ["release workflows", /^tools\/script\/release\.py$/],
+              ["auth or session policy", /^apps\/domain\/auth\.py$/],
+              ["auth or session policy", /^apps\/api\/middleware\.py$/],
+              ["auth or session policy", /^shared\/schema\/auth\.py$/],
+              ["migrations and schema-destructive changes", /^apps\/domain\/migrate\//],
+              ["tenancy and role enforcement", /^apps\/domain\/auth\.py$/],
+              ["tenancy and role enforcement", /^shared\/schema\/auth\.py$/],
+              ["secrets handling", /^\.env(\..+)?$/],
+              ["secrets handling", /^platform\/infra\//],
+              ["queue replay controls", /^apps\/worker\/(queue|retry)\.py$/],
+              ["failover controls", /^platform\/(edge|k8s)\//],
+              ["failover controls", /^tools\/chaos\//],
+              ["AGENTS.md", /^AGENTS\.md$/],
+              ["opencode.json", /^opencode\.json$/],
+              [".opencode/**", /^\.opencode\//],
+            ];
+
+            function escapeRegex(value) {
+              return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+            }
+
+            function readSection(markdown, heading) {
+              const pattern = new RegExp(`##\\s+${escapeRegex(heading)}\\s*\\n([\\s\\S]*?)(?=\\n##\\s+|$)`, "i");
+              const match = markdown.match(pattern);
+              return match ? match[1].trim() : "";
+            }
+
+            function hasRealProtectedNotes(text) {
+              if (!text) {
+                return false;
+              }
+
+              if (/protected paths touched:\s*-\s*none/i.test(text)) {
+                return false;
+              }
+
+              const normalized = text
+                .replace(/`[^`]*`/g, "")
+                .replace(/^[-*]\s*/gm, "")
+                .replace(/\s+/g, " ")
+                .trim()
+                .toLowerCase();
+
+              return !["_", "none", "n/a", "not needed"].includes(normalized);
+            }
+
+            const files = await github.paginate(github.rest.pulls.listFiles, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pullNumber,
+              per_page: 100,
+            });
+
+            const changedFiles = files.map((file) => file.filename);
+            const protectedHits = changedFiles
+              .map((filename) => {
+                const categories = [
+                  ...new Set(
+                    protectedMatchers
+                      .filter(([, pattern]) => pattern.test(filename))
+                      .map(([category]) => category)
+                  ),
+                ];
+                return categories.length > 0 ? { filename, categories } : null;
+              })
+              .filter(Boolean);
+
+            if (protectedHits.length === 0) {
+              core.info("no protected paths changed; protected-path workflow passes.");
+              return;
+            }
+
+            const protectedNotes = readSection(body, "Protected-path and hotspot notes");
+            if (!hasRealProtectedNotes(protectedNotes)) {
+              core.setFailed(
+                [
+                  "protected paths changed without explicit PR acknowledgement.",
+                  "",
+                  "protected files:",
+                  ...protectedHits.map((hit) => `- ${hit.filename} (${hit.categories.join(', ')})`),
+                  "",
+                  "update the 'Protected-path and hotspot notes' section in the PR body with the risk, scope, and acknowledgement for these files.",
+                ].join("\n")
+              );
+              return;
+            }
+
+            core.info("protected path notes detected for protected file changes.");
