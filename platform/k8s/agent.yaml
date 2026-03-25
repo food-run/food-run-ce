@@ -1,0 +1,80 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+TL;DR  -->  Agent service Kubernetes manifest for local k3s
+
+- Role:
+    --> One manifest for the Agent service
+    --> Python LangGraph/LangSmith runtime
+    --> Uses python:3.11-slim image from platform/docker/agent.Dockerfile
+
+- Consumed By:
+    --> kubectl apply -f platform/k8s/agent.yaml
+    --> tools/script/dev.py
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: agent
+  labels:
+    app: agent
+    tier: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: agent
+  template:
+    metadata:
+      labels:
+        app: agent
+        tier: backend
+    spec:
+      containers:
+        - name: agent
+          image: foodrun/agent:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8082
+              name: http
+          # Liveness probe - /health endpoint
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          # Readiness probe - /ready endpoint
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 15
+          env:
+            - name: SERVICE_NAME
+              value: "agent"
+            - name: SERVICE_ENV
+              value: "local"
+            - name: RELEASE_ID
+              value: "dev-build"
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi"
+              cpu: "1000m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: agent
+  labels:
+    app: agent
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8082
+      targetPort: http
+      name: http
+  selector:
+    app: agent

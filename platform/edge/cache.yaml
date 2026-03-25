@@ -1,0 +1,22 @@
+# Edge cache policy vocabulary
+# Sprint 0 baseline - not production-hardened
+---
+cache:
+  default_ttl: 300
+  bypass_paths:
+    - /api/**
+    - /health
+    - /ready
+    - /metrics
+  cacheable_methods:
+    - GET
+    - HEAD
+  vary_headers:
+    - Accept
+    - Accept-Language
+  bypass_conditions:
+    - Cookie present
+    - Authorization header
+    - Set-Cookie response header
+    - Cache-Control: no-cache
+    - Cache-Control: no-store

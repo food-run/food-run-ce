@@ -1,0 +1,52 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+TL;DR  -->  Migration job Kubernetes manifest for local k3s
+
+- Role:
+    --> One manifest for database migration jobs
+    --> Runs migrations and exits (job-style, not long-running)
+    --> Uses python:3.11-slim image
+
+- Consumed By:
+    --> kubectl apply -f platform/k8s/migrate.yaml
+    --> tools/script/dev.py
+
+- Notes:
+    --> migrate is a job, not a persistent service
+    --> Runs to completion and exits
+    --> Can be run on-demand or as part of deployment pipeline
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: migrate
+  labels:
+    app: migrate
+    tier: backend
+spec:
+  ttlSecondsAfterFinished: 300  # Cleanup after 5 minutes
+  template:
+    metadata:
+      labels:
+        app: migrate
+        tier: backend
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: migrate
+          image: foodrun/api:latest
+          imagePullPolicy: IfNotPresent
+          command: ["python", "-m", "apps.domain.manage", "migrate"]
+          env:
+            - name: SERVICE_NAME
+              value: "migrate"
+            - name: SERVICE_ENV
+              value: "local"
+            - name: RELEASE_ID
+              value: "dev-build"
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "50m"
+            limits:
+              memory: "256Mi"
+              cpu: "250m"

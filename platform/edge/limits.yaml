@@ -1,0 +1,33 @@
+# Edge request/connection limits
+# Sprint 0 baseline - conservative, documented as defaults
+---
+limits:
+  # Request size limits (bytes)
+  request:
+    # Maximum request body size
+    max_body_size: 1048576  # 1MB
+    # Maximum header size
+    max_header_size: 8192   # 8KB
+
+  # Connection limits
+  connections:
+    # Maximum concurrent connections per client
+    max_per_client: 100
+    # Maximum requests per connection
+    max_per_connection: 1000
+
+  # Rate limiting placeholder (off by default in Sprint 0)
+  rate:
+    enabled: false
+    # Placeholder values for later:
+    # requests_per_second: 100
+    # burst: 200
+
+  # Timeout limits (seconds)
+  timeouts:
+    # Idle connection timeout
+    idle: 60
+    # Request processing timeout
+    request: 30
+    # Upgrade (WebSocket) timeout
+    upgrade: 60

@@ -8,7 +8,9 @@ Food Run is a meal planning platform that helps home cooks turn a week’s worth
 
 > ***Live Demo:***  [https://food-run.github.io/food-run-ce/](https://food-run.github.io/food-run-ce/)
 
+
 ---
+
 
 ## TL;DR
 
@@ -17,13 +19,19 @@ Food Run is being rebuilt from a validated prototype into a multi-surface produc
 ### Quick Navigation
 
 - Technical Docs  →  `docs/`
-  - Repo Layout Rules  →  [`docs/repo.md`](docs/repo.md)
+  - [`docs/repo.md`](docs/repo.md)  →  explains repo layout rules, active versus archived structure, and path ownership
+  - [`docs/adr.md`](docs/adr.md)  →  records durable technical and process decisions
+  - [`docs/architecture.md`](docs/architecture.md)  →  system design diagrams, architecture breakdowns, and maps the rebuild's runtime and boundary posture
+  - [`docs/agent.md`](docs/agent.md)  →  explains governed agent workflow behavior
+  - [`docs/testing.md`](docs/testing.md)  →  captures verification posture and testing layers
+  - [`docs/operations.md`](docs/operations.md)  →  captures operator-facing runtime and release expectations
+- Workflow Coordination
   - Planning Packets  →  `docs/planning/`
   - Live Coordination  →  `docs/coordination/`
   - Legacy Archive Guide  →  [`docs/legacy-v0.md`](docs/legacy-v0.md)
   - Sprint 0 Overview  →  [`docs/planning/sprint-0/overview.md`](docs/planning/sprint-0/overview.md)
 - Preserved Prototype Snapshot  →  [`legacy-v0/README.md`](legacy-v0/README.md)
-- Repo Operating Contract  →  [`AGENTS.md`](AGENTS.md)
+- Repo Operating Contract (Agentic AI Harness)  →  [`AGENTS.md`](AGENTS.md)
   - Agents  →  `.opencode/agents/`
   - Commands  →  `.opencode/commands/`
   - Rules  →  `.opencode/rules/`
@@ -43,7 +51,6 @@ The intent of Food Run CE is to provide a public community edition while preserv
 - release authority
 - trademark and brand use
 - any separate hosted, commercial, enterprise, support, or partner offerings maintained by the Project Owner
-
 
 ---
 
@@ -129,54 +136,31 @@ The active rebuild tree is now seeded under `apps/`, `shared/`, and `tools/`. La
 - later Sprint 0 work will extend platform parity, deepen the existing quality gates, add deeper docs, and seed runtime observability
 - future feature work should extend the current committed rebuild structure rather than recreate stale packet-era homes
 
-## Agent-Governed Rebuild
+### Agent-Governed Rebuild
 
 Food Run now uses a governed rebuild workflow. `AGENTS.md` is the always-on operating contract, `opencode.json` defines repo-level OpenCode behavior, and `.opencode/` holds lane docs, commands, rules, and skills that extend the same operating theory.
 
 When planning packets drift from current committed repo reality, the default behavior is to refine the packet to the committed permanent structure rather than recreate older filenames or duplicate control surfaces.
 
-## Technical Docs
 
-The durable docs spine lives in `docs/`.
+---
 
-- `docs/repo.md` explains active versus archived structure and path ownership
-- `docs/adr.md` records durable technical and process decisions
-- `docs/architecture.md` maps the rebuild's runtime and boundary posture
-- `docs/agent.md` explains governed agent workflow behavior
-- `docs/testing.md` captures verification posture and testing layers
-- `docs/operations.md` captures operator-facing runtime and release expectations
 
-If one of these durable homes is missing, stub only that exact permanent file, and only when the expected content is not already sufficiently covered elsewhere.
+## Contributions
 
-## How Changes Become Mergeable
+Contributions are welcome, but acceptance is at maintainer discretion. Do not extend legacy or prototype-only surfaces with new implementation work unless maintainers explicitly approve it. Changes become mergeable by extending the current committed repo structure, keeping coordination current, and updating the matching durable docs when shared understanding changes. 
 
-Changes become mergeable by extending the current committed repo structure, keeping coordination current, and updating the matching durable docs when shared understanding changes.
+In general:
+- new work should follow the active rebuild direction, so open the smallest relevant planning packet and `AGENTS.md`
+- large architectural changes should be discussed before implementation
+- legacy paths should not be extended unless maintainers explicitly approve it
 
-- open the smallest relevant planning packet and `AGENTS.md`
+Maintainers may narrow, defer, or reject work that does not align with the current roadmap. Therefore, contributions must:
 - prefer reusing current permanent homes over introducing duplicate structures
 - update root guidance and technical docs when repo-control behavior changes
 - pass the repo verification and review gates before closeout
 
-## Merge Discipline
-
-- use `.github/pull_request_template.md` and `.opencode/commands/pr-prepare.md` together so the branch summary, verification, docs delta, protected-path notes, and CLA wording stay aligned
-- update `docs/adr.md` for meaningful repo-control and shared-understanding changes before treating a branch as PR-ready
-- expect merge-gate automation in `.github/workflows/repo-verify.yml`, `.github/workflows/docs-guard.yml`, `.github/workflows/protected-paths.yml`, `.github/workflows/cla-check.yml`, and `.github/workflows/cd.yml` to enforce the documented repo contract
-
-## Protected Paths
-
-- protected surfaces include `.github/workflows/**`, `.opencode/**`, `AGENTS.md`, `opencode.json`, auth/session policy, migrations, tenancy or role enforcement, secrets handling, queue replay controls, and failover controls
-- changes on those paths need explicit risk acknowledgement, narrow diffs, and matching durable docs when they alter shared understanding
-
-## CI and Docs Expectations
-
-- keep `tools/script/verify.py`, `tools/script/coordination_status.py`, and `tools/script/release.py` as the central script seams instead of duplicating policy in workflow YAML
-- keep `docs/testing.md`, `docs/operations.md`, and `docs/adr.md` aligned with the actual workflow and script behavior
-- treat the local `python3 tools/script/coordination_status.py watch` loop as operator-owned coordination support, not as CI-owned automation
-
----
-
-## Where To Start
+### Where To Start
 
 Before opening substantial work, review:
 - [`LICENSE.md`](LICENSE.md)
@@ -189,15 +173,27 @@ Before opening substantial work, review:
   - [`docs/repo.md`](docs/repo.md)
   - [`AGENTS.md`](AGENTS.md)
 
-### Working Model
+### Merge Discipline
 
-In general:
-- new work should follow the active rebuild direction
-- large architectural changes should be discussed before implementation
-- legacy paths should not be extended unless maintainers explicitly approve it
-- maintainers may narrow, defer, or reject work that does not align with the current roadmap
+- use `.github/pull_request_template.md` and `.opencode/commands/pr-prepare.md` together so the branch summary, verification, docs delta, protected-path notes, and CLA wording stay aligned
+- update `docs/adr.md` for meaningful repo-control and shared-understanding changes before treating a branch as PR-ready
+- expect merge-gate automation in `.github/workflows/repo-verify.yml`, `.github/workflows/docs-guard.yml`, `.github/workflows/protected-paths.yml`, `.github/workflows/cla-check.yml`, and `.github/workflows/cd.yml` to enforce the documented repo contract
+
+### Protected Paths
+
+- protected surfaces include `.github/workflows/**`, `.opencode/**`, `AGENTS.md`, `opencode.json`, auth/session policy, migrations, tenancy or role enforcement, secrets handling, queue replay controls, and failover controls
+- changes on those paths need explicit risk acknowledgement, narrow diffs, and matching durable docs when they alter shared understanding
+
+### CI and Docs Expectations
+
+- keep `tools/script/verify.py`, `tools/script/coordination_status.py`, and `tools/script/release.py` as the central script seams instead of duplicating policy in workflow YAML
+- keep `docs/testing.md`, `docs/operations.md`, and `docs/adr.md` aligned with the actual workflow and script behavior
+- if a durable doc is missing, stub only that exact permanent file, and only when the expected content is not already sufficiently covered elsewhere
+- treat the local `python3 tools/script/coordination_status.py watch` loop as operator-owned coordination support, not as CI-owned automation
+
 
 ---
+
 
 ## License And Project Boundary
 
@@ -227,7 +223,7 @@ Please do **not** report vulnerabilities in public issues, pull requests, or dis
 
 The Project Owner may maintain separate hosted, commercial, enterprise, support, or partner offerings outside the Community Edition.
 
-### Forks and downstream use
+### Forks and Downstream Use
 
 Forks are allowed under the project’s software license, but forks and hosted derivatives must respect the trademark policy in [`TRADEMARKS.md`](TRADEMARKS.md).
 
@@ -236,20 +232,8 @@ In particular:
 - modified or hosted versions must not present themselves as the official Food Run project without written permission
 - forks are encouraged to provide clear factual acknowledgment when referencing the upstream project
 
-### Contribution boundary
-
-Contributions are welcome, but acceptance is at maintainer discretion. Do not extend legacy or prototype-only surfaces with new implementation work unless maintainers explicitly approve it.
-
-Treat preserved legacy material as reference-only unless the roadmap says otherwise.
-
-Please keep contributions:
-- scoped
-- reviewable
-- well explained
-- aligned with the rebuild direction
-- consistent with documented repo boundaries
-
 
 ---
+
 
 Last updated: 2026-03-20

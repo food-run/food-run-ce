@@ -12,7 +12,45 @@ TL;DR  -->  public API route registration surface
 
 - Exports:
     --> API route registration surface
+    --> health_routes, ready_routes
 
 - Consumed By:
     --> local operators and implementers extending the public API route map
+    --> apps/api/main.py
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  """
+# ---------- health routes ----------
+# These routes are used by k8s liveness/readiness probes
+# and should not require authentication
+
+health_routes = {
+    "GET /health": "Liveness probe - service is running",
+    "GET /ready": "Readiness probe - service dependencies ready",
+}
+
+
+def register_health_routes(app):
+    """Register health and readiness endpoints.
+    
+    TODO: Replace with actual route registration
+    # from apps.api.main import health, ready
+    # app.add_route("/health", health)
+    # app.add_route("/ready", ready)
+    """
+    pass
+
+
+# ---------- placeholder route registration ----------
+# TODO: Replace with actual route composition
+# from fastapi import FastAPI
+# register_health_routes(app)
+
+
+# ---------- route conventions ----------
+# Per D5 clarification:
+# - /health - liveness (always available)
+# - /ready - readiness (depends on dependencies)
+# - /metrics - reserved for later Prometheus exposure
+# - /info - runtime identity (optional, non-standard)
+#
+# All health endpoints should be unauthenticated and
+# not require any dependencies to be available.

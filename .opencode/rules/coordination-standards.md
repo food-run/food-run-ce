@@ -127,6 +127,30 @@ Each running progress summary should include:
 - active paths
 - next expected update time if work is still active
 
+## Micro-Commit Rhythm
+
+When executing tasks within a deliverable or task scope:
+
+- create one small, focused commit per file or logical group of files
+- keep commits narrow enough to be meaningful rollback points
+- use Conventional Commit format with clear English subjects (12-22 words)
+- prefer multiple micro-commits over one large checkpoint that mixes unrelated changes
+- record commit hashes in the coordination file after each task completes
+
+Example for a deliverable with 4 tasks:
+
+```
+T1: 3 micro-commits (one per Dockerfile)
+T2: 3 micro-commits (one per manifest file or logical group)
+T3: 5 micro-commits (one per runtime file)
+T4: 4 micro-commits (edge configs, docs, script)
+```
+
+The coordination file should track:
+- commit count per task
+- commit hash range for each task
+- total micro-commits for the deliverable
+
 ## Non-Goals
 
 - do not block on routine status updates
