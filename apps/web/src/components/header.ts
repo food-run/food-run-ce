@@ -1,5 +1,5 @@
 /*  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-TL;DR  -->  define the shared header template 
+TL;DR  -->  define the shared header template
 
 - Later Extension Points:
     --> Add future shell actions here if reviewer flows need more global controls
