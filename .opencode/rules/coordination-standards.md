@@ -151,6 +151,42 @@ The coordination file should track:
 - commit hash range for each task
 - total micro-commits for the deliverable
 
+## Commit Scope Formatting
+
+When writing Conventional Commits, use the first qualifying parent folder as the scope. The scope should be specific enough to identify the affected area but not so granular that it obscures the bigger picture.
+
+### Scope Rules
+
+- **Format:** `type(scope): message` where scope is the first qualifying parent folder
+- **Type:** Use standard types: `feat`, `fix`, `docs`, `chore`, `refactor`, `test`, `deploy`, etc.
+- **Scope selection:** Choose the first parent folder that provides meaningful context
+
+### Scope Examples
+
+| Change | Correct Scope | Reason |
+|--------|---------------|--------|
+| Changes to `apps/web/package.json` | `apps-web` | First parent folder `apps` is too broad; `apps/web` is specific |
+| Changes to `.github/workflows/cd.yml` | `github` | First parent folder is `.github` |
+| Changes to `docs/adr.md` | `docs` | First parent folder is `docs` |
+| Changes to `shared/contract/http.py` | `shared` | First parent folder is `shared` |
+| Changes to multiple files in `apps/web/src/` | `apps-web` | Still use `apps-web` as the parent |
+| Changes spanning `apps/web/` and `.github/` | `repo` | No common parent; use `repo` |
+
+### Multi-Folder Changes
+
+If a change touches files from multiple different parent folders without a clear common ancestor, use `repo` as the scope. Examples include root-level changes, cross-cutting refactors, or coordinated updates to multiple distinct areas.
+
+### Docs Exception
+
+For documentation changes, always use `docs` as the scope regardless of the folder, as per convention.
+
+### Anti-Patterns to Avoid
+
+- Using leaf folders (e.g., `apps-web-src`) instead of parent folders
+- Using overly broad scopes like `apps` when the change is specific to `apps/web`
+- Using variable names or function names in commit messages
+- Creating scopes that don't map to actual folder names in the repo
+
 ## Non-Goals
 
 - do not block on routine status updates
