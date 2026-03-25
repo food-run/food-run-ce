@@ -1,18 +1,30 @@
 {
+  "compileOnSave": false,
   "compilerOptions": {
+    "outDir": "./dist/out-tsc",
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "declaration": false,
+    "experimentalDecorators": true,
+    "moduleResolution": "bundler",
+    "importHelpers": true,
     "target": "ES2022",
     "module": "ES2022",
-    "moduleResolution": "bundler",
-    "strict": true,
-    "noEmit": true
+    "lib": ["ES2022", "dom"],
+    "useDefineForClassFields": false
   },
-  "x_tldr": "Starter type-checking surface for the Food Run web application boundary.",
-  "x_runtime_role": "Reserve one permanent compiler home for web-specific settings.",
-  "x_later_extension_points": [
-    "Add real path aliases and Angular compiler options here later.",
-    "Keep web-only compiler behavior out of shared seams."
-  ],
-  "files": [
-    "src/main.ts"
-  ]
+  "x_tldr": "The reviewer-visible frontend surface for Food Run, built from the active rebuild tree under apps/web.",
+  "x_runtime_role": "This is the only public frontend source of truth. GitHub Pages publishes the static build output.",
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  }
 }

@@ -8,6 +8,9 @@ dist/
 build/
 server-build/
 
+# Angular CLI cache
+.angular/
+
 # mac-specific metadata files
 .DS_Store
 
