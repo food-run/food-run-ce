@@ -1,0 +1,68 @@
+## TL;DR
+# - builds the Angular app from apps/web
+# - deploys static output to GitHub Pages
+# - this is the honest reviewer-visible frontend surface
+# - GitHub Pages is a static reviewer surface, not proof of full production maturity
+
+name: web pages deploy
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'apps/web/**'
+      - '.github/workflows/web-pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: build web app
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v4
+
+      - name: setup bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.2.17"
+
+      - name: install dependencies
+        working-directory: apps/web
+        run: bun install
+
+      - name: build web app
+        working-directory: apps/web
+        run: bun run build
+
+      - name: upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: apps/web/dist/browser
+
+  deploy:
+    name: deploy to pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: setup pages
+        uses: actions/configure-pages@v5
+
+      - name: deploy to pages
+        id: deployment
+        uses: actions/deploy-pages@v4
