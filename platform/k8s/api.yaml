@@ -1,0 +1,80 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+TL;DR  -->  API service Kubernetes manifest for local k3s
+
+- Role:
+    --> One manifest for the API service
+    --> Python FastAPI/Flask runtime
+    --> Uses python:3.11-slim image from platform/docker/api.Dockerfile
+
+- Consumed By:
+    --> kubectl apply -f platform/k8s/api.yaml
+    --> tools/script/dev.py
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  labels:
+    app: api
+    tier: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+        tier: backend
+    spec:
+      containers:
+        - name: api
+          image: foodrun/api:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+              name: http
+          # Liveness probe - /health endpoint
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 15
+          # Readiness probe - /ready endpoint (depends on dependencies)
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          env:
+            - name: SERVICE_NAME
+              value: "api"
+            - name: SERVICE_ENV
+              value: "local"
+            - name: RELEASE_ID
+              value: "dev-build"
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api
+  labels:
+    app: api
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: http
+      name: http
+  selector:
+    app: api
