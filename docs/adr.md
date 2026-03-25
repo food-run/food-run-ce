@@ -36,6 +36,29 @@ This file is the durable reasoning spine for major Food Run technical and proces
 
 ---
 
+### S0-D5 - Seed container, k8s, and observability surfaces for the first runtime baseline
+
+- ***What was built?***
+  - `platform/docker/` now contains one permanent Dockerfile each for web, api, worker, and agent runtimes; `platform/k8s/` contains matching manifests for each service plus a migration job; `platform/edge/` defines cache, gateway, and limits policy vocabulary; `tools/script/dev.py` provides local orchestration; `apps/api/main.py`, `apps/worker/main.py`, and `apps/agent/main.py` have health/readiness endpoints seeded; `apps/api/middleware.py` provides request correlation via X-Request-ID; and `docs/observability.md` and `docs/resilience.md` establish baseline telemetry and resilience vocabulary.
+- ***Why was it chosen?***
+  - The rebuild needed one honest runtime contract before later work started inventing service-by-service startup assumptions, inconsistent health probes, and ad hoc observability patterns that would require later refactoring.
+- ***What boundaries does it own?***
+  - Container build surfaces, local k3s topology, health/readiness semantics, request correlation vocabulary, and the shared observability model that later feature work extends from.
+- ***What breaks if it changes?***
+  - Later runtime integration can drift into multiple incompatible health patterns, container builds can lose their canonical homes, and observability vocabulary can fragment across services.
+- ***What known edge cases or failure modes matter here?***
+  - The Dockerfiles and k8s manifests seed baseline structure only; they intentionally avoid provider-specific production tuning, secrets, or complex rollout policies that belong in later deliverables.
+- ***Why does this work matter?***
+  - It gives every deployable unit one observable entry point from day one so debugging, monitoring, and deployment work has consistent surfaces to hook into.
+- ***What capability does it unlock?***
+  - Local containerized development, local k3s cluster testing, health-probe integration with orchestrators, request tracing across services, and shared metrics vocabulary for later Prometheus-style monitoring.
+- ***Why is the chosen design safer or more scalable?***
+  - One canonical home per runtime prevents container and manifest duplication; consistent health/readiness naming makes orchestrator integration predictable; and shared observability docs keep telemetry language aligned across services.
+- ***What trade-off did the team accept?***
+  - The seeded surfaces are intentionally thin baselines rather than production-complete configurations, so later work must extend them instead of treating them as final.
+
+---
+
 ### S0-D4 - Make the PR narrative and every workflow edit subject to the documented merge gates
 
 - ***What was built?***
