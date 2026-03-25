@@ -1,27 +1,28 @@
 /*  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-TL;DR  -->  public API runtime entrypoint
+TL;DR  -->  bootstrap the web application
 
 - Later Extension Points:
-    --> Compose routes, middleware, schemas, and startup wiring here
+    --> Add future app-wide bootstrap providers here when frontend seams grow
 
 - Role:
-    --> Establishes the active request-facing runtime entry point for the rebuild API surface
-    --> Owns the startup boundary where route and middleware wiring will later assemble
-    --> Exists as the single executable entry file for the governed API runtime
-    --> Must remain thin: startup and composition only, not a second home for domain logic
+    --> Starts the Angular application from the active rebuild frontend boundary
+    --> Keeps frontend startup wiring in one thin composition file
+    --> Must remain a bootstrap seam, not a second home for page or component logic
 
 - Exports:
-    --> API runtime entry path
+    --> Web runtime bootstrap side effect
 
 - Consumed By:
-    --> local operators starting the API runtime
-    --> platform/docker/api.Dockerfile
-    --> platform/k8s/api.yaml
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  */
+    --> Angular build and serve commands in `apps/web/package.json`
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  */
+
+// ---------- imports and dependencies ----------
 
 import { bootstrapApplication } from '@angular/platform-browser';
-import { appConfig } from './app/config';
-import { AppComponent } from './app/component';
+import { appConfig } from './config';
+import { AppComponent } from './components';
+
+// ---------- bootstrap ----------
 
 bootstrapApplication(AppComponent, appConfig)
   .catch((err) => console.error(err));

@@ -2,8 +2,6 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "newProjectRoot": "projects",
-  "x_tldr": "The reviewer-visible frontend surface for Food Run, built from the active rebuild tree under apps/web.",
-  "x_runtime_role": "This is the only public frontend source of truth for the active rebuild. GitHub Pages publishes the static build output from this boundary.",
   "projects": {
     "web": {
       "projectType": "application",

@@ -1,0 +1,258 @@
+/*  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+TL;DR  -->  shared page-shell and page-specific styles
+
+- Later Extension Points:
+    --> Add later page-specific state styling here when import, recipes, planner, and shopping grow real data flows
+
+- Role:
+    --> Tightens the inner panel spacing for SPA pages
+    --> Adds better heading and subheading rhythm inside section and card containers
+    --> Keeps labels and empty states readable with the updated comic-style typography
+
+- Exports:
+    --> Shared page-shell, form, and recipe-list presentation rules for the active web app
+
+- Consumed By:
+    --> `apps/web/src/styles.css`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  */
+
+.page-section {
+    inline-size: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding: var(--space-sm);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface-muted);
+    border: var(--border-width) solid var(--color-border);
+}
+
+.page-section__title {
+    margin-block-start: var(--space-2xs);
+    margin-block-end: var(--space-xs);
+    color: var(--color-text);
+}
+
+.page-section__description {
+    margin-block-end: var(--space-xs);
+    color: var(--color-text-soft);
+    font-size: var(--font-size-base);
+}
+
+.page-card,
+.page-empty-state,
+.recipe-list-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding: var(--space-sm);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    border: var(--border-width) solid var(--color-border);
+}
+
+.page-card__title,
+.page-empty-state__title,
+.recipe-list-item__title {
+    display: block;
+    margin-block-start: var(--space-2xs);
+    margin-block-end: var(--space-xs);
+    font-size: var(--font-size-h3);
+    font-weight: var(--font-weight-strong);
+    letter-spacing: var(--tracking-heading);
+    line-height: 1.06;
+    color: var(--color-text);
+}
+
+.page-card__body,
+.page-empty-state__body,
+.recipe-list-item__meta {
+    display: block;
+    color: var(--color-text-soft);
+    font-size: var(--font-size-base);
+    line-height: 1.35;
+}
+
+.import-form {
+    display: grid;
+    gap: var(--space-xs);
+    padding: var(--space-sm);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    border: var(--border-width) solid var(--color-border);
+}
+
+.import-form__field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    min-inline-size: 0;
+}
+
+.import-form__field label {
+    padding-inline-start: 1ch;
+    margin-block-start: var(--space-2xs);
+    margin-block-end: var(--space-2xs);
+    color: var(--color-text-soft);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+    font-size: var(--font-size-h3);
+}
+
+.import-form__field input {
+    inline-size: 100%;
+}
+
+.import-form__parse-button {
+    inline-size: 100%;
+}
+
+.import-form__error {
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-sm);
+    background: var(--color-error-soft);
+    color: var(--color-error);
+    font-size: var(--font-size-small);
+}
+
+.import-ingredients {
+    margin-block-start: var(--space-sm);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding: var(--space-sm);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    border: var(--border-width) solid var(--color-border);
+}
+
+.import-ingredients > p {
+    color: var(--color-text-soft);
+    font-size: var(--font-size-small);
+}
+
+.import-ingredients__rows {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.import-ingredients__row {
+    display: grid;
+    grid-template-columns: 1.8fr 1fr 1fr auto;
+    gap: var(--space-xs);
+    align-items: center;
+    padding: var(--space-xs);
+    border-radius: var(--radius-md);
+    background: var(--color-surface-muted);
+    border: var(--border-width) solid var(--color-border);
+}
+
+.import-ingredients__field {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--space-xs) * 0.45);
+    color: var(--color-text-soft);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-label);
+}
+
+.import-ingredients__field input {
+    font-size: var(--font-size-base);
+}
+
+.import-ingredients__remove {
+    background: transparent;
+    color: var(--color-error);
+    border-color: var(--color-error);
+    font-size: var(--font-size-small);
+    padding-inline: var(--space-sm);
+}
+
+.import-ingredients__remove:hover,
+.import-ingredients__remove:focus-visible {
+    background: var(--color-error-soft);
+    border-color: var(--color-error);
+}
+
+.import-ingredients__add {
+    margin-block-start: var(--space-xs);
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--color-on-accent);
+    font-size: var(--font-size-small);
+    inline-size: fit-content;
+    padding-inline: var(--space-sm);
+}
+
+.import-save-form {
+    margin-block-start: var(--space-xs);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.import-save-form__error {
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-sm);
+    background: var(--color-error-soft);
+    color: var(--color-error);
+    font-size: var(--font-size-small);
+}
+
+.import-save-form__success {
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-sm);
+    background: var(--color-secondary-soft);
+    color: var(--color-secondary-strong);
+    font-size: var(--font-size-small);
+}
+
+.import-save-form__submit {
+    inline-size: 100%;
+    background: var(--secondary);
+    border-color: var(--secondary);
+}
+
+.recipe-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.recipe-list-item__source {
+    color: var(--accent);
+    font-size: var(--font-size-small);
+    word-break: break-all;
+}
+
+.recipe-list-item__details {
+    margin-block-start: var(--space-xs);
+    padding: var(--space-sm);
+    border-radius: var(--radius-md);
+    background: var(--color-surface-muted);
+    border: var(--border-width) solid var(--color-border);
+}
+
+.recipe-ingredients-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--space-xs) * 0.7);
+    margin-block-start: var(--space-xs);
+}
+
+.recipe-ingredients-list__item {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5ch;
+}
+
+.recipe-ingredients-list__name {
+    font-weight: var(--font-weight-strong);
+}
+
+.recipe-ingredients-list__meta {
+    color: var(--color-text-soft);
+}

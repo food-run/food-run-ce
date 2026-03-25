@@ -1,0 +1,213 @@
+/*  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+TL;DR  -->  reusable component styles
+
+- Later Extension Points:
+    --> Add later shared control variants here when reviewer flows gain richer interactions
+
+- Role:
+    --> Styles navigation, buttons, inputs, and the theme toggle
+    --> Uses thicker borders and slightly lower text placement for better optical centering
+    --> Increases button letter spacing while preserving the token-driven control system
+
+- Exports:
+    --> Shared control and navigation presentation rules for the active web app
+
+- Consumed By:
+    --> `apps/web/src/styles.css`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  */
+
+input,
+button,
+.nav-button,
+.footer-button,
+.theme-toggle {
+    font-family: inherit;
+}
+
+button,
+.nav-button,
+.footer-button,
+.theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-block-size: var(--control-height);
+    line-height: 1;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+}
+
+button,
+.nav-button,
+.footer-button {
+    font-weight: var(--font-weight-strong);
+    letter-spacing: var(--tracking-button);
+    font-size: var(--font-size-button);
+}
+
+button:focus-visible,
+.nav-button:focus-visible,
+.footer-button:focus-visible,
+.theme-toggle:focus-visible,
+input:focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-focus);
+}
+
+.app-nav {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-xs);
+    width: 100%;
+}
+
+.nav-button {
+    inline-size: 100%;
+    min-inline-size: 0;
+    padding-inline: var(--space-sm);
+    padding-block-start: calc(var(--space-xs) + var(--button-text-nudge));
+    padding-block-end: calc(var(--space-xs) - 0.14rem);
+    border-radius: var(--radius-sm);
+    border: var(--border-width) solid var(--color-border-strong);
+    background: var(--color-surface-raised);
+    color: var(--color-accent-strong);
+    text-transform: uppercase;
+    white-space: normal;
+    text-decoration: none;
+}
+
+.nav-button:hover,
+.nav-button:focus-visible {
+    background: var(--color-accent-soft);
+    border-color: var(--color-accent);
+    color: var(--color-accent-strong);
+    text-decoration: none;
+}
+
+.nav-button--active {
+    background: var(--color-secondary);
+    border-color: var(--color-secondary-strong);
+    color: var(--color-on-secondary);
+}
+
+.nav-button--active:hover,
+.nav-button--active:focus-visible {
+    background: var(--color-secondary-strong);
+    border-color: var(--color-secondary-strong);
+    color: var(--color-on-secondary);
+}
+
+.theme-toggle {
+    inline-size: var(--toggle-size);
+    min-inline-size: var(--toggle-size);
+    block-size: var(--toggle-size);
+    min-block-size: var(--toggle-size);
+    padding: 0;
+    border-radius: 0.9rem;
+    border: var(--border-width) solid var(--color-border-strong);
+    background: var(--color-surface-raised);
+    color: var(--color-text);
+    display: grid;
+    place-items: center;
+}
+
+.theme-toggle:hover,
+.theme-toggle:focus-visible {
+    background: var(--color-accent-soft);
+    border-color: var(--color-accent);
+}
+
+.theme-toggle__icon {
+    font-size: 1.08rem;
+    line-height: 1;
+    transform: translate(0.1rem, 0.07rem);
+}
+
+input[type="text"],
+input[type="url"],
+input[type="number"] {
+    inline-size: 100%;
+    min-block-size: var(--control-height);
+    padding-block: var(--space-xs);
+    padding-inline: var(--space-sm);
+    border-radius: var(--radius-sm);
+    border: var(--border-width) solid var(--color-border-strong);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: var(--tracking-body);
+}
+
+input::placeholder {
+    color: var(--color-text-soft);
+}
+
+input:hover,
+input:focus-visible {
+    border-color: var(--color-accent);
+}
+
+button {
+    padding-inline: var(--space-md);
+    padding-block-start: calc(var(--space-xs) + var(--button-text-nudge));
+    padding-block-end: calc(var(--space-xs) - 0.14rem);
+    border-radius: var(--radius-sm);
+    border: var(--border-width) solid var(--color-accent);
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+    font-size: var(--font-size-button);
+}
+
+button:hover,
+button:focus-visible {
+    background: var(--color-accent-strong);
+    border-color: var(--color-accent-strong);
+    color: var(--color-on-accent);
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
+.footer-button {
+    min-block-size: var(--control-height-sm);
+    padding-inline: var(--space-sm);
+    padding-block-start: calc(var(--space-xs) + var(--button-text-nudge));
+    padding-block-end: calc(var(--space-xs) - 0.16rem);
+    border-radius: var(--radius-sm);
+    border: var(--border-width) solid var(--color-border-strong);
+    background: var(--color-surface-raised);
+    color: var(--color-accent-strong);
+    font-size: var(--font-size-button);
+}
+
+.footer-button:hover,
+.footer-button:focus-visible {
+    background: var(--color-accent-soft);
+    border-color: var(--color-accent);
+    color: var(--color-accent-strong);
+    text-decoration: none;
+}
+
+.footer-button--donate {
+    background: var(--color-secondary);
+    border-color: var(--color-secondary-strong);
+    color: var(--color-on-secondary);
+}
+
+.footer-button--donate:hover,
+.footer-button--donate:focus-visible {
+    background: var(--color-secondary-strong);
+    border-color: var(--color-secondary-strong);
+    color: var(--color-on-secondary);
+}
+
+@media (min-width: 48rem) {
+    .app-nav {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}

@@ -1,56 +1,104 @@
 /*  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-TL;DR  -->  public API runtime entrypoint
+TL;DR  -->  global frontend styles
 
 - Later Extension Points:
-    --> Compose routes, middleware, schemas, and startup wiring here
+    --> Add later shared style imports here when the reviewer shell grows new permanent seams
 
 - Role:
-    --> Establishes the active request-facing runtime entry point for the rebuild API surface
-    --> Owns the startup boundary where route and middleware wiring will later assemble
-    --> Exists as the single executable entry file for the governed API runtime
-    --> Must remain thin: startup and composition only, not a second home for domain logic
+    --> Provides all CSS for the Food Run Angular application
+    --> Uses a system comic-style font stack instead of an imported font
+    --> Imports modular stylesheets from styles/ folder
 
 - Exports:
-    --> API runtime entry path
+    --> Root stylesheet import chain for the active web app
 
 - Consumed By:
-    --> local operators starting the API runtime
-    --> platform/docker/api.Dockerfile
-    --> platform/k8s/api.yaml
+    --> Angular build and serve commands via `apps/web/angular.json`
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  */
 
-/* Legacy v0 theme tokens - imported from styles.css */
-:root {
-  --bg: #ffffff;
-  --primary: #222222;
-  --secondary: #09a57c;
-  --accent: #0077cc;
-  --muted: #f5f5f5;
-  --dark-bg: #121929;
-  --dark-primary: #d5d5d5;
-  --dark-secondary: #02f1a1cd;
-  --dark-accent: #00c8ff;
-  --dark-muted: #0c101b;
-  --color-bg: var(--bg);
-  --color-surface: #ffffff;
-  --color-surface-muted: var(--muted);
-  --color-text: var(--primary);
-  --color-text-soft: #666666;
-  --color-border: rgba(0, 0, 0, 0.12);
-  --color-error: #e63946;
-  --color-error-soft: rgba(230, 57, 70, 0.1);
-  --color-success: #2a9d8f;
-  --color-success-soft: rgba(42, 157, 143, 0.1);
-  --space-xs: min(0.5vh, 1.2vw);
-  --space-sm: min(1vh, 2.5vw);
-  --space-md: min(2vh, 4vw);
-  --space-lg: min(3vh, 6vw);
-  --radius-sm: min(0.6rem, 3vw);
-  --radius-md: min(0.9rem, 4vw);
-  --radius-lg: min(1.2rem, 5vw);
-  --font-body: 'Comic Sans MS', "Comic Mono", "Comic Code", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  --font-size-base: clamp(0.9rem, 0.4vw + 0.8rem, 1rem);
-  --font-size-small: clamp(0.78rem, 0.3vw + 0.7rem, 0.9rem);
-  --font-size-h1: clamp(1.5rem, 0.8vw + 1.2rem, 2rem);
-  --font-size-h2: clamp(1.25rem, 0.6vw + 1rem, 1.6rem);
+@import url("https://fonts.googleapis.com/css2?family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap");
+@import './styles/theme.css';
+@import './styles/layout.css';
+@import './styles/components.css';
+@import './styles/pages.css';
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    min-height: 100vh;
+}
+
+body {
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-body);
+    font-size: var(--font-size-base);
+    line-height: 1.42;
+    letter-spacing: var(--tracking-body);
+    padding: var(--shell-gap);
+    transition: background-color 0.25s ease, color 0.25s ease;
+    overflow-x: hidden;
+}
+
+img,
+svg {
+    max-inline-size: 100%;
+    block-size: auto;
+}
+
+h1,
+h2,
+h3,
+label {
+    font-weight: var(--font-weight-strong);
+    letter-spacing: var(--tracking-heading);
+    line-height: 1.06;
+}
+
+h1 {
+    font-size: var(--font-size-h1);
+}
+
+h2 {
+    font-size: var(--font-size-h2);
+}
+
+h3,
+label {
+    font-size: var(--font-size-h3);
+}
+
+p {
+    margin-block: 0;
+}
+
+a {
+    color: var(--accent);
+    text-decoration: none;
+}
+
+a:hover,
+a:focus-visible {
+    text-decoration: underline;
+}
+
+@media (min-width: 48rem) {
+    .recipe-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+        gap: var(--container-gap);
+    }
+
+    .import-form {
+        grid-template-columns: minmax(0, 1fr) minmax(14rem, 16rem);
+        align-items: end;
+    }
 }
