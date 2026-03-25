@@ -25,10 +25,26 @@ This file is the durable reasoning spine for major Food Run technical and proces
 - ***Why is the chosen design safer or more scalable?***
 - ***What trade-off did the team accept?***
 
+### Splitting Policy
+
+When a deliverable contains multiple distinct concepts, split into separate ADR entries using task-scoped naming (e.g., `S0-D5-T1`, `S0-D5-T2`). Three entries maximum per deliverable. If more are needed, escalate before adding.
+
+### Current Status Maintenance
+
+The `Current Status` section must be updated when:
+- A new deliverable completes (add bullet)
+- A deliverable scope changes (update bullet)
+- Sprint completes (rebuild status for next sprint)
+
 ### Current Status
 
 - Sprint 0 deliverables now backfill durable reasoning in reverse chronological order
-- 
+- **S0-D1** — Repo reset and legacy freeze: Archived prototype to `legacy-v0/`, rewrote repo narrative around active vs archived paths, established path ownership rules
+- **S0-D2** — Active tree and shared seams: Seeded starter files under `apps/` (web, api, domain, worker, agent) and `shared/` (contract, schema, adapter, testkit)
+- **S0-D3** — Agent steering and docs spine: Established governed repo-control surface under `AGENTS.md` and `.opencode/`, created durable docs (architecture, agent, testing, operations, ADRs), standardized coordination cadence
+- **S0-D4** — CI/CD and quality gates: Added repo verification, PR narrative enforcement, protected-path gates, CLA check, release scaffolding
+- **S0-D5** — Runtime parity baseline: Seeded container build surfaces, k8s manifests, health/readiness endpoints, request correlation, observability/resilience vocabulary
+- **S0-D6** — Frontend restore (in progress)
 
 ---
 
@@ -36,26 +52,72 @@ This file is the durable reasoning spine for major Food Run technical and proces
 
 ---
 
-### S0-D5 - Seed container, k8s, and observability surfaces for the first runtime baseline
+### S0-D5-T1 - Seed container build surfaces for every deployable runtime
 
 - ***What was built?***
-  - `platform/docker/` now contains one permanent Dockerfile each for web, api, worker, and agent runtimes; `platform/k8s/` contains matching manifests for each service plus a migration job; `platform/edge/` defines cache, gateway, and limits policy vocabulary; `tools/script/dev.py` provides local orchestration; `apps/api/main.py`, `apps/worker/main.py`, and `apps/agent/main.py` have health/readiness endpoints seeded; `apps/api/middleware.py` provides request correlation via X-Request-ID; and `docs/observability.md` and `docs/resilience.md` establish baseline telemetry and resilience vocabulary.
+  - `platform/docker/api.Dockerfile`, `platform/docker/web.Dockerfile`, `platform/docker/worker.Dockerfile`, and `platform/docker/agent.Dockerfile` now provide permanent container build surfaces using `python:3.11-slim` base images with runtime identity environment variables (`SERVICE_NAME`, `SERVICE_VERSION`, `SERVICE_ENV`, `RELEASE_ID`).
 - ***Why was it chosen?***
-  - The rebuild needed one honest runtime contract before later work started inventing service-by-service startup assumptions, inconsistent health probes, and ad hoc observability patterns that would require later refactoring.
+  - Each deployable unit needed one canonical container home before feature work started, preventing ad hoc Dockerfiles from proliferating across the repo.
 - ***What boundaries does it own?***
-  - Container build surfaces, local k3s topology, health/readiness semantics, request correlation vocabulary, and the shared observability model that later feature work extends from.
+  - Container build surfaces for the web, api, worker, and agent runtimes.
 - ***What breaks if it changes?***
-  - Later runtime integration can drift into multiple incompatible health patterns, container builds can lose their canonical homes, and observability vocabulary can fragment across services.
+  - Later work can lose track of which Dockerfile is canonical, leading to duplicate builds or inconsistent base images.
 - ***What known edge cases or failure modes matter here?***
-  - The Dockerfiles and k8s manifests seed baseline structure only; they intentionally avoid provider-specific production tuning, secrets, or complex rollout policies that belong in later deliverables.
+  - Uses Python 3.11-slim intentionally (not Alpine) per D5 clarification; avoids production-specific tuning that belongs in later deliverables.
 - ***Why does this work matter?***
-  - It gives every deployable unit one observable entry point from day one so debugging, monitoring, and deployment work has consistent surfaces to hook into.
+  - Gives every service a consistent, reproducible build artifact from day one.
 - ***What capability does it unlock?***
-  - Local containerized development, local k3s cluster testing, health-probe integration with orchestrators, request tracing across services, and shared metrics vocabulary for later Prometheus-style monitoring.
+  - Local containerized development, CI image builds, and local k3s deployments.
 - ***Why is the chosen design safer or more scalable?***
-  - One canonical home per runtime prevents container and manifest duplication; consistent health/readiness naming makes orchestrator integration predictable; and shared observability docs keep telemetry language aligned across services.
+  - One Dockerfile per service keeps builds predictable and auditable.
 - ***What trade-off did the team accept?***
-  - The seeded surfaces are intentionally thin baselines rather than production-complete configurations, so later work must extend them instead of treating them as final.
+  - Seeded as thin baselines; later work must extend for production needs.
+
+---
+
+### S0-D5-T2 - Seed local cluster parity manifests for every deployable runtime
+
+- ***What was built?***
+  - `platform/k8s/api.yaml`, `platform/k8s/web.yaml`, `platform/k8s/worker.yaml`, `platform/k8s/agent.yaml`, and `platform/k8s/migrate.yaml` now provide Kubernetes manifests for local k3s cluster testing with liveness and readiness probes.
+- ***Why was it chosen?***
+  - The rebuild needed one manifest per service for local development and future production deployment without inventing topology ad hoc.
+- ***What boundaries does it own?***
+  - Kubernetes deployment and service manifests for each runtime plus one migration job.
+- ***What breaks if it changes?***
+  - Local development loses consistent manifests, and production deployment must reinvent topology.
+- ***What known edge cases or failure modes matter here?***
+  - Manifests use local cluster image references (`imagePullPolicy: IfNotPresent`); avoid secrets or provider-specific config.
+- ***Why does this work matter?***
+  - Enables local k3s testing with the same topology that will run in production.
+- ***What capability does it unlock?***
+  - Local cluster testing, health probe integration, service-to-service communication testing.
+- ***Why is the chosen design safer or more scalable?***
+  - One manifest per service keeps topology explainable and auditable.
+- ***What trade-off did the team accept?***
+  - Baseline manifests only; production tuning comes later.
+
+---
+
+### S0-D5-T3 - Seed runtime identity, health/readiness, and observability vocabulary
+
+- ***What was built?***
+  - `apps/api/main.py`, `apps/worker/main.py`, and `apps/agent/main.py` now expose `/health` and `/ready` endpoints; `apps/api/middleware.py` provides X-Request-ID request correlation; `docs/observability.md` defines baseline metrics vocabulary; `docs/resilience.md` defines retry and timeout patterns; `platform/edge/` contains cache, gateway, and limits policy vocabulary; `tools/script/dev.py` provides local orchestration.
+- ***Why was it chosen?***
+  - The rebuild needed consistent health semantics, request tracing, and shared vocabulary before feature work introduced incompatible patterns.
+- ***What boundaries does it own?***
+  - Health/readiness semantics, request correlation, metrics naming, resilience patterns, and edge policy vocabulary.
+- ***What breaks if it changes?***
+  - Services can drift into inconsistent health semantics, observability becomes fragmented, and debugging across services becomes harder.
+- ***What known edge cases or failure modes matter here?***
+  - `/metrics` endpoint reserved for later Prometheus implementation; rate limiting disabled by default.
+- ***Why does this work matter?***
+  - Every service starts with observable entry points and consistent vocabulary.
+- ***What capability does it unlock?***
+  - Request tracing, health probe monitoring, consistent metrics collection, and reliable retry behavior.
+- ***Why is the chosen design safer or more scalable?***
+  - Shared vocabulary keeps observability explainable and extensible.
+- ***What trade-off did the team accept?***
+  - Thin baseline vocabulary; production metrics and advanced resilience patterns come later.
 
 ---
 
