@@ -119,8 +119,8 @@ Restore a live reviewer-facing frontend from the active rebuild tree by:
 ### Optional config or helper files if required by the chosen static path
 
 - `.github/workflows/cd.yml`
-- `tools/script/release.py`
-- `tools/script/verify.py`
+- `tools/scripts/release.py`
+- `tools/scripts/verify.py`
 
 Only update these optional files if the final deployment flow truly requires alignment there.
 

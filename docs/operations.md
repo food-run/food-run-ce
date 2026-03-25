@@ -25,9 +25,9 @@ This file is the durable operations guide for the rebuild. It should capture run
 
 ## CI as Operational Control
 
-- CI still owns merge-blocking repo verification and PR-gate workflows, while `python3 tools/script/coordination_status.py watch` stays a local operator control loop for minute-level reminder checks
-- the watch loop only delegates to the shared reminder runtime in `tools/script/coordination_status.py`, so the repo does not grow a second coordination engine just to support local scheduling
-- operators who prefer `launchd` or `cron` should schedule `python3 tools/script/coordination_status.py remind --warn-before-minutes 1 --write-stub` instead of creating a second coordination script
+- CI still owns merge-blocking repo verification and PR-gate workflows, while `python3 tools/scripts/coordination_status.py watch` stays a local operator control loop for minute-level reminder checks
+- the watch loop only delegates to the shared reminder runtime in `tools/scripts/coordination_status.py`, so the repo does not grow a second coordination engine just to support local scheduling
+- operators who prefer `launchd` or `cron` should schedule `python3 tools/scripts/coordination_status.py remind --warn-before-minutes 1 --write-stub` instead of creating a second coordination script
 
 ## Protected-Path Escalation
 
@@ -36,7 +36,7 @@ This file is the durable operations guide for the rebuild. It should capture run
 
 ## Release Marker Discipline
 
-- `python3 tools/script/release.py prepare` emits release-readiness metadata only; it does not publish, deploy, or claim runtime parity that does not exist yet
+- `python3 tools/scripts/release.py prepare` emits release-readiness metadata only; it does not publish, deploy, or claim runtime parity that does not exist yet
 - `.github/workflows/cd.yml` is manual-only so the repo can exercise release controls without pretending an always-on deployment path exists
 
 ## Rollback-Aware Delivery
@@ -47,8 +47,9 @@ This file is the durable operations guide for the rebuild. It should capture run
 ## Frontend Deployment
 
 - `apps/web` is now the only reviewer-visible frontend source of truth
-- `.github/workflows/web-pages.yml` builds the Angular app and deploys to GitHub Pages on push to main
+- `.github/workflows/web-pages.yml` builds the Angular app with `bun run build:pages` and deploys to GitHub Pages on push to main
 - GitHub Pages serves static output from `apps/web/dist/browser`
+- the Pages build targets the `/food-run-ce/` project path and copies `index.html` to `404.html` so SPA refreshes stay on the active web shell
 - This deployment path is intentionally honest: it is a static reviewer surface, not proof of full production maturity
 - The workflow triggers on changes to `apps/web/**` or the workflow file itself
 - Later work that adds real backend services will need separate deployment workflows

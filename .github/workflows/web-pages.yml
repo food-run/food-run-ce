@@ -40,11 +40,11 @@ jobs:
 
       - name: install dependencies
         working-directory: apps/web
-        run: bun install
+        run: bun install --frozen-lockfile
 
       - name: build web app
         working-directory: apps/web
-        run: bun run build
+        run: bun run build:pages
 
       - name: upload artifact
         uses: actions/upload-pages-artifact@v3
