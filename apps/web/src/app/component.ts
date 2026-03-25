@@ -33,10 +33,6 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
       </header>
       
       <div class="app-top-bar">
-        <div class="app-status-row">
-          <span class="server-status server-status--unknown">server → checking...</span>
-        </div>
-        
         <nav class="app-nav">
           <a routerLink="/import" routerLinkActive="nav-button--active" class="nav-button">Import</a>
           <a routerLink="/recipes" routerLinkActive="nav-button--active" class="nav-button">Recipes</a>
@@ -48,6 +44,28 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
       <main class="app-main">
         <router-outlet></router-outlet>
       </main>
+      
+      <footer class="app-footer">
+        <p class="footer-description">
+          Smart meal prep and grocery planning from the recipes you already love.
+        </p>
+        
+        <div class="footer-links">
+          <a href="https://github.com/food-run/food-run-ce" target="_blank" rel="noopener noreferrer" class="footer-button">
+            GitHub
+          </a>
+          <a href="https://www.linkedin.com/in/morrisxelijah" target="_blank" rel="noopener noreferrer" class="footer-button">
+            LinkedIn
+          </a>
+          <a href="https://github.com/sponsors/food-run" target="_blank" rel="noopener noreferrer" class="footer-button footer-button--donate">
+            Donate
+          </a>
+        </div>
+        
+        <p class="footer-copyright">
+          © 2026 Food Run. All rights reserved.
+        </p>
+      </footer>
     </div>
   `,
   styles: [`
@@ -139,45 +157,6 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
       border: 0.08rem solid var(--color-border);
     }
 
-    .app-status-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 2vw;
-      justify-content: center;
-      margin-bottom: 1.5vh;
-    }
-
-    .server-status {
-      align-self: flex-start;
-      padding-block: calc(var(--space-xs) * 0.7);
-      padding-inline: var(--space-sm);
-      border-radius: 999rem;
-      font-size: var(--font-size-small);
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5ch;
-      border: 0.08rem solid transparent;
-    }
-
-    .server-status::before {
-      content: "";
-      inline-size: 0.6rem;
-      block-size: 0.6rem;
-      border-radius: 999rem;
-    }
-
-    .server-status--unknown {
-      background: rgba(102, 102, 102, 0.08);
-      color: var(--color-text-soft);
-      border-color: rgba(102, 102, 102, 0.4);
-    }
-
-    .server-status--unknown::before {
-      background: #fbbf24;
-    }
-
     .app-nav {
       display: flex;
       flex-direction: row;
@@ -241,6 +220,65 @@ import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
     section > h2 {
       font-size: var(--font-size-h2);
       font-weight: 700;
+    }
+
+    .app-footer {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+      padding: var(--space-md);
+      border-top: 0.08rem solid var(--color-border);
+      text-align: center;
+    }
+
+    .footer-description {
+      font-size: var(--font-size-small);
+      color: var(--color-text-soft);
+    }
+
+    .footer-links {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: var(--space-sm);
+    }
+
+    .footer-button {
+      padding-block: calc(var(--space-xs) * 0.7);
+      padding-inline: var(--space-sm);
+      border-radius: var(--radius-sm);
+      border: 0.08rem solid var(--accent);
+      background: var(--color-surface);
+      color: var(--accent);
+      font-size: var(--font-size-small);
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      display: inline-block;
+    }
+
+    .footer-button:hover,
+    .footer-button:focus-visible {
+      background: var(--color-surface-muted);
+      text-decoration: none;
+    }
+
+    .footer-button--donate {
+      background: var(--secondary);
+      border-color: var(--secondary);
+      color: var(--bg);
+    }
+
+    .footer-button--donate:hover,
+    .footer-button--donate:focus-visible {
+      background: color-mix(in srgb, var(--secondary) 85%, transparent);
+    }
+
+    .footer-copyright {
+      font-size: var(--font-size-small);
+      color: var(--color-text-soft);
+      margin-top: var(--space-xs);
     }
 
     @media (min-width: 48rem) {
