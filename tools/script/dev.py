@@ -1,0 +1,304 @@
+#!/usr/bin/env python3
+"""  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+TL;DR  -->  Local development orchestration and operator visibility
+
+- Later Extension Points:
+    --> Add service-specific run configurations as needed
+
+- Role:
+    --> Supports local parity flows without becoming a junk drawer
+    --> Run all services locally, run one named service, Docker Compose up/down
+    --> Show basic status, logs, and health for active local services
+
+- Exports:
+    --> CLI entry point for local dev orchestration
+
+- Consumed By:
+    --> Local operators running development environments
+    --> tools/script/dev.py (this file)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  """
+from __future__ import annotations
+
+import argparse
+import os
+import subprocess
+import sys
+from pathlib import Path
+
+
+# ---------- constants ----------
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
+
+SERVICES = ["web", "api", "worker", "agent", "migrate"]
+
+DOCKERFILE_MAP = {
+    "web": "platform/docker/web.Dockerfile",
+    "api": "platform/docker/api.Dockerfile",
+    "worker": "platform/docker/worker.Dockerfile",
+    "agent": "platform/docker/agent.Dockerfile",
+}
+
+K8S_MANIFEST_MAP = {
+    "web": "platform/k8s/web.yaml",
+    "api": "platform/k8s/api.yaml",
+    "worker": "platform/k8s/worker.yaml",
+    "agent": "platform/k8s/agent.yaml",
+    "migrate": "platform/k8s/migrate.yaml",
+}
+
+
+# ---------- helpers ----------
+
+
+def run_command(cmd: list[str], cwd: Path | None = None) -> int:
+    """Run a command and return exit code."""
+    print(f"Running: {' '.join(cmd)}")
+    result = subprocess.run(cmd, cwd=cwd or REPO_ROOT)
+    return result.returncode
+
+
+def check_service_health(service: str) -> bool:
+    """Check if a service is healthy via its health endpoint."""
+    import urllib.request
+    import json
+
+    port_map = {"web": 80, "api": 8080, "worker": 8081, "agent": 8082}
+
+    if service not in port_map:
+        print(f"  {service}: no health endpoint defined")
+        return False
+
+    port = port_map[service]
+    url = f"http://localhost:{port}/health"
+
+    try:
+        req = urllib.request.Request(url)
+        response = urllib.request.urlopen(req, timeout=2)
+        data = json.loads(response.read().decode())
+        status = data.get("status", "unknown")
+        print(f"  {service}: {status}")
+        return status == "ok"
+    except Exception as e:
+        print(f"  {service}: unavailable ({e})")
+        return False
+
+
+def docker_compose_exists() -> bool:
+    """Check if docker-compose.yml exists."""
+    return (REPO_ROOT / "docker-compose.yml").exists()
+
+
+# ---------- commands ----------
+
+
+def cmd_up(services: list[str] | None = None) -> int:
+    """Start all or specified services via Docker Compose."""
+    if not docker_compose_exists():
+        print("ERROR: docker-compose.yml not found")
+        print("Run: python tools/script/dev.py init to create from templates")
+        return 1
+
+    cmd = ["docker", "compose", "up", "-d"]
+    if services:
+        cmd.extend(services)
+    return run_command(cmd)
+
+
+def cmd_down(services: list[str] | None = None) -> int:
+    """Stop all or specified services via Docker Compose."""
+    if not docker_compose_exists():
+        print("ERROR: docker-compose.yml not found")
+        return 1
+
+    cmd = ["docker", "compose", "down"]
+    if services:
+        cmd.extend(services)
+    return run_command(cmd)
+
+
+def cmd_status() -> int:
+    """Show status of local services."""
+    print("Checking service health...")
+    print(f"Repository root: {REPO_ROOT}")
+
+    for service in SERVICES:
+        check_service_health(service)
+
+    return 0
+
+
+def cmd_logs(services: list[str] | None = None, follow: bool = False) -> int:
+    """Show logs for all or specified services."""
+    if not docker_compose_exists():
+        print("ERROR: docker-compose.yml not found")
+        return 1
+
+    cmd = ["docker", "compose", "logs"]
+    if follow:
+        cmd.append("-f")
+    if services:
+        cmd.extend(services)
+    else:
+        cmd.append("--tail=50")
+
+    return run_command(cmd)
+
+
+def cmd_k8s_apply(service: str | None = None) -> int:
+    """Apply k8s manifests for all or specified service."""
+    k8s_dir = REPO_ROOT / "platform" / "k8s"
+
+    if not k8s_dir.exists():
+        print("ERROR: platform/k8s/ directory not found")
+        return 1
+
+    if service:
+        manifest = K8S_MANIFEST_MAP.get(service)
+        if not manifest:
+            print(f"ERROR: unknown service: {service}")
+            return 1
+        return run_command(["kubectl", "apply", "-f", str(REPO_ROOT / manifest)])
+    else:
+        return run_command(["kubectl", "apply", "-f", str(k8s_dir)])
+
+
+def cmd_init() -> int:
+    """Create docker-compose.yml from templates."""
+    compose_path = REPO_ROOT / "docker-compose.yml"
+
+    if compose_path.exists():
+        print(f"ERROR: {compose_path} already exists")
+        return 1
+
+    # Generate docker-compose.yml
+    compose_content = """# Auto-generated by tools/script/dev.py
+# Sprint 0 - local development orchestration
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: platform/docker/web.Dockerfile
+    ports:
+      - "80:80"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  api:
+    build:
+      context: .
+      dockerfile: platform/docker/api.Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - SERVICE_NAME=api
+      - SERVICE_ENV=local
+      - RELEASE_ID=dev-build
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  worker:
+    build:
+      context: .
+      dockerfile: platform/docker/worker.Dockerfile
+    environment:
+      - SERVICE_NAME=worker
+      - SERVICE_ENV=local
+      - RELEASE_ID=dev-build
+
+  agent:
+    build:
+      context: .
+      dockerfile: platform/docker/agent.Dockerfile
+    ports:
+      - "8082:8082"
+    environment:
+      - SERVICE_NAME=agent
+      - SERVICE_ENV=local
+      - RELEASE_ID=dev-build
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8082/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+"""
+
+    compose_path.write_text(compose_content)
+    print(f"Created {compose_path}")
+    print("Run: docker compose up -d")
+    return 0
+
+
+def cmd_help() -> None:
+    """Print help message."""
+    print("""
+Local Development Orchestration
+
+Usage: python tools/script/dev.py <command> [options]
+
+Commands:
+    init              Create docker-compose.yml from templates
+    up [services]     Start all or specified services
+    down [services]  Stop all or specified services
+    status            Show health status of local services
+    logs [services]   Show logs (use -f to follow)
+    k8s [service]     Apply k8s manifests (all or specific service)
+    help              Show this help
+
+Examples:
+    python tools/script/dev.py init
+    python tools/script/dev.py up
+    python tools/script/dev.py up api worker
+    python tools/script/dev.py status
+    python tools/script/dev.py logs -f
+    python tools/script/dev.py k8s api
+    python tools/script/dev.py k8s
+""")
+    sys.exit(0)
+
+
+# ---------- main ----------
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(add_help=False)
+    parser.add_argument("command", choices=["init", "up", "down", "status", "logs", "k8s", "help"])
+    parser.add_argument("services", nargs="*")
+    parser.add_argument("-f", "--follow", action="store_true")
+
+    args = parser.parse_args()
+
+    if args.command == "help":
+        cmd_help()
+
+    if args.command == "init":
+        return cmd_init()
+
+    if args.command == "up":
+        return cmd_up(args.services or None)
+
+    if args.command == "down":
+        return cmd_down(args.services or None)
+
+    if args.command == "status":
+        return cmd_status()
+
+    if args.command == "logs":
+        return cmd_logs(args.services or None, args.follow)
+
+    if args.command == "k8s":
+        service = args.services[0] if args.services else None
+        return cmd_k8s_apply(service)
+
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
