@@ -43,3 +43,12 @@ This file is the durable operations guide for the rebuild. It should capture run
 
 - the D4 release scaffold is easy to roll back because it only changes release-preparation messaging and manual workflow control surfaces
 - any real deploy or publish behavior remains deferred to D5, where runtime parity and rollback mechanics will have durable homes
+
+## Frontend Deployment
+
+- `apps/web` is now the only reviewer-visible frontend source of truth
+- `.github/workflows/web-pages.yml` builds the Angular app and deploys to GitHub Pages on push to main
+- GitHub Pages serves static output from `apps/web/dist/browser`
+- This deployment path is intentionally honest: it is a static reviewer surface, not proof of full production maturity
+- The workflow triggers on changes to `apps/web/**` or the workflow file itself
+- Later work that adds real backend services will need separate deployment workflows
