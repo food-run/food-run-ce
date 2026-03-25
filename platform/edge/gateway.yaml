@@ -1,0 +1,39 @@
+# Edge gateway policy vocabulary
+# Sprint 0 baseline - not production-hardened
+---
+gateway:
+  # Request forwarding configuration
+  forwarding:
+    # Preserve incoming request headers
+    preserve_headers:
+      - X-Request-ID
+      - Accept
+      - Accept-Language
+      - Content-Type
+    
+    # Host and protocol context preservation
+    preserve_host: true
+    preserve_proto: true
+
+  # Timeout configuration (seconds)
+  timeouts:
+    # Upstream request timeout
+    request: 30
+    # Keep-alive timeout
+    keepalive: 60
+    # Connect timeout
+    connect: 10
+
+  # Health check configuration (for upstream routing)
+  health:
+    # Interval between health checks (seconds)
+    interval: 10
+    # Timeout for health check response
+    timeout: 5
+    # Number of failures before marking unhealthy
+    failures: 3
+
+  # Rate limiting placeholder (Sprint 0 - conservative)
+  rate_limit:
+    enabled: false
+    # Placeholder: add real limits in later sprints
