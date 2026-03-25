@@ -19,9 +19,13 @@ TL;DR  -->  public API runtime entrypoint
     --> platform/k8s/api.yaml
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  */
 
-import { bootstrapApplication } from '@angular/platform-browser';
-import { appConfig } from './app/config';
-import { AppComponent } from './app/component';
+import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { provideRouter } from '@angular/router';
+import { routes } from './routes';
 
-bootstrapApplication(AppComponent, appConfig)
-  .catch((err) => console.error(err));
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideRouter(routes)
+  ]
+};

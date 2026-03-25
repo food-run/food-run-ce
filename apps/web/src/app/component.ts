@@ -1,11 +1,23 @@
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-TL;DR  -->  Root application component for Food Run
+/*  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+TL;DR  -->  public API runtime entrypoint
+
+- Later Extension Points:
+    --> Compose routes, middleware, schemas, and startup wiring here
 
 - Role:
-  --> The main shell component for the reviewer-visible frontend
-  --> Provides the basic layout structure
-  --> This is the public-facing surface from the active rebuild tree
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+    --> Establishes the active request-facing runtime entry point for the rebuild API surface
+    --> Owns the startup boundary where route and middleware wiring will later assemble
+    --> Exists as the single executable entry file for the governed API runtime
+    --> Must remain thin: startup and composition only, not a second home for domain logic
+
+- Exports:
+    --> API runtime entry path
+
+- Consumed By:
+    --> local operators starting the API runtime
+    --> platform/docker/api.Dockerfile
+    --> platform/k8s/api.yaml
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  */
 
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';

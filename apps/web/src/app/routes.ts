@@ -19,9 +19,11 @@ TL;DR  -->  public API runtime entrypoint
     --> platform/k8s/api.yaml
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  */
 
-import { bootstrapApplication } from '@angular/platform-browser';
-import { appConfig } from './app/config';
-import { AppComponent } from './app/component';
+import { Routes } from '@angular/router';
 
-bootstrapApplication(AppComponent, appConfig)
-  .catch((err) => console.error(err));
+export const routes: Routes = [
+  {
+    path: '',
+    loadComponent: () => import('./component').then(m => m.AppComponent)
+  }
+];
