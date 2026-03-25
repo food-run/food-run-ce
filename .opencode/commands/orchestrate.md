@@ -185,6 +185,7 @@ Before implementation begins for a deliverable or task scope:
    - execute it
    - review it
    - update sprint state
+   - update user in the chat
 4. continue until:
    - sprint complete
    - blocker
@@ -238,6 +239,7 @@ Before implementation begins for a deliverable or task scope:
     - route `checkpoint-commit` before continuing when the diff is a stable rollback point
    - librarian if durable docs changed
    - update deliverable state
+   - update the user in the chat
 5. continue until:
    - deliverable complete
    - blocker
