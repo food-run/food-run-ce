@@ -7,7 +7,7 @@ subtask: true
 
 ## TL;DR
 
-This command drafts the reasoning delta for the current work. It should answer the full master-packet ADR questions, stay sorted recency first, and be complete before PRs or merge commits are prepared.
+This command drafts the reasoning delta for the current work. It should answer the full master-packet ADR questions, stay sorted recency first, use 2-4 bullets per question, keep `Current Status` to a 5-10 bullet sprint recap, and be complete before PRs or merge commits are prepared.
 
 ## Inputs
 
@@ -38,6 +38,8 @@ Draft:
 Also ensure:
 
 - the entry is inserted in recency-first order
+- every ADR question uses 2-4 concrete bullets instead of one thin bullet or one long paragraph
+- `## Current Status` stays a 5-10 bullet sprint recap rather than a running changelog
 - the slice is as small as current understanding allows without creating duplicate ADR noise
 - if a deliverable touches multiple distinct surfaces, split into separate ADR entries (e.g., D5 touching Dockerfiles, k8s manifests, health endpoints, and docs should become 4-6 separate entries, not one monolithic entry)
 - out-of-scope human edits are planned separately unless the human explicitly includes them

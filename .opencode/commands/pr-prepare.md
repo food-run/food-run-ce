@@ -38,7 +38,8 @@ Before returning:
 
 - confirm every meaningful change has a completed ADR entry
 - confirm the ADR file is ordered newest first
-- confirm each ADR entry answers the full nine-question master-packet template
+- confirm each ADR entry answers the full nine-question master-packet template with 2-4 bullets per question
+- confirm `docs/adr.md` keeps `## Current Status` to a 5-10 bullet sprint recap instead of a line-by-line changelog
 - confirm the `CLA` section matches `.github/pull_request_template.md`, including the repository-owner exception documented in `CLA.md`
 - confirm ops review output exists for implementation-bearing changes before calling the branch PR-ready
 - call out any intentionally excluded out-of-scope human edits
