@@ -14,8 +14,9 @@ TL;DR  -->  release-readiness scaffold that prepares metadata without performing
     --> `prepare` and guarded `deploy` command handling for the D4 release scaffold
 
 - Consumed By:
-    --> `.github/workflows/cd.yml` and local operators running `python3 tools/script/release.py`
+    --> `.github/workflows/cd.yml` and local operators running `python3 tools/scripts/release.py`
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  """
+
 from __future__ import annotations
 
 # ---------- imports and dependencies ----------
@@ -28,7 +29,7 @@ from datetime import datetime, timezone
 # ---------- release constants ----------
 
 # Keep the thin workflow wrapper command centralized.
-CENTRAL_RELEASE_COMMAND = 'python3 tools/script/release.py --ci prepare'
+CENTRAL_RELEASE_COMMAND = 'python3 tools/scripts/release.py --ci prepare'
 # Keep the D4 posture wording stable across outputs.
 PREPARED_ONLY_MESSAGE = 'prepared only - deployment remains out of scope until Sprint 0 D5 lands'
 

@@ -47,7 +47,7 @@ Correct:
 
 - create `docs/repo.md` if that is the real first permanent document for the folder
 - create `apps/api/main.py` if that is the real startup surface
-- create `tools/script/verify.py` if that is the real first automation surface
+- create `tools/scripts/verify.py` if that is the real first automation surface
 
 Incorrect:
 

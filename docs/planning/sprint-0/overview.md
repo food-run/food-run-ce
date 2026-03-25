@@ -404,8 +404,8 @@ Primary outputs:
 - `.github/workflows/cla-check.yml`
 - `.github/workflows/docs-guard.yml`
 - `.github/workflows/protected-paths.yml`
-- `tools/script/verify.py`
-- `tools/script/release.py`
+- `tools/scripts/verify.py`
+- `tools/scripts/release.py`
 
 See: [`d4-quality-gates.md`](./d4-quality-gates.md)
 
@@ -418,7 +418,7 @@ Primary outputs:
 - `platform/docker/`
 - `platform/k8s/`
 - `platform/edge/`
-- `tools/script/dev.py`
+- `tools/scripts/dev.py`
 - runtime identity, health, readiness, and release marker surfaces
 - `docs/observability.md`
 - `docs/resilience.md`

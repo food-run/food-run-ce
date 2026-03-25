@@ -8,7 +8,7 @@ TL;DR  -->  Migration job Kubernetes manifest for local k3s
 
 - Consumed By:
     --> kubectl apply -f platform/k8s/migrate.yaml
-    --> tools/script/dev.py
+    --> tools/scripts/dev.py
 
 - Notes:
     --> migrate is a job, not a persistent service

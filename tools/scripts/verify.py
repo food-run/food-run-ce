@@ -17,6 +17,7 @@ TL;DR  -->  repo verification entrypoint for script and coordination checks
 - Consumed By:
     --> reviewers, integrators, and local operators running repo verification
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  """
+
 from __future__ import annotations
 
 # ---------- imports and dependencies ----------
@@ -37,16 +38,25 @@ TLDR_REQUIRED_MARKERS = (
     '- Exports:',
     '- Consumed By:',
 )
-# Scan only active rebuild Python script surfaces.
+# Scan only active rebuild Python script surfaces (exclude node_modules, dist, .angular).
 PYTHON_SCRIPT_PATTERNS = (
-    'tools/script/**/*.py',
-    'apps/**/*.py',
+    'tools/scripts/*.py',
+    'tools/testing/**/*.py',
+    'apps/agent/*.py',
+    'apps/api/*.py',
+    'apps/domain/*.py',
     'shared/**/*.py',
 )
 # Audit script headers across Python and TypeScript entrypoints.
-SCRIPT_HEADER_PATTERNS = PYTHON_SCRIPT_PATTERNS + (
+SCRIPT_HEADER_PATTERNS = (
+    'tools/scripts/*.py',
+    'tools/testing/**/*.py',
+    'apps/agent/*.py',
+    'apps/api/*.py',
+    'apps/domain/*.py',
+    'shared/**/*.py',
     'apps/web/src/**/*.ts',
-    'apps/**/*.js',
+    'apps/web/src/**/*.js',
 )
 # Match canonical Python section headers in implemented files.
 PYTHON_SECTION_MARKER_RE = re.compile(r'^# ---------- [a-z0-9][a-z0-9 -]* ----------$', re.MULTILINE)
@@ -59,7 +69,7 @@ CONSUMED_BY_LINE_RE = re.compile(r'^\s*-->\s+\S.+$', re.MULTILINE)
 # Require more than one section in implemented files.
 MIN_IMPLEMENTED_SECTION_MARKERS = 2
 # Keep the repo verification workflow bound to this entrypoint.
-CENTRAL_VERIFY_COMMAND = 'python3 tools/script/verify.py --ci'
+CENTRAL_VERIFY_COMMAND = 'python3 tools/scripts/verify.py --ci'
 # Point to the canonical merge-blocking repo verification workflow.
 REPO_VERIFY_WORKFLOW_PATH = Path('.github/workflows/repo-verify.yml')
 
@@ -354,7 +364,7 @@ def verify_repo_workflow_contract(repo_root: Path) -> int:
     # Keep YAML orchestration thin instead of encoding policy there.
     if len(run_blocks) != 1:
         failures.append(
-            f'{REPO_VERIFY_WORKFLOW_PATH}: expected exactly 1 shell run step so policy stays in tools/script/verify.py, found {len(run_blocks)}'
+            f'{REPO_VERIFY_WORKFLOW_PATH}: expected exactly 1 shell run step so policy stays in tools/scripts/verify.py, found {len(run_blocks)}'
         )
 
     # Reject multiline shell blocks that could hide extra logic.
@@ -397,7 +407,7 @@ def verify_coordination(repo_root: Path, ci: bool, skip_coordination: bool) -> i
     # Delegate coordination policy to its dedicated script.
     return run_script(
         'coordination cadence',
-        [sys.executable, 'tools/script/coordination_status.py', 'verify'],
+        [sys.executable, 'tools/scripts/coordination_status.py', 'verify'],
         repo_root,
     )
 
@@ -411,6 +421,8 @@ def main() -> int:
     parser.add_argument('--ci', action='store_true', help='Use CI-safe behavior for local-only artifacts.')
     # Allow local users to skip cadence checks deliberately.
     parser.add_argument('--skip-coordination', action='store_true', help='Skip coordination cadence checks.')
+    # Allow skipping reviewer-frontend verification for non-frontend changes.
+    parser.add_argument('--skip-frontend', action='store_true', help='Skip reviewer-frontend verification.')
     # Parse the incoming command-line flags.
     args = parser.parse_args()
 
@@ -426,6 +438,13 @@ def main() -> int:
     failures += verify_repo_workflow_contract(repo_root)
     # Check coordination freshness unless the caller skipped it.
     failures += verify_coordination(repo_root, ci=args.ci, skip_coordination=args.skip_coordination)
+    # Run reviewer-frontend verification unless skipped.
+    if not args.skip_frontend:
+        failures += run_script(
+            'reviewer frontend',
+            [sys.executable, 'tools/testing/ui/frontend.py'],
+            repo_root,
+        )
 
     # Fail the run when any stage reported issues.
     if failures:

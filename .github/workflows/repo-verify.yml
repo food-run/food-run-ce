@@ -1,5 +1,5 @@
 ## TL;DR
-# - keeps repo verification policy in `tools/script/verify.py`
+# - keeps repo verification policy in `tools/scripts/verify.py`
 # - runs on pull request updates plus manual dispatches
 # - sets up Python and delegates to one CI-safe verifier command
 # - stays thin so later docs and protected-path workflows can compose beside it
@@ -30,6 +30,11 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: setup bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.2.17"
+
       # Delegate merge-blocking repo checks to the central verifier.
       - name: run repo verification
-        run: python3 tools/script/verify.py --ci
+        run: python3 tools/scripts/verify.py --ci

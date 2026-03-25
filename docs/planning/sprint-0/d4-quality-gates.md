@@ -109,9 +109,9 @@ before it can be merged.
 
 ### Permanent script entry points
 
-- `tools/script/verify.py`
-- `tools/script/coordination_status.py`
-- `tools/script/release.py`
+- `tools/scripts/verify.py`
+- `tools/scripts/coordination_status.py`
+- `tools/scripts/release.py`
 
 ### Repo-control and coordination extensions
 
@@ -171,8 +171,8 @@ D4 should apply the exact Sprint 0 TL;DR content to:
 - `.github/workflows/cla-check.yml`
 - `.github/workflows/docs-guard.yml`
 - `.github/workflows/protected-paths.yml`
-- `tools/script/verify.py`
-- `tools/script/release.py`
+- `tools/scripts/verify.py`
+- `tools/scripts/release.py`
 
 `docs/testing.md` should gain:
 
@@ -204,8 +204,8 @@ These files define how unsafe or under-documented work gets stopped:
 - `.github/workflows/repo-verify.yml`
 - `.github/workflows/docs-guard.yml`
 - `.github/workflows/protected-paths.yml`
-- `tools/script/verify.py`
-- `tools/script/release.py`
+- `tools/scripts/verify.py`
+- `tools/scripts/release.py`
 
 ---
 
@@ -239,7 +239,7 @@ Task focus:
 
 Task focus:
 
-- extend `tools/script/coordination_status.py` instead of creating a second coordination runtime
+- extend `tools/scripts/coordination_status.py` instead of creating a second coordination runtime
 - keep `docs/coordination/active.md` backward-compatible while adding plural active-workstream parsing
 - add tests for plural-scope parsing, overdue detection, latest-note selection, and per-subagent reporting evidence before any reporter path becomes mandatory
 
@@ -252,7 +252,7 @@ Task focus:
 
 - add a dedicated `reporter` agent contract whose only job is emitting and normalizing the structured packet used by PM and subagents
 - align `.opencode/commands/start-task.md`, `.opencode/commands/sync-status.md`, templates, and coordination rules to the same packet shape
-- add local scheduled execution guidance or a lightweight runner so `tools/script/coordination_status.py remind` can run every minute and escalate overdue scopes without pretending CI owns local coordination state
+- add local scheduled execution guidance or a lightweight runner so `tools/scripts/coordination_status.py remind` can run every minute and escalate overdue scopes without pretending CI owns local coordination state
 
 ### 🎟️ S0-D4-T6 — 🚢 Seed release scaffolding and align testing/operations docs
 
@@ -285,11 +285,11 @@ Task focus:
 S0-D4 is done only when:
 
 - the PR template forces bounded summary, verification notes, docs/ADR context, and protected-path acknowledgement
-- `.github/workflows/repo-verify.yml` and `tools/script/verify.py` exist
+- `.github/workflows/repo-verify.yml` and `tools/scripts/verify.py` exist
 - docs and protected-path enforcement workflows exist and align with D3 rules
-- `tools/script/coordination_status.py` supports plural active workstreams with per-scope freshness checks and tests before any reporter path becomes mandatory
+- `tools/scripts/coordination_status.py` supports plural active workstreams with per-scope freshness checks and tests before any reporter path becomes mandatory
 - a dedicated `reporter` agent contract and local scheduled reminder path exist without overstating CI or deployment maturity
-- a release-preparation workflow plus `tools/script/release.py` exist as scaffolds without overclaiming D5 deployment maturity
+- a release-preparation workflow plus `tools/scripts/release.py` exist as scaffolds without overclaiming D5 deployment maturity
 - automation and documentation tell the same story
 
 ---
@@ -302,7 +302,7 @@ Reject immediately if an agent tries to:
 - make CI check only syntax/build status while skipping docs and protected-path concerns
 - create vague failure messages like “validation failed”
 - redefine protected-path categories differently from D3
-- split coordination reporting across multiple runtimes instead of extending `tools/script/coordination_status.py`
+- split coordination reporting across multiple runtimes instead of extending `tools/scripts/coordination_status.py`
 - make the reporter agent mandatory before tests prove the per-scope evidence model
 - commit machine-specific scheduler artifacts instead of a lightweight repo-owned runner or documented local scheduler path
 - oversell `cd.yml` as a complete deployment pipeline before D5 exists

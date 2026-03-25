@@ -21,15 +21,15 @@ This file is the durable testing and verification guide for the rebuild. It shou
 ## Current Status
 
 - Sprint 0 has established shared test support in `shared/testkit/`
-- repo verification already runs through `python3 tools/script/verify.py`
+- repo verification already runs through `python3 tools/scripts/verify.py`
 - `.github/workflows/repo-verify.yml` already enforces that verifier in CI
-- `python3 tools/script/coordination_status.py watch` now provides the local-only minute-level reminder loop without expanding the CI verifier contract
+- `python3 tools/scripts/coordination_status.py watch` now provides the local-only minute-level reminder loop without expanding the CI verifier contract
 - later deliverables should extend this file with deeper runtime, contract, and smoke-specific commands as those layers become real
 
 ## Merge Gates
 
-- `tools/script/verify.py` is the central repo verification entrypoint for local and CI-safe checks
-- `.github/workflows/repo-verify.yml` should stay a thin wrapper that sets up Python and calls `python3 tools/script/verify.py --ci`
+- `tools/scripts/verify.py` is the central repo verification entrypoint for local and CI-safe checks
+- `.github/workflows/repo-verify.yml` should stay a thin wrapper that sets up Python, installs Bun, and calls `python3 tools/scripts/verify.py --ci`
 - later D4 release scaffolding should stay beside these workflows instead of duplicating their checks in YAML
 
 ## Docs and ADR Verification
@@ -42,8 +42,8 @@ This file is the durable testing and verification guide for the rebuild. It shou
 
 - `.github/workflows/protected-paths.yml` now requires explicit PR acknowledgement when protected paths change, including any `.github/workflows/**` edit and the exact protected-path categories from `AGENTS.md`
 - `.github/workflows/cla-check.yml` now skips the CLA phrase gate for repository-owner-authored PRs while keeping the exact phrase requirement for outside contributors
-- `tools/script/test_coordination_status.py` now covers plural workstream parsing, per-subagent evidence checks, overdue reminder output, and the one-minute local `watch` runner defaults
-- `tools/script/test_release.py` now keeps `.github/workflows/cd.yml` bound to `tools/script/release.py` and verifies the D4 release scaffold stays prepare-only
+- `tools/testing/repo_controls/test_coordination_status.py` covers coordination parser and reminder-loop behavior for the shared runtime in `tools/scripts/coordination_status.py`
+- `tools/testing/repo_controls/test_release.py` keeps `.github/workflows/cd.yml` bound to `tools/scripts/release.py` and verifies the D4 release scaffold stays prepare-only
 
 ## Current Verifier Scope
 
@@ -51,11 +51,12 @@ This file is the durable testing and verification guide for the rebuild. It shou
 - governed TL;DR header and section-comment checks for script files
 - repo-verification workflow contract checks so CI keeps delegating to the central verifier
 - coordination cadence checks outside CI, with an explicit CI-safe skip for local-only coordination artifacts
+- reviewer-frontend build verification that checks the GitHub Pages base path and SPA fallback artifact contract
 
 ## Release Scaffolding
 
 - `.github/workflows/cd.yml` is now a manual release-preparation workflow, not a deploy pipeline
-- `tools/script/release.py` owns D4 release-readiness messaging and rejects deploy or publish claims until D5 lands
+- `tools/scripts/release.py` owns D4 release-readiness messaging and rejects deploy or publish claims until D5 lands
 
 ## Future CI Extensions
 

@@ -122,7 +122,7 @@ Create the first permanent runtime and observability surfaces so later work can:
 
 ### New runtime helper scripts
 
-- `tools/script/dev.py`
+- `tools/scripts/dev.py`
 
 ### Meaningfully refactored app/runtime files
 
@@ -183,7 +183,7 @@ D5 should apply the exact Sprint 0 TL;DR content to:
 - `platform/docker/*.Dockerfile`
 - `platform/k8s/*.yaml`
 - `platform/edge/*.yaml`
-- `tools/script/dev.py`
+- `tools/scripts/dev.py`
 
 It should also update:
 
