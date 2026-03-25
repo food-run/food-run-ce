@@ -19,28 +19,22 @@ TL;DR  -->  public API runtime entrypoint
     --> platform/k8s/api.yaml
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  */
 
-import { Routes } from '@angular/router';
+import { Component } from '@angular/core';
 
-export const routes: Routes = [
-  {
-    path: '',
-    redirectTo: 'import',
-    pathMatch: 'full'
-  },
-  {
-    path: 'import',
-    loadComponent: () => import('./pages/import.page').then(m => m.ImportPageComponent)
-  },
-  {
-    path: 'recipes',
-    loadComponent: () => import('./pages/recipes.page').then(m => m.RecipesPageComponent)
-  },
-  {
-    path: 'planner',
-    loadComponent: () => import('./pages/planner.page').then(m => m.PlannerPageComponent)
-  },
-  {
-    path: 'shopping',
-    loadComponent: () => import('./pages/shopping.page').then(m => m.ShoppingPageComponent)
-  }
-];
+@Component({
+  selector: 'app-planner',
+  standalone: true,
+  template: `
+    <section>
+      <h2>Meal Planner</h2>
+      <p>Plan your weekly meals by selecting recipes and portions.</p>
+      <p>No meals planned yet. Select recipes to get started.</p>
+    </section>
+  `,
+  styles: [`
+    section > p + p {
+      font-size: var(--font-size-small);
+    }
+  `]
+})
+export class PlannerPageComponent {}
