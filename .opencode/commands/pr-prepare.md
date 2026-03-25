@@ -39,8 +39,6 @@ Before returning:
 - confirm every meaningful change has a completed ADR entry
 - confirm the ADR file is ordered newest first
 - confirm each ADR entry answers the full nine-question master-packet template
-- confirm the ADR splitting policy was followed: deliverables with multiple distinct concepts are split into separate entries (max 3 per deliverable, use task-scoped naming like S0-D5-T1)
-- confirm the Current Status section was updated with a bullet for each new deliverable completed in this PR
 - confirm the `CLA` section matches `.github/pull_request_template.md`, including the repository-owner exception documented in `CLA.md`
 - confirm ops review output exists for implementation-bearing changes before calling the branch PR-ready
 - call out any intentionally excluded out-of-scope human edits
