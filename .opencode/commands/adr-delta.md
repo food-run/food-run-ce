@@ -39,6 +39,7 @@ Also ensure:
 
 - the entry is inserted in recency-first order
 - the slice is as small as current understanding allows without creating duplicate ADR noise
+- if a deliverable touches multiple distinct surfaces, split into separate ADR entries (e.g., D5 touching Dockerfiles, k8s manifests, health endpoints, and docs should become 4-6 separate entries, not one monolithic entry)
 - out-of-scope human edits are planned separately unless the human explicitly includes them
 
 ## Failure Conditions
