@@ -183,6 +183,29 @@ This file is the durable reasoning spine for major Food Run technical and proces
 
 ---
 
+### S0-D5 - Seed edge policy vocabulary for cache, gateway, and request limits
+
+- ***What was built?***
+  - `platform/edge/` now defines baseline policy vocabulary including `cache.yaml` (GET/HEAD caching rules, bypass patterns), `gateway.yaml` (header forwarding, timeout defaults), and `limits.yaml` (request size, connection limits, rate placeholders).
+- ***Why was it chosen?***
+  - The rebuild needed one shared edge policy vocabulary before later work started inventing service-specific caching rules or inconsistent timeout values.
+- ***What boundaries does it own?***
+  - Edge policy vocabulary for caching behavior, gateway forwarding, and request limits.
+- ***What breaks if it changes?***
+  - Later work can create inconsistent caching rules, making behavior unpredictable across environments.
+- ***What known edge cases or failure modes matter here?***
+  - The configs seed baseline vocabulary only with conservative defaults; they intentionally leave rate limiting disabled and avoid complex routing rules that belong in later work.
+- ***Why does this work matter?***
+  - It gives every service one vocabulary to extend so edge behavior stays consistent across the platform.
+- ***What capability does it unlock?***
+  - Consistent caching rules, predictable header forwarding, and baseline limit defaults for local development.
+- ***Why is the chosen design safer or more scalable?***
+  - Shared vocabulary makes edge configuration reviewable in one place; consistent naming prevents fragmentation.
+- ***What trade-off did the team accept?***
+  - The seeded configs are intentionally conservative baselines; full edge behavior belongs to later platform work.
+
+---
+
 ### S0-D4 - Make the PR narrative and every workflow edit subject to the documented merge gates
 
 - ***What was built?***
