@@ -34,6 +34,8 @@ This file is the durable reasoning spine for major Food Run technical and proces
 - D3 consolidated repo-control governance under .opencode/ with lane order, coordination standards, and durable docs
 - D4 added CI/CD quality gates, PR narrative enforcement, protected-path workflows, and CLA automation
 - D5 seeded container, k8s, and observability baselines for runtime parity
+- D6 restored the reviewer-visible frontend from the active rebuild path with GitHub Pages deployment
+- D6 upgraded Angular to 21 and TypeScript to 6.0 for future TS7 readiness
 - Each deliverable follows architect-first, ops-gated implementation workflow
 - PRs require structured narrative, verification notes, and ADR entries for meaningful changes
 - Coordination uses stable scope-based files with heartbeat cadence
@@ -42,6 +44,77 @@ This file is the durable reasoning spine for major Food Run technical and proces
 ---
 
 ## Entries
+
+---
+
+### S0-D6 - Upgrade to Angular 21 with TypeScript 6.0 for future TS7 readiness
+
+- ***What was built?***
+  - `apps/web` upgraded from Angular 19 to Angular 21.2.5 with TypeScript 6.0.2.
+  - Build output changed from `dist/web/` to `dist/` for a flatter directory structure.
+- ***Why was it chosen?***
+  - Angular 21 requires TypeScript >=5.9.0 and <6.1.0, which aligns with the master packet guidance to adopt TypeScript 6.x in preparation for TypeScript 7 (Go-based).
+  - Angular 21 provides significant improvements over Angular 19 including better performance, improved type safety, and newer browser capabilities support.
+  - TypeScript 6.0 offers better type inference, stricter checks, and prepares the codebase for TS7 which will use a Go-based compiler for faster builds.
+- ***What boundaries does it own?***
+  - Frontend dependency versions and TypeScript compatibility constraints.
+- ***What breaks if it changes?***
+  - Downgrading Angular or TypeScript versions outside their compatible ranges will cause build failures.
+  - The build output path change means any external references to `dist/web/` need to be updated to `dist/`.
+- ***What known edge cases or failure modes matter here?***
+  - TypeScript 6.0.x is required for Angular 21. Angular 19 required TypeScript >=5.5.0 and <5.9.0.
+  - When TypeScript 7 becomes available, Angular will need to upgrade to a version that supports it before we can adopt TS7.
+  - The Angular CLI warnings about invalid workspace extensions (x_tldr, x_runtime_role) are cosmetic and do not affect functionality.
+- ***Why does this work matter?***
+  - It positions the frontend to adopt TypeScript 7 as soon as Angular supports it, aligning with the master packet roadmap.
+  - Angular 21's performance improvements will speed up local development and CI builds.
+  - Staying on latest LTS ensures security updates and long-term support from the Angular team.
+- ***What capability does it unlock?***
+  - Access to TypeScript 6 features including improved type narrowing and template literal types.
+  - Future TS7 readiness once Angular adds support for the Go-based compiler.
+  - Access to Angular 21's latest features and performance optimizations.
+- ***Why is the chosen design safer and more scalable?***
+  - Staying on latest Angular LTS ensures security updates and long-term support.
+  - The flatter `dist/` structure is simpler and aligns with other Angular projects.
+- ***What trade-off did the team accept?***
+  - Must monitor Angular's TypeScript version requirements and upgrade Angular before adopting TS7.
+  - The upgrade required careful version matching between Angular and TypeScript.
+  - Need to update any external references to the old `dist/web/` path.
+
+**Timeline for TS7 readiness:** Monitor Angular releases for TS7 support. Expected: Q4 2026 - Q1 2027 once Angular adds Go-based TypeScript 7 support.
+
+---
+
+### S0-D6 - Restore the reviewer-visible frontend from the active rebuild path
+
+- ***What was built?***
+  - `apps/web` now contains a working Angular 21 application that builds to static output in `dist/browser`.
+  - `.github/workflows/web-pages.yml` deploys that output to GitHub Pages on push to main.
+  - Documentation updated to reflect the honest deployment path.
+- ***Why was it chosen?***
+  - The repo needed an honest reviewer-visible frontend surface that comes from the active rebuild tree instead of pointing at deprecated legacy output.
+  - The previous demo link was stale and did not accurately reflect the current state of the rebuild.
+- ***What boundaries does it own?***
+  - The frontend deployment path: where the static site comes from, how it builds, and how it publishes.
+- ***What breaks if it changes?***
+  - Reviewers may see stale or misleading demo content, and the public frontend path loses its single source of truth.
+  - Any broken references to the old deployment path will cause 404s.
+- ***What known edge cases or failure modes matter here?***
+  - GitHub Pages is a static surface only — it does not support server-side rendering, API backends, or real-time features.
+  - The workflow only triggers on changes to `apps/web/**` or the workflow file itself.
+  - Later work that adds real backend services will need separate deployment workflows.
+- ***Why does this work matter?***
+  - It gives external reviewers, mentors, and funders a truthful live surface that reflects the active rebuild rather than archived prototype output.
+  - It enables sprint reviews and demos without manual deployment steps.
+- ***What capability does it unlock?***
+  - Public demos, sprint reviews, and repo credibility through an honest static frontend that can be iterated in the active tree.
+  - Automated deployment on every push to main ensures the demo is always up to date.
+- ***Why is the chosen design safer and more scalable?***
+  - One frontend source of truth prevents drift between what the repo claims and what reviewers see.
+  - The workflow is triggered automatically, reducing human error in deployment.
+- ***What trade-off did the team accepted?***
+  - The static site is intentionally honest about its limitations — it is a reviewer surface, not a production deployment.
+  - No server-side rendering means limited functionality compared to a full production app.
 
 ---
 
