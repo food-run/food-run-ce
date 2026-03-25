@@ -1,20 +1,24 @@
 /*  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 TL;DR  -->  user-facing application shell
 
-- Later Extension Points:
-  --> Wire Angular bootstrap here
-
 - Role:
   --> Establishes the active browser entry point for the rebuild
-  --> Boots the app shell, route wiring, and global app configuration later
-  --> Exists as the single startup file the frontend grows from
+  --> Boots the Angular app shell from apps/web
+  --> This is the single startup file for the reviewer-visible frontend
   --> Must remain thin: bootstrap only, no domain logic
 
 - Exports:
-  --> app bootstrap path only
+  --> bootstrapped Angular application
 
 - Consumed By:
-  --> local operators running the web bootstrap entry
+  --> local operators running the web bootstrap
+  --> CI/CD when building the static deployment
+  --> GitHub Pages serving the static build output
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  */
 
-export {}
+import { bootstrapApplication } from '@angular/platform-browser';
+import { appConfig } from './app/app.config';
+import { AppComponent } from './app/app.component';
+
+bootstrapApplication(AppComponent, appConfig)
+  .catch((err) => console.error(err));
