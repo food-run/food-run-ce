@@ -1,7 +1,7 @@
 {
   "name": "@food-run/web",
   "private": true,
-  "description": "The reviewer-visible frontend surface for Food Run, built from the active rebuild tree.",
+  "description": "The frontend surface for Food Run, built from the active rebuild tree.",
   "packageManager": "bun@1.2.17",
   "engines": {
     "node": "^24.0.0 || ^26.0.0 || ^28.0.0"
@@ -11,7 +11,9 @@
     "build": "bunx ng build",
     "build:pages": "bunx ng build --configuration production --base-href /food-run-ce/ && cp dist/browser/index.html dist/browser/404.html",
     "build:prod": "bunx ng build --configuration production",
-    "test": "bunx ng test"
+    "lint": "biome lint ./src",
+    "e2e": "playwright test",
+    "e2e:install": "playwright install chromium"
   },
   "dependencies": {
     "@angular/animations": "^21.0.0",
@@ -27,16 +29,11 @@
     "zone.js": "~0.15.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
     "@angular-devkit/build-angular": "^21.0.0",
     "@angular/cli": "^21.0.0",
     "@angular/compiler-cli": "^21.0.0",
-    "@types/jasmine": "~5.1.0",
-    "jasmine-core": "~5.1.0",
-    "karma": "~6.4.0",
-    "karma-chrome-launcher": "~3.2.0",
-    "karma-coverage": "~2.2.0",
-    "karma-jasmine": "~5.1.0",
-    "karma-jasmine-html-reporter": "~2.1.0",
+    "@playwright/test": "^1.55.0",
     "typescript": "~6.0.0"
   }
 }

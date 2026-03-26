@@ -18,7 +18,7 @@ TL;DR  -->  define the route map for the web shell
 
 // ---------- imports and dependencies ----------
 
-import { Routes } from '@angular/router';
+import type { Routes } from '@angular/router';
 
 // ---------- route definitions ----------
 

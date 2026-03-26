@@ -23,7 +23,7 @@ TL;DR  -->  compose the web shell and routed page helpers
 
 // ---------- imports and dependencies ----------
 
-import { Component, OnInit } from '@angular/core';
+import { Component, type OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 

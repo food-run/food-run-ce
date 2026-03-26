@@ -18,7 +18,7 @@ TL;DR  -->  compose the root Angular providers
 
 // ---------- imports and dependencies ----------
 
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { type ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { routes } from './routes';
 
