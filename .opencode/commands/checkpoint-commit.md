@@ -6,7 +6,7 @@ agent: developer
 
 ## TL;DR
 
-This command evaluates the current diff for checkpoint readiness. It should be routed whenever a stable rollback point is reached, propose a Conventional Commit, summarize the checkpoint, and stop before pushing.
+This command evaluates the current diff for checkpoint readiness. It should be routed whenever a stable rollback point is reached, propose multiple Conventional Commits (micro slices), summarize the checkpoint, and stop before pushing.
 
 ## Inputs
 
@@ -20,16 +20,15 @@ Current diff:
 
 Create:
 
-- A recommended Conventional Commit subject
-- An optional commit body
+- Recommended Conventional Commit subjects (type, scope, and description) written in clear English with 12-22 words and no raw identifier names
+- Optional commit bodies
 - A short checkpoint summary for `docs/coordination/checkpoints/`
-- A confirmation that `docs/coordination/` reflects the checkpoint before the commit is created
-- A confirmation that any required ADR entry is complete before the commit is considered merge-ready, including 2-4 bullets per ADR question and a 5-10 bullet `Current Status` recap in `docs/adr.md`
+- A confirmation that `docs/coordination/` reflects the checkpoint before the commits are created
+- A confirmation that any required ADR entries are complete before the commit is considered merge-ready, including 2-5 bullets per ADR question and a 5-10 bullet `Current Status` sprint recap in `docs/adr.md`
 - A refresh to `docs/coordination/active.md` so the checkpoint is visible in the dashboard
 - A yes-or-no decision on whether the current diff should be committed now
 - A scope choice that uses the first qualifying parent surface, such as `coordination`, `templates`, or `opencode`, and falls back to `repo` only when no narrower context cleanly covers the diff
 - A split recommendation when the current diff is too broad and would force `repo` unnecessarily
-- A commit subject written in clear English with 12-22 words and no raw identifier names
 - If the diff is coherent, ask for approval to run `git add` and `git commit` instead of batching more unrelated work first
 
 ## Failure Conditions

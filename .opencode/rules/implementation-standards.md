@@ -64,6 +64,7 @@ Incorrect:
 - prefer 1–2 words
 - use 4 words maximum
 - prefer concept-first names over framework-heavy names
+- when a folder already provides the needed context, do not repeat it with file prefixes or suffixes such as `test_` or `_test`
 - avoid vague names like:
   - `helpers`
   - `misc`
