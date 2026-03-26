@@ -1,20 +1,28 @@
 /*  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-TL;DR  -->  user-facing application shell
+TL;DR  -->  bootstrap the web application
 
 - Later Extension Points:
-  --> Wire Angular bootstrap here
+    --> Add future app-wide bootstrap providers here when frontend seams grow
 
 - Role:
-  --> Establishes the active browser entry point for the rebuild
-  --> Boots the app shell, route wiring, and global app configuration later
-  --> Exists as the single startup file the frontend grows from
-  --> Must remain thin: bootstrap only, no domain logic
+    --> Starts the Angular application from the active rebuild frontend boundary
+    --> Keeps frontend startup wiring in one thin composition file
+    --> Must remain a bootstrap seam, not a second home for page or component logic
 
 - Exports:
-  --> app bootstrap path only
+    --> Web runtime bootstrap side effect
 
 - Consumed By:
-  --> local operators running the web bootstrap entry
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  */
+    --> Angular build and serve commands in `apps/web/package.json`
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  */
 
-export {}
+// ---------- imports and dependencies ----------
+
+import { bootstrapApplication } from '@angular/platform-browser';
+import { appConfig } from './config';
+import { AppComponent } from './components';
+
+// ---------- bootstrap ----------
+
+bootstrapApplication(AppComponent, appConfig)
+  .catch((err) => console.error(err));

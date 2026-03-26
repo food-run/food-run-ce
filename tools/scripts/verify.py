@@ -17,15 +17,25 @@ TL;DR  -->  repo verification entrypoint for script and coordination checks
 - Consumed By:
     --> reviewers, integrators, and local operators running repo verification
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  """
+
 from __future__ import annotations
 
 # ---------- imports and dependencies ----------
 
 import argparse
+import io
 import re
 import subprocess
 import sys
+from contextlib import redirect_stdout
 from pathlib import Path
+
+# Keep the repo root importable during direct script execution.
+REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from shared.testkit import TestCase, write_file
 
 # ---------- runtime identity ----------
 
@@ -37,16 +47,25 @@ TLDR_REQUIRED_MARKERS = (
     '- Exports:',
     '- Consumed By:',
 )
-# Scan only active rebuild Python script surfaces.
+# Scan only active rebuild Python script surfaces (exclude node_modules, dist, .angular).
 PYTHON_SCRIPT_PATTERNS = (
-    'tools/script/**/*.py',
-    'apps/**/*.py',
+    'tools/scripts/*.py',
+    'apps/agent/*.py',
+    'apps/api/*.py',
+    'apps/domain/*.py',
     'shared/**/*.py',
 )
 # Audit script headers across Python and TypeScript entrypoints.
-SCRIPT_HEADER_PATTERNS = PYTHON_SCRIPT_PATTERNS + (
+SCRIPT_HEADER_PATTERNS = (
+    'tools/scripts/*.py',
+    'apps/agent/*.py',
+    'apps/api/*.py',
+    'apps/domain/*.py',
+    'shared/**/*.py',
+    'shared/testkit/ui/**/*.ts',
+    'shared/testkit/ui/**/*.mjs',
     'apps/web/src/**/*.ts',
-    'apps/**/*.js',
+    'apps/web/src/**/*.js',
 )
 # Match canonical Python section headers in implemented files.
 PYTHON_SECTION_MARKER_RE = re.compile(r'^# ---------- [a-z0-9][a-z0-9 -]* ----------$', re.MULTILINE)
@@ -59,7 +78,14 @@ CONSUMED_BY_LINE_RE = re.compile(r'^\s*-->\s+\S.+$', re.MULTILINE)
 # Require more than one section in implemented files.
 MIN_IMPLEMENTED_SECTION_MARKERS = 2
 # Keep the repo verification workflow bound to this entrypoint.
-CENTRAL_VERIFY_COMMAND = 'python3 tools/script/verify.py --ci'
+CENTRAL_VERIFY_COMMAND = 'python3 tools/scripts/verify.py --ci'
+# Keep the shared testkit suite list stable without filename prefixes.
+# Keep script-local unit discovery pointed at the canonical script home.
+SCRIPT_TEST_DISCOVERY_START = 'tools/scripts'
+# Keep script-local unit discovery narrow to Python script files.
+SCRIPT_TEST_DISCOVERY_PATTERN = '*.py'
+# Keep the remaining shared testkit workflow suite explicit.
+REPO_TEST_MODULES = ('shared.testkit.workflows',)
 # Point to the canonical merge-blocking repo verification workflow.
 REPO_VERIFY_WORKFLOW_PATH = Path('.github/workflows/repo-verify.yml')
 
@@ -332,6 +358,34 @@ def verify_script_tldrs(repo_root: Path) -> int:
     return 0
 
 
+# Run the shared repo-control suites from their canonical module list.
+def verify_repo_test_modules(repo_root: Path) -> int:
+    # Discover script-owned unit coverage from the canonical script home.
+    failures = run_script(
+        'tools/scripts unittest discovery',
+        [
+            sys.executable,
+            '-m',
+            'unittest',
+            'discover',
+            '-s',
+            SCRIPT_TEST_DISCOVERY_START,
+            '-p',
+            SCRIPT_TEST_DISCOVERY_PATTERN,
+            '-t',
+            '.',
+        ],
+        repo_root,
+    )
+    # Run the remaining shared workflow suite from its stable module home.
+    failures += run_script(
+        'shared testkit workflow suite',
+        [sys.executable, '-m', 'unittest', *REPO_TEST_MODULES],
+        repo_root,
+    )
+    return failures
+
+
 # Keep the merge-blocking workflow thin and script-driven.
 def verify_repo_workflow_contract(repo_root: Path) -> int:
     # Announce the workflow-boundary verification stage.
@@ -354,7 +408,7 @@ def verify_repo_workflow_contract(repo_root: Path) -> int:
     # Keep YAML orchestration thin instead of encoding policy there.
     if len(run_blocks) != 1:
         failures.append(
-            f'{REPO_VERIFY_WORKFLOW_PATH}: expected exactly 1 shell run step so policy stays in tools/script/verify.py, found {len(run_blocks)}'
+            f'{REPO_VERIFY_WORKFLOW_PATH}: expected exactly 1 shell run step so policy stays in tools/scripts/verify.py, found {len(run_blocks)}'
         )
 
     # Reject multiline shell blocks that could hide extra logic.
@@ -397,7 +451,7 @@ def verify_coordination(repo_root: Path, ci: bool, skip_coordination: bool) -> i
     # Delegate coordination policy to its dedicated script.
     return run_script(
         'coordination cadence',
-        [sys.executable, 'tools/script/coordination_status.py', 'verify'],
+        [sys.executable, 'tools/scripts/coordination.py', 'verify'],
         repo_root,
     )
 
@@ -411,6 +465,8 @@ def main() -> int:
     parser.add_argument('--ci', action='store_true', help='Use CI-safe behavior for local-only artifacts.')
     # Allow local users to skip cadence checks deliberately.
     parser.add_argument('--skip-coordination', action='store_true', help='Skip coordination cadence checks.')
+    # Allow skipping reviewer-frontend verification for non-frontend changes.
+    parser.add_argument('--skip-frontend', action='store_true', help='Skip reviewer-frontend verification.')
     # Parse the incoming command-line flags.
     args = parser.parse_args()
 
@@ -422,10 +478,19 @@ def main() -> int:
     failures += verify_script_syntax(repo_root)
     # Check script explainability against repo policy.
     failures += verify_script_tldrs(repo_root)
+    # Run the shared repo-control suites from their canonical modules.
+    failures += verify_repo_test_modules(repo_root)
     # Keep the CI workflow routed through this verifier.
     failures += verify_repo_workflow_contract(repo_root)
     # Check coordination freshness unless the caller skipped it.
     failures += verify_coordination(repo_root, ci=args.ci, skip_coordination=args.skip_coordination)
+    # Run reviewer-frontend verification unless skipped.
+    if not args.skip_frontend:
+        failures += run_script(
+            'reviewer frontend',
+            [sys.executable, 'tools/scripts/frontend.py'],
+            repo_root,
+        )
 
     # Fail the run when any stage reported issues.
     if failures:
@@ -435,6 +500,40 @@ def main() -> int:
     # Report success once every stage passed.
     print('VERIFY PASSED')
     return 0
+
+
+# ---------- test coverage ----------
+
+
+# Keep verifier helper coverage beside the single verifier runtime.
+class WorkflowContractTests(TestCase):
+    # Accept the one canonical central verifier command.
+    def test_detects_central_verifier_command(self) -> None:
+        workflow_text = 'run: python3 tools/scripts/verify.py --ci\n'
+        self.assertTrue(workflow_runs_central_verifier(workflow_text))
+
+    # Reject workflows that bypass the central verifier entrypoint.
+    def test_rejects_missing_central_verifier_command(self) -> None:
+        workflow_text = 'run: python3 tools/scripts/other.py --ci\n'
+        self.assertFalse(workflow_runs_central_verifier(workflow_text))
+
+    # Reject multiline shell blocks that can hide extra policy.
+    def test_rejects_multiline_run_blocks(self) -> None:
+        workflow_text = 'run: |\n  python3 tools/scripts/verify.py --ci\n  echo hidden\n'
+        self.assertFalse(workflow_runs_central_verifier(workflow_text))
+
+    # Keep workflow failures actionable and path-specific.
+    def test_reports_actionable_workflow_contract_failure(self) -> None:
+        workflow_path = self.repo_root / '.github' / 'workflows' / 'repo-verify.yml'
+        write_file(workflow_path, 'run: python3 tools/scripts/other.py --ci\n')
+
+        output = io.StringIO()
+        with redirect_stdout(output):
+            result = verify_repo_workflow_contract(self.repo_root)
+
+        self.assertEqual(result, 1)
+        self.assertIn(str(Path('.github/workflows/repo-verify.yml')), output.getvalue())
+        self.assertIn('expected the only shell run step to be', output.getvalue())
 
 
 # Keep the module executable as a direct script.

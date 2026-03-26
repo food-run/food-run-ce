@@ -9,7 +9,7 @@ TL;DR  -->  API service container surface
 - Consumed By:
     --> platform/k8s/api.yaml
     --> docker-compose or local dev runs
-    --> tools/script/dev.py
+    --> tools/scripts/dev.py
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 FROM python:3.11-slim
 

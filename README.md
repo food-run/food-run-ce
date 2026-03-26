@@ -6,7 +6,7 @@
 
 Food Run is a meal planning platform that helps home cooks turn a week’s worth of online recipes into a single, efficient bulk shopping trip. Paste in recipe links, confirm the ingredients, and Food Run will build a consolidated shopping list that respects your pantry, your portions, and your budget. Food Run can also tailor weekly meal plan recommendations for you and your household
 
-> ***Live Demo:***  [https://food-run.github.io/food-run-ce/](https://food-run.github.io/food-run-ce/)
+> ***Live Demo:***  [https://food-run.github.io/food-run-ce/](https://food-run.github.io/food-run-ce/) — built from `apps/web` via GitHub Pages
 
 
 ---
@@ -186,10 +186,10 @@ Before opening substantial work, review:
 
 ### CI and Docs Expectations
 
-- keep `tools/script/verify.py`, `tools/script/coordination_status.py`, and `tools/script/release.py` as the central script seams instead of duplicating policy in workflow YAML
+- keep `tools/scripts/verify.py`, `tools/scripts/coordination.py`, and `tools/scripts/release.py` as the central script seams instead of duplicating policy in workflow YAML
 - keep `docs/testing.md`, `docs/operations.md`, and `docs/adr.md` aligned with the actual workflow and script behavior
 - if a durable doc is missing, stub only that exact permanent file, and only when the expected content is not already sufficiently covered elsewhere
-- treat the local `python3 tools/script/coordination_status.py watch` loop as operator-owned coordination support, not as CI-owned automation
+- treat the local `python3 tools/scripts/coordination.py watch` loop as operator-owned coordination support, not as CI-owned automation
 
 
 ---
@@ -231,9 +231,3 @@ In particular:
 - the code license does not grant branding rights
 - modified or hosted versions must not present themselves as the official Food Run project without written permission
 - forks are encouraged to provide clear factual acknowledgment when referencing the upstream project
-
-
----
-
-
-Last updated: 2026-03-20

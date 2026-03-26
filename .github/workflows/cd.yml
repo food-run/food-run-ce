@@ -1,5 +1,5 @@
 ## TL;DR
-# - keeps release-readiness policy in `tools/script/release.py`
+# - keeps release-readiness policy in `tools/scripts/release.py`
 # - stays manual-only so D4 does not pretend real deployment maturity exists yet
 # - prepares release metadata and guardrails without publishing or deploying anything
 
@@ -29,4 +29,4 @@ jobs:
 
       # Delegate release-readiness policy to the shared script seam.
       - name: run release preparation
-        run: python3 tools/script/release.py --ci prepare
+        run: python3 tools/scripts/release.py --ci prepare

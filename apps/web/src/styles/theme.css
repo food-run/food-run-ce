@@ -1,0 +1,146 @@
+/*  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+TL;DR  -->  design tokens for design system
+
+- Later Extension Points:
+    --> Add later semantic tokens here when reviewer and production themes need a clearer split
+
+- Role:
+    --> Centralizes color, spacing, typography, border, and control tokens
+    --> Uses Comic Sans MS first for the bolder comic look you want
+    --> Provides shared border and text-nudge tokens so spacing stays DRY
+
+- Exports:
+    --> Shared typography, spacing, color, and shadow tokens for the active web app
+
+- Consumed By:
+    --> `apps/web/src/styles.css` and every imported stylesheet module
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  */
+
+:root {
+    --font-body: "Winky Sans", "Comic Neue", "Comic Sans MS", "Comic Mono", "Chalkboard SE", "Trebuchet MS", system-ui, sans-serif;
+
+    --font-size-base: clamp(1rem, 0.16vw + 0.95rem, 1.06rem);
+    --font-size-small: clamp(0.84rem, 0.12vw + 0.8rem, 0.92rem);
+    --font-size-button: clamp(1.1rem, 0.2vw + 1.1rem, 1.3rem);
+    --font-size-h1: clamp(3.45rem, 2.25vw + 2.55rem, 5.35rem);
+    --font-size-h2: clamp(1.95rem, 0.55vw + 1.62rem, 2.35rem);
+    --font-size-h3: clamp(1.3rem, 0.26vw + 1.15rem, 1.5rem);
+
+    --font-weight-regular: 400;
+    --font-weight-medium: 400;
+    --font-weight-strong: 700;
+
+    --tracking-body: 0.01em;
+    --tracking-heading: 0.04em;
+    --tracking-button: 0.11em;
+    --tracking-label: 0.06em;
+
+    --button-text-nudge: 0.12rem;
+}
+
+:root {
+    --space-2xs: 0.28rem;
+    --space-xs: 0.5rem;
+    --space-sm: 0.78rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+
+    --shell-gap: 0.82rem;
+    --container-gap: 0.82rem;
+    --page-stack-gap: 0.36rem;
+}
+
+:root {
+    --radius-sm: 0.85rem;
+    --radius-md: 1rem;
+    --radius-lg: 1.45rem;
+
+    --control-height: 3rem;
+    --control-height-sm: 2.55rem;
+    --toggle-size: 2.35rem;
+    --toggle-offset: 0.92rem;
+
+    --border-width: 0.12rem;
+}
+
+:root {
+    --color-bg: #edf5f8;
+    --color-surface: #ffffff;
+    --color-surface-muted: #f3f7fb;
+    --color-surface-raised: #e6eef6;
+    --color-surface-strong: #d7e3ee;
+
+    --color-text: #1f2a34;
+    --color-text-soft: #67788a;
+
+    --color-border: #c7d5e2;
+    --color-border-strong: #9fb8cd;
+
+    --color-accent: #339fe5;
+    --color-accent-strong: #1a82c8;
+    --color-accent-soft: #e0f2ff;
+
+    --color-secondary: #27b48d;
+    --color-secondary-strong: #16916f;
+    --color-secondary-soft: #e4f7f1;
+
+    --color-error: #e15663;
+    --color-error-soft: #fdecee;
+
+    --color-warning: #d7a132;
+    --color-warning-soft: #fff5dd;
+
+    --color-on-accent: #ffffff;
+    --color-on-secondary: #ffffff;
+
+    --shadow-panel: 0 0 0 1px rgba(15, 23, 42, 0.02), 0 1rem 2rem rgba(15, 23, 42, 0.06);
+    --shadow-focus: 0 0 0 0.18rem color-mix(in srgb, var(--color-accent) 30%, transparent);
+
+    --bg: var(--color-bg);
+    --primary: var(--color-text);
+    --secondary: var(--color-secondary);
+    --accent: var(--color-accent);
+    --muted: var(--color-surface-muted);
+}
+
+:root[data-theme="dark"],
+body[data-theme="dark"] {
+    --color-bg: #05111d;
+    --color-surface: #071a2c;
+    --color-surface-muted: #102538;
+    --color-surface-raised: #17324d;
+    --color-surface-strong: #234364;
+
+    --color-text: #eef6fd;
+    --color-text-soft: #bcc9d8;
+
+    --color-border: #2a4968;
+    --color-border-strong: #416a93;
+
+    --color-accent: #57b7f3;
+    --color-accent-strong: #88d3ff;
+    --color-accent-soft: rgba(87, 183, 243, 0.18);
+
+    --color-secondary: #35c7a5;
+    --color-secondary-strong: #59e1c4;
+    --color-secondary-soft: rgba(53, 199, 165, 0.18);
+
+    --color-error: #ff707d;
+    --color-error-soft: rgba(255, 112, 125, 0.14);
+
+    --color-warning: #f0c65f;
+    --color-warning-soft: rgba(240, 198, 95, 0.15);
+
+    --color-on-accent: var(--color-bg);
+    --color-on-secondary: var(--color-bg);
+
+    --shadow-panel: 0 0 0 1px rgba(133, 186, 255, 0.05), 0 1.25rem 2.5rem rgba(0, 0, 0, 0.35);
+    --shadow-focus: 0 0 0 0.18rem color-mix(in srgb, var(--color-accent) 36%, transparent);
+
+    --bg: var(--color-bg);
+    --primary: var(--color-text);
+    --secondary: var(--color-secondary);
+    --accent: var(--color-accent);
+    --muted: var(--color-surface-muted);
+}

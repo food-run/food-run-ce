@@ -1,16 +1,38 @@
 {
   "name": "@food-run/web",
   "private": true,
-  "description": "Starter package surface for the Food Run web application boundary.",
+  "description": "The frontend surface for Food Run, built from the active rebuild tree.",
   "packageManager": "bun@1.2.17",
-  "x_runtime_role": "Reserve one permanent package home for the user-facing runtime.",
-  "x_later_extension_points": [
-    "Declare the real web dependencies here in later deliverables.",
-    "Keep build and test commands owned by the web runtime."
-  ],
+  "engines": {
+    "node": "^24.0.0 || ^26.0.0 || ^28.0.0"
+  },
   "scripts": {
-    "start": "bunx ng serve",
+    "start": "bunx ng serve --host 0.0.0.0 --port 4200",
     "build": "bunx ng build",
-    "test": "bunx ng test"
+    "build:pages": "bunx ng build --configuration production --base-href /food-run-ce/ && cp dist/browser/index.html dist/browser/404.html",
+    "build:prod": "bunx ng build --configuration production",
+    "lint": "biome lint ./src ../../shared/testkit/ui",
+    "e2e": "NODE_PATH=./node_modules playwright test -c ../../shared/testkit/ui/playwright.config.mjs"
+  },
+  "dependencies": {
+    "@angular/animations": "^21.0.0",
+    "@angular/common": "^21.0.0",
+    "@angular/compiler": "^21.0.0",
+    "@angular/core": "^21.0.0",
+    "@angular/forms": "^21.0.0",
+    "@angular/platform-browser": "^21.0.0",
+    "@angular/platform-browser-dynamic": "^21.0.0",
+    "@angular/router": "^21.0.0",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.6.0",
+    "zone.js": "~0.15.0"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "^21.0.0",
+    "@angular/cli": "^21.0.0",
+    "@angular/compiler-cli": "^21.0.0",
+    "@biomejs/biome": "^1.9.4",
+    "@playwright/test": "^1.55.0",
+    "typescript": "~6.0.0"
   }
 }

@@ -1,0 +1,41 @@
+/*  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+TL;DR  -->  define the app-local Biome lint contract for the active web surface
+
+- Later Extension Points:
+    --> Expand rule choices here only when the frontend grows enough to justify stricter app-local lint policy
+
+- Role:
+    --> Keeps the active web app on one owned lint configuration without reviving Angular CLI lint scaffolding
+    --> Limits the current lint surface to the app-local frontend and browser-smoke files
+    --> Must stay narrow so package ownership and lint behavior remain easy to review
+
+- Exports:
+    --> Biome configuration for `apps/web`
+
+- Consumed By:
+    --> `apps/web/package.json`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  */
+
+{
+  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "files": {
+    "ignore": ["dist/**", "node_modules/**"]
+  },
+  "formatter": {
+    "enabled": false
+  },
+  "organizeImports": {
+    "enabled": false
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true
+    }
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single"
+    }
+  }
+}

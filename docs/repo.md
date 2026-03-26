@@ -44,10 +44,12 @@ Current posture for active rebuild homes:
 
 - `legacy-v0/` preserves the validated prototype as a coherent snapshot
 - `apps/` holds deployable runtime homes for active rebuild work
+- `apps/web/` owns its app-local Bun package surface, including frontend build, lint, and browser-smoke dependencies
 - `shared/` holds seam-level shared contracts, schemas, adapters, and test support
 - `tools/` holds shared automation, verification, and operator-facing scripts for the rebuild
 - `docs/` holds planning, coordination, and durable technical documentation
 - `.opencode/` holds agent lane docs, commands, rules, and reusable skills
+- `.opencode/` may keep its own local package surface when plugin dependencies are specific to OpenCode rather than the active app runtime
 - `.github/` holds repository automation and review workflow files
 - future application and shared-code ownership belongs in the active rebuild tree, not in archived prototype paths
 

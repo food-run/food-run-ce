@@ -1,0 +1,53 @@
+## TL;DR
+# - runs frontend lint and browser-smoke checks for apps/web and shared UI testkit changes
+# - installs a local Chrome executable on the runner instead of using Playwright-managed browsers
+# - keeps frontend quality gating separate from deploy workflow blast radius
+# - verifies the active web shell without pretending full browser-matrix maturity exists
+
+name: frontend quality
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+    paths:
+      - 'apps/web/**'
+      - 'shared/testkit/ui/**'
+      - '.github/workflows/frontend-quality.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify_frontend:
+    name: verify frontend lint and smoke
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v4
+
+      - name: setup bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.2.17"
+
+      - name: setup chrome
+        id: chrome
+        uses: browser-actions/setup-chrome@v1
+
+      - name: install frontend dependencies
+        working-directory: apps/web
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+        run: bun install --frozen-lockfile
+
+      - name: lint frontend
+        working-directory: apps/web
+        run: bun run lint
+
+      - name: run browser smoke suite
+        working-directory: apps/web
+        env:
+          PLAYWRIGHT_BROWSER_PATH: ${{ steps.chrome.outputs.chrome-path }}
+        run: bun run e2e

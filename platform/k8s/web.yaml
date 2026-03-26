@@ -8,7 +8,7 @@ TL;DR  -->  Web service Kubernetes manifest for local k3s
 
 - Consumed By:
     --> kubectl apply -f platform/k8s/web.yaml
-    --> tools/script/dev.py
+    --> tools/scripts/dev.py
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 apiVersion: apps/v1
 kind: Deployment

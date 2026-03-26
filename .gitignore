@@ -7,6 +7,11 @@ node_modules/
 dist/
 build/
 server-build/
+playwright-report/
+test-results/
+
+# Angular CLI cache
+.angular/
 
 # mac-specific metadata files
 .DS_Store

@@ -9,7 +9,7 @@ TL;DR  -->  Web frontend container surface
 - Consumed By:
     --> platform/k8s/web.yaml
     --> docker-compose or local dev runs
-    --> tools/script/dev.py
+    --> tools/scripts/dev.py
 
 - Notes:
     --> apps/web uses Bun and Angular, not Python

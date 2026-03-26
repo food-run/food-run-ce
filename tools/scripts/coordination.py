@@ -8,7 +8,7 @@ TL;DR  -->  coordination cadence verifier and heartbeat reminder runtime
 - Role:
     --> Verifies that the active coordination scope stays fresh in `docs/coordination/`
     --> Generates structured reminder output and draft heartbeat notes before cadence slips
-    --> Exists as the single script surface for coordination-status automation in the rebuild
+    --> Exists as the single script surface for coordination automation in the rebuild
     --> Must remain a thin repo-control runner, not a hidden orchestration layer
 
 - Exports:
@@ -17,17 +17,28 @@ TL;DR  -->  coordination cadence verifier and heartbeat reminder runtime
 - Consumed By:
     --> PM and local operators running coordination checks and reminder commands
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  """
+
 from __future__ import annotations
 
 # ---------- imports and dependencies ----------
 
 import argparse
+import io
 import os
 import re
 import sys
 import time
+from contextlib import redirect_stdout
 from datetime import datetime, timedelta
 from pathlib import Path
+from unittest import mock
+
+# Keep the repo root importable during direct script execution.
+REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from shared.testkit import TestCase, make_active_doc, make_heartbeat_note, write_file
 
 # ---------- runtime identity ----------
 
@@ -697,6 +708,83 @@ def main() -> int:
     # Keep unsupported commands impossible in normal use.
     parser.error(f'unsupported command: {args.command}')
     return 2
+
+
+# ---------- test coverage ----------
+
+
+# Keep coordination coverage beside the single runtime home.
+class CoordinationTests(TestCase):
+    # Keep the legacy single-scope dashboard backward-compatible.
+    def test_parses_legacy_active_scope_as_one_workstream(self) -> None:
+        workstreams = parse_active_workstreams(make_active_doc('S0-D4-T4'))
+        self.assertEqual(len(workstreams), 1)
+        self.assertEqual(parse_scope(workstreams[0]['Scope']), 'S0-D4-T4')
+
+    # Reject mixed dashboard shapes that break deterministic resume.
+    def test_rejects_ambiguous_mixed_active_shapes(self) -> None:
+        active_text = '\n'.join([
+            '# 💠 Active Coordination Status',
+            '',
+            '- **Generated At:** 2026-03-21 11:00 local',
+            '- **Updated By:** PM',
+            '- **Active Scope:** `S0-D4-T4`',
+            '',
+            '## Active Workstreams',
+            '',
+            '### `S0-D4-T4`',
+            '- **Scope:** `S0-D4-T4`',
+        ])
+
+        with self.assertRaises(ValueError):
+            parse_active_workstreams(active_text)
+
+    # Ignore draft heartbeats when choosing the latest official note.
+    def test_latest_note_ignores_drafts(self) -> None:
+        notes_dir = self.repo_root / 'docs' / 'coordination' / 'notes'
+        write_file(notes_dir / 'S0-D4-T4-N1.md', make_heartbeat_note('S0-D4-T4'))
+        write_file(notes_dir / 'S0-D4-T4-N2.draft.md', make_heartbeat_note('S0-D4-T4'))
+
+        latest = latest_note(notes_dir, 'S0-D4-T4')
+        if latest is None:
+            self.fail('expected one official heartbeat note')
+        self.assertEqual(latest.name, 'S0-D4-T4-N1.md')
+
+    # Surface missing heartbeat notes with actionable scope context.
+    def test_verify_reports_missing_heartbeat_note(self) -> None:
+        self.write_active_doc(make_active_doc('S0-D4-T4'))
+        self.write_task_doc('S0-D4-T4')
+
+        output = io.StringIO()
+        with redirect_stdout(output):
+            result = verify_coordination(self.repo_root, scope_override=None, max_gap_minutes=6)
+
+        self.assertEqual(result, 1)
+        self.assertIn('missing heartbeat note for active scope S0-D4-T4', output.getvalue())
+
+    # Keep the local watch loop out of CI environments.
+    def test_watch_rejects_ci_environment(self) -> None:
+        with mock.patch.dict('os.environ', {'CI': 'true'}, clear=False):
+            output = io.StringIO()
+            with redirect_stdout(output):
+                result = watch_coordination(Path('/tmp/food-run-test'))
+
+        self.assertEqual(result, 1)
+        self.assertIn('watch is local-only', output.getvalue())
+
+    # Route the watch command through the shared reminder loop.
+    def test_main_watch_routes_to_default_loop(self) -> None:
+        with mock.patch.dict('os.environ', {}, clear=True):
+            with mock.patch(__name__ + '.remind_coordination', return_value=0) as remind_mock:
+                with mock.patch.object(sys, 'argv', ['coordination.py', 'watch']):
+                    result = main()
+
+        self.assertEqual(result, 0)
+        _, kwargs = remind_mock.call_args
+        self.assertTrue(kwargs['loop'])
+        self.assertEqual(kwargs['interval_seconds'], WATCH_INTERVAL_SECONDS)
+        self.assertEqual(kwargs['warn_before_minutes'], WATCH_WARN_BEFORE_MINUTES)
+        self.assertTrue(kwargs['write_stub'])
 
 
 # Keep the module executable as a direct script.

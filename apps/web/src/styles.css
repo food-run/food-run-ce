@@ -1,0 +1,104 @@
+/*  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+TL;DR  -->  global frontend styles
+
+- Later Extension Points:
+    --> Add later shared style imports here when the reviewer shell grows new permanent seams
+
+- Role:
+    --> Provides all CSS for the Food Run Angular application
+    --> Uses a system comic-style font stack instead of an imported font
+    --> Imports modular stylesheets from styles/ folder
+
+- Exports:
+    --> Root stylesheet import chain for the active web app
+
+- Consumed By:
+    --> Angular build and serve commands via `apps/web/angular.json`
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  */
+
+@import url("https://fonts.googleapis.com/css2?family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap");
+@import './styles/theme.css';
+@import './styles/layout.css';
+@import './styles/components.css';
+@import './styles/pages.css';
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    min-height: 100vh;
+}
+
+body {
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-body);
+    font-size: var(--font-size-base);
+    line-height: 1.42;
+    letter-spacing: var(--tracking-body);
+    padding: var(--shell-gap);
+    transition: background-color 0.25s ease, color 0.25s ease;
+    overflow-x: hidden;
+}
+
+img,
+svg {
+    max-inline-size: 100%;
+    block-size: auto;
+}
+
+h1,
+h2,
+h3,
+label {
+    font-weight: var(--font-weight-strong);
+    letter-spacing: var(--tracking-heading);
+    line-height: 1.06;
+}
+
+h1 {
+    font-size: var(--font-size-h1);
+}
+
+h2 {
+    font-size: var(--font-size-h2);
+}
+
+h3,
+label {
+    font-size: var(--font-size-h3);
+}
+
+p {
+    margin-block: 0;
+}
+
+a {
+    color: var(--accent);
+    text-decoration: none;
+}
+
+a:hover,
+a:focus-visible {
+    text-decoration: underline;
+}
+
+@media (min-width: 48rem) {
+    .recipe-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+        gap: var(--container-gap);
+    }
+
+    .import-form {
+        grid-template-columns: minmax(0, 1fr) minmax(14rem, 16rem);
+        align-items: end;
+    }
+}

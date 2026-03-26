@@ -11,54 +11,53 @@
 
 ## Summary
 
-## Why this change
+### Why this change
 
-## Files and boundaries
+### Files and boundaries
 
-## Verification
-
-## Docs and ADR delta
-
-## Protected-path and hotspot notes
+### Protected-path and hotspot notes
 
 - Protected paths touched:
   - none
+
 - Hotspot files touched:
   - none
 
 ---
 
-## Scope
+## Verification
+
+### Checklist
+
+- [ ] No secrets or credentials added
+- [ ] No breaking API changes without discussion
+- [ ] File structure stays minimal (no deep nesting added)
+
+### Docs and ADR delta
+
+### Scope
 
 - [ ] Small and focused
 - [ ] Safe to review in <30 minutes
 - [ ] Docs updated if behavior changed
 - [ ] ADR entries are complete, newest-first, and answer the nine required master-packet questions for each meaningful slice
 
-## Tests
+### Tests
 
 - [ ] Unit tests added/updated
 - [ ] If applicable:
   - [ ] Integration tests added/updated
   - [ ] E2E tests added/updated
-  - [ ] I explained why tests are not feasible
+- [ ] Tests are not feasible
+  - Explaination: 
 
 ---
 
 ## CLA
 
-- [ ] I agree to the CLA in CLA.md
-
 Non-owner contributors must include this exact line in the PR description:
 
-I agree to the CLA in CLA.md
+- [ ] I agree to the CLA in CLA.md
 
 See `CLA.md` for repository-owner exception details and current automation expectations.
 
----
-
-## Checklist
-
-- [ ] No secrets or credentials added
-- [ ] No breaking API changes without discussion
-- [ ] File structure stays minimal (no deep nesting added)
