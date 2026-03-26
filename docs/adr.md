@@ -51,7 +51,7 @@ Each question should use 2-5 concrete bullets. `## Current Status` should stay a
 ### X-frontend-tooling - Keep frontend quality app-local while automating lint and smoke checks with installed browsers
 
 - ***What was built?***
-  - `apps/web/package.json` now exposes app-local `lint` and `e2e` commands, while `shared/testkit/web/playwright.config.mjs` resolves an already-installed Chromium or Chrome executable instead of relying on Playwright-managed browser downloads.
+  - `apps/web/package.json` now exposes app-local `lint` and `e2e` commands, while `shared/testkit/ui/playwright.config.mjs` resolves an already-installed Chromium or Chrome executable instead of relying on Playwright-managed browser downloads.
   - `.github/workflows/frontend-quality.yml` now runs frontend lint and browser smoke for `apps/web/**` pull requests, and `tools/scripts/hooks.py` installs local `pre-commit` and `pre-push` wrappers for the same bounded checks.
 - ***Why was it chosen?***
   - The earlier Playwright slice proved smoke coverage was useful, but it still depended on Playwright-managed browser downloads and manual execution, which made package ownership and operator setup less explicit than the repo standards expect.

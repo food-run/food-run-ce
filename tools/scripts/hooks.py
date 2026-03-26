@@ -8,6 +8,7 @@ TL;DR  -->  install and run local git hooks for bounded frontend quality checks
 - Role:
     --> Installs repo-owned local git hook wrappers into `.git/hooks`
     --> Runs fast lint checks on pre-commit and browser-smoke checks on pre-push
+    --> Applies only to this repository because it writes wrappers only inside this repo's `.git/hooks` directory and never edits global git config
     --> Must stay a local-operator helper instead of becoming a second CI policy engine
 
 - Exports:
@@ -68,6 +69,8 @@ def install_wrappers() -> int:
     if not GIT_HOOKS_DIR.exists():
         print(f'ERROR: missing git hooks directory: {GIT_HOOKS_DIR}')
         return 1
+
+    print(f'Installing project-local hooks in {GIT_HOOKS_DIR}')
 
     for file_name, stage in HOOK_WRAPPERS.items():
         hook_path = GIT_HOOKS_DIR / file_name

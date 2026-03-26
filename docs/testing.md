@@ -58,16 +58,16 @@ This file is the durable testing and verification guide for the rebuild. It shou
 - coordination cadence checks outside CI, with an explicit CI-safe skip for local-only coordination artifacts
 - reviewer-frontend build verification in `tools/scripts/frontend.py` that checks the GitHub Pages base path and SPA fallback artifact contract
 - app-local frontend lint and Playwright smoke commands that operators run from `apps/web/`, plus the dedicated frontend-quality workflow that now automates those checks on pull requests
-- governed header checks in `tools/scripts/verify.py` now also cover `shared/testkit/web/**/*.{ts,mjs}` so the first browser-smoke files stay inside the explainability contract
+- governed header checks in `tools/scripts/verify.py` now also cover `shared/testkit/ui/**/*.{ts,mjs}` so the first browser-smoke files stay inside the explainability contract
 
 ## Frontend Tooling Status
 
 - `apps/web/package.json` uses Bun as the active JavaScript package manager via `packageManager: bun@1.2.17`
-- `apps/web/` owns its own Bun dependencies and the commands that invoke frontend lint and browser smoke, while the actual smoke-test files now live under `shared/testkit/web/`
+- `apps/web/` owns its own Bun dependencies and the commands that invoke frontend lint and browser smoke, while the actual smoke-test files now live under `shared/testkit/ui/`
 - `.opencode/package.json` stays separate because it owns plugin-local tooling instead of the reviewer frontend runtime or test stack
 - `legacy-v0/package.json` still uses npm scripts because that archive preserves the validated prototype exactly instead of inheriting active-tree tooling decisions
 - Jasmine and Karma were Angular scaffold defaults for `ng test`, but they were removed from the active rebuild once that test target proved incomplete and unused
-- Playwright now provides the first active frontend browser-smoke seam under `shared/testkit/web/`, and it now launches an already-installed local Chromium or Chrome executable instead of relying on Playwright-managed browser downloads
+- Playwright now provides the first active frontend browser-smoke seam under `shared/testkit/ui/`, and it now launches an already-installed local Chromium or Chrome executable instead of relying on Playwright-managed browser downloads
 - if the team later chooses app-level frontend unit tests, it should pick that runner deliberately and document the replacement here instead of restoring dead scaffold files by accident
 - the current TDD posture for the frontend is Red-Green-Refactor on app-local lint and smoke coverage first, then expand deeper tests only when new behavior justifies them
 
@@ -77,7 +77,7 @@ This file is the durable testing and verification guide for the rebuild. It shou
 - `cd apps/web && bun run e2e` boots the Angular dev server and verifies the current shell redirect plus the visible shell navigation paths by using an already-installed local browser executable
 - `cd apps/web && bun run build` remains the active build command
 - `cd apps/web && bun run build:pages` remains the GitHub Pages artifact command
-- `python3 tools/scripts/hooks.py install` installs local `pre-commit` and `pre-push` wrappers that run frontend lint and browser smoke before changes leave the machine, and it refuses to overwrite non-generated hooks silently
+- `python3 tools/scripts/hooks.py install` installs local `pre-commit` and `pre-push` wrappers only inside this repository's `.git/hooks/`, refuses to overwrite non-generated hooks silently, and does not touch global git config or other repositories
 
 ## Release Scaffolding
 
