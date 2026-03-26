@@ -1,26 +1,37 @@
 /*  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-TL;DR  -->  configure the app-local Playwright smoke suite
+TL;DR  -->  configure the shared frontend Playwright smoke suite
 
 - Later Extension Points:
     --> Add built-artifact coverage or additional browser projects here once the frontend shell grows beyond the first smoke path
 
 - Role:
-    --> Owns the Playwright runtime contract for the active web app
-    --> Boots the Angular dev server for browser-smoke coverage without broadening into CI or deploy policy
-    --> Must stay app-local so browser tooling does not leak into unrelated repo surfaces
+    --> Owns the shared Playwright runtime contract for reviewer-visible frontend smoke coverage
+    --> Boots the Angular dev server for browser-smoke coverage without broadening into deploy policy
+    --> Must keep the test implementation under `shared/testkit/` while still targeting the active `apps/web` boundary
 
 - Exports:
-    --> default Playwright test configuration
+    --> default Playwright test configuration for the active web smoke suite
 
 - Consumed By:
     --> `apps/web/package.json`
-    --> local operators running `bun run e2e`
+    --> `.github/workflows/frontend-quality.yml`
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  */
 
 // ---------- imports and dependencies ----------
 
 import { existsSync } from 'node:fs';
-import { defineConfig, devices } from '@playwright/test';
+import { createRequire } from 'node:module';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+// ---------- path resolution ----------
+
+const currentFilePath = fileURLToPath(import.meta.url);
+const currentDir = dirname(currentFilePath);
+const repoRoot = resolve(currentDir, '..', '..', '..');
+const webDir = resolve(repoRoot, 'apps', 'web');
+const webRequire = createRequire(resolve(webDir, 'package.json'));
+const { defineConfig, devices } = webRequire('@playwright/test');
 
 // ---------- local browser resolution ----------
 
@@ -33,9 +44,9 @@ const browserCandidates = [
   '/usr/bin/chromium-browser',
   '/usr/bin/google-chrome',
   '/opt/google/chrome/chrome'
-].filter((value): value is string => Boolean(value));
+].filter((value) => Boolean(value));
 
-function resolveBrowserExecutable(): string {
+function resolveBrowserExecutable() {
   const resolvedPath = browserCandidates.find((candidate) => existsSync(candidate));
 
   if (resolvedPath) {
@@ -52,7 +63,8 @@ const browserExecutablePath = resolveBrowserExecutable();
 // ---------- test runner configuration ----------
 
 export default defineConfig({
-  testDir: './e2e',
+  testDir: currentDir,
+  testMatch: 'smoke.spec.ts',
   fullyParallel: true,
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 2 : 0,
@@ -75,6 +87,7 @@ export default defineConfig({
   ],
   webServer: {
     command: 'bunx ng serve --host 127.0.0.1 --port 4200',
+    cwd: webDir,
     url: 'http://127.0.0.1:4200',
     reuseExistingServer: !process.env.CI,
     timeout: 120000
