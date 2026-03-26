@@ -28,7 +28,7 @@ This file is the durable reasoning spine for major Food Run technical and proces
 - ***Why is the chosen design safer or more scalable?***
 - ***What trade-off did the team accept?***
 
-Each question should use 2-4 concrete bullets. `## Current Status` should stay a 5-10 bullet sprint recap.
+Each question should use 2-5 concrete bullets. `## Current Status` should stay a 5-10 bullet sprint recap.
 
 ### Current Status
 
@@ -38,7 +38,7 @@ Each question should use 2-4 concrete bullets. `## Current Status` should stay a
 - CI and PR controls now enforce reviewer narrative, docs and ADR coverage, protected-path acknowledgement, CLA handling, and a central repo verification seam.
 - Runtime parity baselines now exist for containers, k3s manifests, health and readiness surfaces, request correlation, observability vocabulary, resilience vocabulary, and edge-policy starter configs.
 - The reviewer-visible frontend now lives under `apps/web`, publishes through GitHub Pages, and uses a repo-subpath build plus SPA fallback shell for the public demo URL.
-- Governed script seams now live under `tools/scripts/`, with matching repo-control test coverage under `tools/testing/repo_controls/` and shared test helpers under `shared/testkit/`.
+- Governed script seams now live under `tools/scripts/`, while the matching shared repo-control suites and helpers now live together under `shared/testkit/`.
 - Sprint 0 delivery now defaults to small Conventional Commit checkpoints, stable scope-based coordination artifacts, and ADR-backed closeout before PR preparation.
 
 ---
@@ -79,16 +79,48 @@ Each question should use 2-4 concrete bullets. `## Current Status` should stay a
 
 ---
 
+### X-repo-control - Collapse repo-control verification into `shared/testkit/` and simplify script naming
+
+- ***What was built?***
+  - Repo-control verification modules moved out of `tools/testing/repo_controls/` into `shared/testkit/` as `verify.py`, `release.py`, `coordination.py`, and `workflows.py`, and the old `tools/testing/` surface was retired.
+  - The reviewer-frontend verifier moved into `tools/scripts/frontend.py`, and the coordination runner now lives at `tools/scripts/coordination.py` so folder context carries more of the naming burden.
+- ***Why was it chosen?***
+  - The master packet already reserved `shared/testkit/` as the long-term home for deterministic shared test support, so keeping a parallel `tools/testing/` tree was drift rather than a real boundary.
+  - Explicit module lists in `tools/scripts/verify.py` make the no-prefix naming rule enforceable without relying on `test_*.py` discovery conventions.
+- ***What boundaries does it own?***
+  - `tools/scripts/` remains the operator-facing runtime home for governed verification commands and helper scripts.
+  - `shared/testkit/` now owns both the shared repo-control suites and the reusable test fixtures/helpers those suites depend on.
+- ***What breaks if it changes?***
+  - Repo verification can silently miss the intended suites if `tools/scripts/verify.py` stops running the explicit `shared.testkit.*` module list.
+  - Durable docs and operator commands can drift back toward deleted `tools/testing/` or retired `tools/scripts/coordination_status.py` paths.
+- ***What known edge cases or failure modes matter here?***
+  - Historical coordination notes may still mention the retired paths; those notes remain archival evidence and do not need mass cleanup.
+  - `shared/testkit/` must stay focused on deterministic verification support so the collapse does not turn it into a generic bucket for unrelated utilities.
+- ***Why does this work matter?***
+  - It removes a duplicate structural story from Sprint 0 and makes the active tree look more like the target repo packet.
+  - It also makes naming rules more reviewable by letting folders, not prefixes, carry most of the context.
+- ***What capability does it unlock?***
+  - Later shared verification work can extend one canonical `shared/testkit/` seam instead of deciding between `shared/` and `tools/testing/` every time.
+  - Repo-control automation can keep using semantic filenames even when tests mirror runtime concepts closely.
+- ***Why is the chosen design safer or more scalable?***
+  - One explicit test-module list in the central verifier is easier to audit than pattern-based filename rules spread across docs and commands.
+  - Co-locating shared suites with shared fixtures reduces path drift and avoids a long-lived split between near-identical verification concepts.
+- ***What trade-off did the team accept?***
+  - The rename touches several durable docs and one repo-control rule because path and naming behavior changed together.
+  - The shared testkit surface is slightly broader now, so future reviewers need to keep its ownership line clear.
+
+---
+
 ### S0-D6 - Rehome governed script seams under `tools/scripts/` and keep verification coverage aligned
 
 - ***What was built?***
   - The governed repo-control scripts now live under `tools/scripts/`, and the active references in workflows, docs, planning packets, runtime manifests, and helper text were updated to match.
-  - Repo-control unit coverage now lives under `tools/testing/repo_controls/`, while the shared test helpers in `shared/testkit/` load the new script home directly.
+  - Repo-control unit coverage now lives under `shared/testkit/`, where shared fixtures and helper imports can load the governed script home directly.
 - ***Why was it chosen?***
   - The branch had already deleted the old `tools/script/` files, so leaving workflows and docs on the retired path would have made the repo-control story broken but still plausible.
-  - Moving the tests into `tools/testing/` also restores one clearer ownership boundary between script seams and their verification layers.
+  - Collapsing the suites into `shared/testkit/` keeps one clearer ownership boundary between operator-facing scripts and deterministic shared verification support.
 - ***What boundaries does it own?***
-  - Canonical paths for governed repo-control scripts, the repo-control test home, and the durable references humans and automation use to invoke those surfaces.
+  - Canonical paths for governed repo-control scripts, the shared repo-control suite home, and the durable references humans and automation use to invoke those surfaces.
   - The documentation boundary that explains where script policy lives versus where tests validate it.
 - ***What breaks if it changes?***
   - CI workflows and local operators can call missing files, docs can advertise the wrong commands, and later contributors can recreate duplicate script homes while trying to repair the drift.
@@ -100,7 +132,7 @@ Each question should use 2-4 concrete bullets. `## Current Status` should stay a
   - It keeps the governed automation story executable again after the path migration already started landing on the branch.
   - It also reduces review ambiguity by keeping scripts in one active home and tests in one matching verification home.
 - ***What capability does it unlock?***
-  - Later repo-control work can extend the renamed script seams and test seams without repairing stale path drift first.
+  - Later repo-control work can extend the renamed script seams and shared suites without repairing stale path drift first.
   - CI and local operators can run the documented commands directly instead of inferring which path is still canonical.
 - ***Why is the chosen design safer or more scalable?***
   - Updating the active references together keeps the rename small, deterministic, and easier to audit than carrying a long-lived alias period.
@@ -539,13 +571,13 @@ Each question should use 2-4 concrete bullets. `## Current Status` should stay a
 ### S0-D4 - Add a dedicated reporter lane and a local coordination reminder loop
 
 - ***What was built?***
-  - `.opencode/agents/reporter.md` now defines a packet-only coordination lane, PM can route packet normalization to it, and `tools/scripts/coordination_status.py` now exposes a local `watch` runner that reuses the shared reminder runtime every minute instead of creating a second coordination engine.
+  - `.opencode/agents/reporter.md` now defines a packet-only coordination lane, PM can route packet normalization to it, and `tools/scripts/coordination.py` now exposes a local `watch` runner that reuses the shared reminder runtime every minute instead of creating a second coordination engine.
   - It also established one durable home for this slice so later work can extend it in place instead of recreating the same decision elsewhere.
 - ***Why was it chosen?***
   - D4 needed stronger progress-report automation, but adding another script or machine-specific scheduler artifact would have split coordination logic and made local-only reporting harder to explain and review.
   - The team needed an explicit Sprint 0 baseline here before parallel work made this surface drift or stay chat-only.
 - ***What boundaries does it own?***
-  - Reporter-owned packet normalization, the PM handoff boundary for coordination formatting, and the local reminder loop that surfaces overdue scopes while keeping all coordination policy inside `tools/scripts/coordination_status.py`.
+  - Reporter-owned packet normalization, the PM handoff boundary for coordination formatting, and the local reminder loop that surfaces overdue scopes while keeping all coordination policy inside `tools/scripts/coordination.py`.
   - It also names the canonical review seam humans and agents should treat as the stable home for this decision.
 - ***What breaks if it changes?***
   - PM and subagents can drift into competing packet formats, overdue scopes can stop surfacing consistently, and local operators can lose the one obvious entrypoint for recurring coordination checks.

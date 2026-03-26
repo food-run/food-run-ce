@@ -25,9 +25,9 @@ This file is the durable operations guide for the rebuild. It should capture run
 
 ## CI as Operational Control
 
-- CI still owns merge-blocking repo verification and PR-gate workflows, while `python3 tools/scripts/coordination_status.py watch` stays a local operator control loop for minute-level reminder checks
-- the watch loop only delegates to the shared reminder runtime in `tools/scripts/coordination_status.py`, so the repo does not grow a second coordination engine just to support local scheduling
-- operators who prefer `launchd` or `cron` should schedule `python3 tools/scripts/coordination_status.py remind --warn-before-minutes 1 --write-stub` instead of creating a second coordination script
+- CI still owns merge-blocking repo verification and PR-gate workflows, while `python3 tools/scripts/coordination.py watch` stays a local operator control loop for minute-level reminder checks
+- the watch loop only delegates to the shared reminder runtime in `tools/scripts/coordination.py`, so the repo does not grow a second coordination engine just to support local scheduling
+- operators who prefer `launchd` or `cron` should schedule `python3 tools/scripts/coordination.py remind --warn-before-minutes 1 --write-stub` instead of creating a second coordination script
 
 ## Protected-Path Escalation
 

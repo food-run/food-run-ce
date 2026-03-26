@@ -23,7 +23,7 @@ This file is the durable testing and verification guide for the rebuild. It shou
 - Sprint 0 has established shared test support in `shared/testkit/`
 - repo verification already runs through `python3 tools/scripts/verify.py`
 - `.github/workflows/repo-verify.yml` already enforces that verifier in CI
-- `python3 tools/scripts/coordination_status.py watch` now provides the local-only minute-level reminder loop without expanding the CI verifier contract
+- `python3 tools/scripts/coordination.py watch` now provides the local-only minute-level reminder loop without expanding the CI verifier contract
 - later deliverables should extend this file with deeper runtime, contract, and smoke-specific commands as those layers become real
 
 ## Merge Gates
@@ -42,16 +42,17 @@ This file is the durable testing and verification guide for the rebuild. It shou
 
 - `.github/workflows/protected-paths.yml` now requires explicit PR acknowledgement when protected paths change, including any `.github/workflows/**` edit and the exact protected-path categories from `AGENTS.md`
 - `.github/workflows/cla-check.yml` now skips the CLA phrase gate for repository-owner-authored PRs while keeping the exact phrase requirement for outside contributors
-- `tools/testing/repo_controls/test_coordination_status.py` covers coordination parser and reminder-loop behavior for the shared runtime in `tools/scripts/coordination_status.py`
-- `tools/testing/repo_controls/test_release.py` keeps `.github/workflows/cd.yml` bound to `tools/scripts/release.py` and verifies the D4 release scaffold stays prepare-only
+- `shared/testkit/coordination.py` covers coordination parser and reminder-loop behavior for the shared runtime in `tools/scripts/coordination.py`
+- `shared/testkit/release.py`, `shared/testkit/verify.py`, and `shared/testkit/workflows.py` keep the governed workflow and script contracts bound to the central script seams without a `tools/testing/` shadow home
 
 ## Current Verifier Scope
 
 - Python script syntax across active rebuild script surfaces
 - governed TL;DR header and section-comment checks for script files
+- shared repo-control suites loaded from explicit `shared.testkit.*` modules instead of `test_*.py` filename discovery
 - repo-verification workflow contract checks so CI keeps delegating to the central verifier
 - coordination cadence checks outside CI, with an explicit CI-safe skip for local-only coordination artifacts
-- reviewer-frontend build verification that checks the GitHub Pages base path and SPA fallback artifact contract
+- reviewer-frontend build verification in `tools/scripts/frontend.py` that checks the GitHub Pages base path and SPA fallback artifact contract
 
 ## Release Scaffolding
 

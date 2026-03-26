@@ -186,10 +186,10 @@ Before opening substantial work, review:
 
 ### CI and Docs Expectations
 
-- keep `tools/scripts/verify.py`, `tools/scripts/coordination_status.py`, and `tools/scripts/release.py` as the central script seams instead of duplicating policy in workflow YAML
+- keep `tools/scripts/verify.py`, `tools/scripts/coordination.py`, and `tools/scripts/release.py` as the central script seams instead of duplicating policy in workflow YAML
 - keep `docs/testing.md`, `docs/operations.md`, and `docs/adr.md` aligned with the actual workflow and script behavior
 - if a durable doc is missing, stub only that exact permanent file, and only when the expected content is not already sufficiently covered elsewhere
-- treat the local `python3 tools/scripts/coordination_status.py watch` loop as operator-owned coordination support, not as CI-owned automation
+- treat the local `python3 tools/scripts/coordination.py watch` loop as operator-owned coordination support, not as CI-owned automation
 
 
 ---
