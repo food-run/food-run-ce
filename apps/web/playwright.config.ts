@@ -19,7 +19,35 @@ TL;DR  -->  configure the app-local Playwright smoke suite
 
 // ---------- imports and dependencies ----------
 
+import { existsSync } from 'node:fs';
 import { defineConfig, devices } from '@playwright/test';
+
+// ---------- local browser resolution ----------
+
+const browserCandidates = [
+  process.env.PLAYWRIGHT_BROWSER_PATH,
+  '/opt/homebrew/bin/chromium',
+  '/Applications/Chromium.app/Contents/MacOS/Chromium',
+  '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+  '/usr/bin/chromium',
+  '/usr/bin/chromium-browser',
+  '/usr/bin/google-chrome',
+  '/opt/google/chrome/chrome'
+].filter((value): value is string => Boolean(value));
+
+function resolveBrowserExecutable(): string {
+  const resolvedPath = browserCandidates.find((candidate) => existsSync(candidate));
+
+  if (resolvedPath) {
+    return resolvedPath;
+  }
+
+  throw new Error(
+    'No local Chromium or Chrome executable was found. Set PLAYWRIGHT_BROWSER_PATH to an installed browser path before running `bun run e2e`.'
+  );
+}
+
+const browserExecutablePath = resolveBrowserExecutable();
 
 // ---------- test runner configuration ----------
 
@@ -37,7 +65,12 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] }
+      use: {
+        ...devices['Desktop Chrome'],
+        launchOptions: {
+          executablePath: browserExecutablePath
+        }
+      }
     }
   ],
   webServer: {

@@ -21,6 +21,24 @@ TL;DR  -->  verify the first reviewer-visible frontend smoke paths
 
 import { expect, test } from '@playwright/test';
 
+// ---------- shared shell helpers ----------
+
+interface NavigationExpectation {
+  linkName: string;
+  pathPattern: RegExp;
+  headingName: string;
+  stateText: string;
+}
+
+async function expectShellNavigation(page: Parameters<typeof test>[0]['page'], expectation: NavigationExpectation) {
+  await page.goto('/import');
+  await page.getByRole('link', { name: expectation.linkName }).click();
+
+  await expect(page).toHaveURL(expectation.pathPattern);
+  await expect(page.getByRole('heading', { level: 2, name: expectation.headingName })).toBeVisible();
+  await expect(page.getByText(expectation.stateText)).toBeVisible();
+}
+
 // ---------- smoke coverage ----------
 
 test('redirects the root route into the import flow', async ({ page }) => {
@@ -32,11 +50,28 @@ test('redirects the root route into the import flow', async ({ page }) => {
 });
 
 test('navigates from the shared shell to the planner placeholder state', async ({ page }) => {
-  await page.goto('/import');
+  await expectShellNavigation(page, {
+    linkName: 'Planner',
+    pathPattern: /\/planner$/,
+    headingName: 'Planner',
+    stateText: 'No meals planned yet'
+  });
+});
 
-  await page.getByRole('link', { name: 'Planner' }).click();
+test('navigates from the shared shell to the recipes placeholder state', async ({ page }) => {
+  await expectShellNavigation(page, {
+    linkName: 'Recipes',
+    pathPattern: /\/recipes$/,
+    headingName: 'Recipes',
+    stateText: 'No recipes yet'
+  });
+});
 
-  await expect(page).toHaveURL(/\/planner$/);
-  await expect(page.getByRole('heading', { level: 2, name: 'Planner' })).toBeVisible();
-  await expect(page.getByText('No meals planned yet')).toBeVisible();
+test('navigates from the shared shell to the shopping placeholder state', async ({ page }) => {
+  await expectShellNavigation(page, {
+    linkName: 'Shopping List',
+    pathPattern: /\/shopping$/,
+    headingName: 'Shopping List',
+    stateText: 'No shopping list yet'
+  });
 });

@@ -12,8 +12,7 @@
     "build:pages": "bunx ng build --configuration production --base-href /food-run-ce/ && cp dist/browser/index.html dist/browser/404.html",
     "build:prod": "bunx ng build --configuration production",
     "lint": "biome lint ./src ./e2e ./playwright.config.ts",
-    "e2e": "playwright test",
-    "e2e:install": "playwright install chromium"
+    "e2e": "playwright test"
   },
   "dependencies": {
     "@angular/animations": "^21.0.0",
@@ -29,10 +28,10 @@
     "zone.js": "~0.15.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.9.4",
     "@angular-devkit/build-angular": "^21.0.0",
     "@angular/cli": "^21.0.0",
     "@angular/compiler-cli": "^21.0.0",
+    "@biomejs/biome": "^1.9.4",
     "@playwright/test": "^1.55.0",
     "typescript": "~6.0.0"
   }
