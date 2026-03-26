@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-TL;DR  -->  Local development orchestration and operator visibility
+TL;DR  -->  local development orchestration and operator visibility
 
 - Later Extension Points:
     --> Add service-specific run configurations as needed

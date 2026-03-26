@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-TL;DR  -->  verify the reviewer frontend build and GitHub Pages artifact contract
+TL;DR  -->  verify the frontend build
 
 - Later Extension Points:
     --> Add optional browser-smoke hooks here once Sprint 1 owns a stable e2e toolchain
