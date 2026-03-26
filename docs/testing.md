@@ -24,6 +24,9 @@ This file is the durable testing and verification guide for the rebuild. It shou
 - repo verification already runs through `python3 tools/scripts/verify.py`
 - `.github/workflows/repo-verify.yml` already enforces that verifier in CI
 - `python3 tools/scripts/coordination.py watch` now provides the local-only minute-level reminder loop without expanding the CI verifier contract
+- the active frontend package surface currently uses Bun in `apps/web/`, while `legacy-v0/` still keeps its frozen npm-era workflow as archived reference only
+- the active frontend now advertises an app-local `bun run lint` command and a minimal `bun run e2e` Playwright smoke suite under `apps/web/`
+- the active frontend still does not advertise an app-local unit-test runner because the current truthful test contract is lint plus browser smoke plus build and Pages-artifact verification
 - later deliverables should extend this file with deeper runtime, contract, and smoke-specific commands as those layers become real
 
 ## Merge Gates
@@ -53,6 +56,26 @@ This file is the durable testing and verification guide for the rebuild. It shou
 - repo-verification workflow contract checks so CI keeps delegating to the central verifier
 - coordination cadence checks outside CI, with an explicit CI-safe skip for local-only coordination artifacts
 - reviewer-frontend build verification in `tools/scripts/frontend.py` that checks the GitHub Pages base path and SPA fallback artifact contract
+- app-local frontend lint and Playwright smoke commands that operators run from `apps/web/` until the browser suite is mature enough for central repo gating
+
+## Frontend Tooling Status
+
+- `apps/web/package.json` uses Bun as the active JavaScript package manager via `packageManager: bun@1.2.17`
+- `apps/web/` owns its own Bun dependencies, lint tooling, and Playwright browser-smoke tooling because those concerns belong to the active web app boundary
+- `.opencode/package.json` stays separate because it owns plugin-local tooling instead of the reviewer frontend runtime or test stack
+- `legacy-v0/package.json` still uses npm scripts because that archive preserves the validated prototype exactly instead of inheriting active-tree tooling decisions
+- Jasmine and Karma were Angular scaffold defaults for `ng test`, but they were removed from the active rebuild once that test target proved incomplete and unused
+- Playwright now provides the first active frontend browser-smoke seam under `apps/web/e2e/` without broadening into a full CI gate yet
+- if the team later chooses app-level frontend unit tests, it should pick that runner deliberately and document the replacement here instead of restoring dead scaffold files by accident
+- the current TDD posture for the frontend is Red-Green-Refactor on app-local lint and smoke coverage first, then expand deeper tests only when new behavior justifies them
+
+## Frontend Commands
+
+- `cd apps/web && bun run lint` checks the owned TypeScript frontend source with Biome
+- `cd apps/web && bun run e2e:install` installs the Chromium browser used by the current Playwright smoke slice
+- `cd apps/web && bun run e2e` boots the Angular dev server and verifies the current shell redirect and planner navigation paths
+- `cd apps/web && bun run build` remains the active build command
+- `cd apps/web && bun run build:pages` remains the GitHub Pages artifact command
 
 ## Release Scaffolding
 
