@@ -22,9 +22,19 @@ from __future__ import annotations
 # ---------- imports and dependencies ----------
 
 import argparse
+import io
 import os
 import sys
+from contextlib import redirect_stdout
 from datetime import datetime, timezone
+from pathlib import Path
+
+# Keep the repo root importable during direct script execution.
+REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from shared.testkit import TestCase, load_script
 
 # ---------- release constants ----------
 
@@ -101,6 +111,45 @@ def main() -> int:
     # Keep unsupported actions impossible in normal use.
     parser.error(f'unsupported action: {args.action}')
     return 2
+
+
+# ---------- test coverage ----------
+
+VERIFY_MODULE = load_script('verify')
+
+
+# Keep release scaffold coverage beside the single release runtime.
+class ReleaseScaffoldTests(TestCase):
+    # Keep the prepare action explicit about Sprint 0 scope.
+    def test_prepare_reports_prepared_only_status(self) -> None:
+        output = io.StringIO()
+        with redirect_stdout(output):
+            result = print_prepare_summary(ci=False)
+
+        self.assertEqual(result, 0)
+        self.assertIn('RELEASE PREP SUMMARY', output.getvalue())
+        self.assertIn(PREPARED_ONLY_MESSAGE, output.getvalue())
+
+    # Reject deploy attempts until D5 owns real rollout behavior.
+    def test_deploy_action_fails_with_d5_guidance(self) -> None:
+        output = io.StringIO()
+        with redirect_stdout(output):
+            result = reject_deploy()
+
+        self.assertEqual(result, 1)
+        self.assertIn('Sprint 0 D5', output.getvalue())
+
+    # Keep the workflow delegated to the central release command.
+    def test_cd_workflow_runs_central_release_script(self) -> None:
+        workflow_text = (Path(__file__).resolve().parents[2] / '.github' / 'workflows' / 'cd.yml').read_text(encoding='utf-8')
+        self.assertEqual(VERIFY_MODULE.workflow_run_blocks(workflow_text), [CENTRAL_RELEASE_COMMAND])
+
+    # Keep the release workflow manual until real rollout behavior lands.
+    def test_cd_workflow_is_manual_only(self) -> None:
+        workflow_text = (Path(__file__).resolve().parents[2] / '.github' / 'workflows' / 'cd.yml').read_text(encoding='utf-8')
+        self.assertIn('workflow_dispatch:', workflow_text)
+        self.assertNotIn('push:', workflow_text)
+        self.assertNotIn('pull_request:', workflow_text)
 
 
 # Keep the module executable as a direct script.

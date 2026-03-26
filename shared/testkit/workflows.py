@@ -14,8 +14,9 @@ TL;DR  -->  narrow contract coverage for the pull-request gate workflows
     --> `PullRequestWorkflowContractTests` unittest coverage for D4 PR workflow contracts
 
 - Consumed By:
-    --> `python3 -m unittest discover -s tools/testing -p 'test_*.py'`
+    --> `python3 tools/scripts/verify.py --skip-coordination --skip-frontend`
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  """
+
 from __future__ import annotations
 
 # ---------- imports and dependencies ----------
@@ -26,7 +27,7 @@ from shared.testkit import TestCase
 
 # ---------- workflow fixtures ----------
 
-REPO_ROOT = Path(__file__).resolve().parents[3]
+REPO_ROOT = Path(__file__).resolve().parents[2]
 DOCS_GUARD_PATH = REPO_ROOT / '.github' / 'workflows' / 'docs-guard.yml'
 PROTECTED_PATHS_PATH = REPO_ROOT / '.github' / 'workflows' / 'protected-paths.yml'
 

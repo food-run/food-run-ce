@@ -15,7 +15,7 @@ TL;DR  -->  verify the reviewer frontend build and GitHub Pages artifact contrac
 
 - Consumed By:
     --> tools/scripts/verify.py (via --skip-frontend flag)
-    --> repo operators running `python3 tools/testing/ui/frontend.py`
+    --> repo operators running `python3 tools/scripts/frontend.py`
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  """
 from __future__ import annotations
 
@@ -29,7 +29,7 @@ from pathlib import Path
 
 # ---------- runtime identity ----------
 
-REPO_ROOT = Path(__file__).resolve().parents[3]
+REPO_ROOT = Path(__file__).resolve().parents[2]
 WEB_DIR = REPO_ROOT / 'apps' / 'web'
 PAGES_INDEX_PATH = WEB_DIR / 'dist' / 'browser' / 'index.html'
 PAGES_404_PATH = WEB_DIR / 'dist' / 'browser' / '404.html'
