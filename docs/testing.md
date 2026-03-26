@@ -57,6 +57,7 @@ This file is the durable testing and verification guide for the rebuild. It shou
 - coordination cadence checks outside CI, with an explicit CI-safe skip for local-only coordination artifacts
 - reviewer-frontend build verification in `tools/scripts/frontend.py` that checks the GitHub Pages base path and SPA fallback artifact contract
 - app-local frontend lint and Playwright smoke commands that operators run from `apps/web/` until the browser suite is mature enough for central repo gating
+- governed header checks in `tools/scripts/verify.py` now also cover `apps/web/playwright.config.ts` and `apps/web/e2e/**/*.ts` so the first browser-smoke files stay inside the explainability contract
 
 ## Frontend Tooling Status
 
@@ -71,7 +72,7 @@ This file is the durable testing and verification guide for the rebuild. It shou
 
 ## Frontend Commands
 
-- `cd apps/web && bun run lint` checks the owned TypeScript frontend source with Biome
+- `cd apps/web && bun run lint` checks the owned frontend source, Playwright config, and browser-smoke files with Biome
 - `cd apps/web && bun run e2e:install` installs the Chromium browser used by the current Playwright smoke slice
 - `cd apps/web && bun run e2e` boots the Angular dev server and verifies the current shell redirect and planner navigation paths
 - `cd apps/web && bun run build` remains the active build command

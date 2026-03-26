@@ -62,6 +62,8 @@ SCRIPT_HEADER_PATTERNS = (
     'apps/api/*.py',
     'apps/domain/*.py',
     'shared/**/*.py',
+    'apps/web/playwright.config.ts',
+    'apps/web/e2e/**/*.ts',
     'apps/web/src/**/*.ts',
     'apps/web/src/**/*.js',
 )
