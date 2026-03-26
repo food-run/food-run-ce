@@ -774,9 +774,10 @@ class CoordinationTests(TestCase):
 
     # Route the watch command through the shared reminder loop.
     def test_main_watch_routes_to_default_loop(self) -> None:
-        with mock.patch(__name__ + '.remind_coordination', return_value=0) as remind_mock:
-            with mock.patch.object(sys, 'argv', ['coordination.py', 'watch']):
-                result = main()
+        with mock.patch.dict('os.environ', {}, clear=True):
+            with mock.patch(__name__ + '.remind_coordination', return_value=0) as remind_mock:
+                with mock.patch.object(sys, 'argv', ['coordination.py', 'watch']):
+                    result = main()
 
         self.assertEqual(result, 0)
         _, kwargs = remind_mock.call_args
