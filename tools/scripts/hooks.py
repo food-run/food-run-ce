@@ -112,6 +112,7 @@ def build_parser() -> argparse.ArgumentParser:
     """Build the local hook CLI parser."""
     parser = argparse.ArgumentParser(description='Install or run local git hooks for frontend quality checks.')
     parser.add_argument('command', choices=('install', 'pre-commit', 'pre-push'))
+    parser.add_argument('hook_args', nargs='*')
     return parser
 
 
