@@ -110,7 +110,7 @@ This file is the durable reasoning spine for major Food Run technical and proces
 
 ---
 
-### X-repo-control - Collapse repo-control verification into `shared/testkit/` and simplify script naming
+### S0-D6 - Collapse repo-control verification into `shared/testkit/` and simplify script naming
 
 - ***What was built?***
   - Repo-control verification modules moved out of `tools/testing/repo_controls/` into `shared/testkit/` as `verify.py`, `release.py`, `coordination.py`, and `workflows.py`, and the old `tools/testing/` surface was retired.
