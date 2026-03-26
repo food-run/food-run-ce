@@ -11,7 +11,7 @@ This file is the durable reasoning spine for major Food Run technical and proces
 - Link related repo surfaces and docs when the decision changes shared understanding
 - Keep entries sorted newest first
 - Keep `## Current Status` to a 5-10 bullet sprint recap instead of a running changelog
-- Use 2-4 concrete bullets for every ADR question so benefits, trade-offs, and constraints stay explicit
+- Use 2-5 concrete bullets for every ADR question so benefits, trade-offs, alternatives, and constraints stay explicit
 - Keep slices as small as current understanding allows without creating duplicate ADR noise
 - Plan out-of-scope human edits separately unless the human explicitly includes them
 - One decision per entry — if a deliverable touches multiple distinct surfaces, split into separate entries (e.g., D5 touching Dockerfiles, k8s manifests, health endpoints, and docs should become 4-6 separate ADR entries)
@@ -27,8 +27,6 @@ This file is the durable reasoning spine for major Food Run technical and proces
 - ***What capability does it unlock?***
 - ***Why is the chosen design safer or more scalable?***
 - ***What trade-off did the team accept?***
-
-Each question should use 2-5 concrete bullets. `## Current Status` should stay a 5-10 bullet sprint recap.
 
 ### Current Status
 
@@ -48,7 +46,7 @@ Each question should use 2-5 concrete bullets. `## Current Status` should stay a
 
 ---
 
-### X-frontend-tooling - Keep frontend quality app-local while automating lint and smoke checks with installed browsers
+### S0-D6 - Keep frontend quality app-local while automating lint and smoke checks with installed browsers
 
 - ***What was built?***
   - `apps/web/package.json` now exposes app-local `lint` and `e2e` commands, while `shared/testkit/ui/playwright.config.mjs` resolves an already-installed Chromium or Chrome executable instead of relying on Playwright-managed browser downloads.
