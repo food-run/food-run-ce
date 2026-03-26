@@ -1,5 +1,5 @@
 ## TL;DR
-# - runs frontend lint and browser-smoke checks for apps/web changes
+# - runs frontend lint and browser-smoke checks for apps/web and shared UI testkit changes
 # - installs a local Chrome executable on the runner instead of using Playwright-managed browsers
 # - keeps frontend quality gating separate from deploy workflow blast radius
 # - verifies the active web shell without pretending full browser-matrix maturity exists
@@ -11,7 +11,7 @@ on:
     types: [opened, edited, synchronize, reopened]
     paths:
       - 'apps/web/**'
-      - 'shared/testkit/web/**'
+      - 'shared/testkit/ui/**'
       - '.github/workflows/frontend-quality.yml'
   workflow_dispatch:
 

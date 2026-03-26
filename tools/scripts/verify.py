@@ -62,8 +62,8 @@ SCRIPT_HEADER_PATTERNS = (
     'apps/api/*.py',
     'apps/domain/*.py',
     'shared/**/*.py',
-    'shared/testkit/web/**/*.ts',
-    'shared/testkit/web/**/*.mjs',
+    'shared/testkit/ui/**/*.ts',
+    'shared/testkit/ui/**/*.mjs',
     'apps/web/src/**/*.ts',
     'apps/web/src/**/*.js',
 )
