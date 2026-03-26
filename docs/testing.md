@@ -77,7 +77,7 @@ This file is the durable testing and verification guide for the rebuild. It shou
 - `cd apps/web && bun run e2e` boots the Angular dev server and verifies the current shell redirect plus the visible shell navigation paths by using an already-installed local browser executable
 - `cd apps/web && bun run build` remains the active build command
 - `cd apps/web && bun run build:pages` remains the GitHub Pages artifact command
-- `python3 tools/scripts/hooks.py install` installs local `pre-commit` and `pre-push` wrappers that run frontend lint and browser smoke before changes leave the machine
+- `python3 tools/scripts/hooks.py install` installs local `pre-commit` and `pre-push` wrappers that run frontend lint and browser smoke before changes leave the machine, and it refuses to overwrite non-generated hooks silently
 
 ## Release Scaffolding
 

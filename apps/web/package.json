@@ -12,7 +12,7 @@
     "build:pages": "bunx ng build --configuration production --base-href /food-run-ce/ && cp dist/browser/index.html dist/browser/404.html",
     "build:prod": "bunx ng build --configuration production",
     "lint": "biome lint ./src ../../shared/testkit/web",
-    "e2e": "playwright test -c ../../shared/testkit/web/playwright.config.mjs"
+    "e2e": "NODE_PATH=./node_modules playwright test -c ../../shared/testkit/web/playwright.config.mjs"
   },
   "dependencies": {
     "@angular/animations": "^21.0.0",

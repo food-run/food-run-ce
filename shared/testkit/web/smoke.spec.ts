@@ -19,8 +19,8 @@ TL;DR  -->  verify the first reviewer-visible frontend smoke paths from the shar
 
 // ---------- imports and dependencies ----------
 
-import type { Page } from '../../../apps/web/node_modules/@playwright/test';
-import { expect, test } from '../../../apps/web/node_modules/@playwright/test';
+import type { Page } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 // ---------- shared shell helpers ----------
 
