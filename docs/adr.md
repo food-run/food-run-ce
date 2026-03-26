@@ -38,12 +38,45 @@ Each question should use 2-5 concrete bullets. `## Current Status` should stay a
 - CI and PR controls now enforce reviewer narrative, docs and ADR coverage, protected-path acknowledgement, CLA handling, and a central repo verification seam.
 - Runtime parity baselines now exist for containers, k3s manifests, health and readiness surfaces, request correlation, observability vocabulary, resilience vocabulary, and edge-policy starter configs.
 - The reviewer-visible frontend now lives under `apps/web`, publishes through GitHub Pages, and uses a repo-subpath build plus SPA fallback shell for the public demo URL.
+- Frontend quality now has an app-local lint seam, a local-browser Playwright smoke seam, and a dedicated pull-request workflow that keeps those checks separate from deploy automation.
 - Governed script seams now live under `tools/scripts/`, while the matching shared repo-control suites and helpers now live together under `shared/testkit/`.
 - Sprint 0 delivery now defaults to small Conventional Commit checkpoints, stable scope-based coordination artifacts, and ADR-backed closeout before PR preparation.
 
 ---
 
 ## Entries
+
+---
+
+### X-frontend-tooling - Keep frontend quality app-local while automating lint and smoke checks with installed browsers
+
+- ***What was built?***
+  - `apps/web/package.json` now exposes app-local `lint` and `e2e` commands, while `shared/testkit/web/playwright.config.mjs` resolves an already-installed Chromium or Chrome executable instead of relying on Playwright-managed browser downloads.
+  - `.github/workflows/frontend-quality.yml` now runs frontend lint and browser smoke for `apps/web/**` pull requests, and `tools/scripts/hooks.py` installs local `pre-commit` and `pre-push` wrappers for the same bounded checks.
+- ***Why was it chosen?***
+  - The earlier Playwright slice proved smoke coverage was useful, but it still depended on Playwright-managed browser downloads and manual execution, which made package ownership and operator setup less explicit than the repo standards expect.
+  - Keeping frontend quality app-local also avoids broadening the central repo verifier or deploy workflow before the smoke suite has earned that blast radius.
+- ***What boundaries does it own?***
+  - The active web app's lint contract, local-browser smoke contract, and the thin PR workflow that automates those checks without changing deploy policy.
+  - The local hook bootstrap seam that helps contributors run the same bounded frontend checks before commits and pushes leave the machine.
+- ***What breaks if it changes?***
+  - Contributors can drift back toward Playwright-managed browser downloads, or the smoke suite can stop running against the browser actually available on the operator or CI machine.
+  - Frontend regressions can also slip through more easily if lint and smoke automation drift away from the app-local commands they are meant to mirror.
+- ***What known edge cases or failure modes matter here?***
+  - Local smoke runs now depend on a browser executable already existing, so the config must fail fast with a clear path requirement when neither Chromium nor Chrome is installed.
+  - CI browser availability now depends on the workflow's browser-install step rather than Playwright downloads, so workflow drift becomes the main setup failure mode.
+- ***Why does this work matter?***
+  - It turns frontend lint and smoke coverage into truthful owned quality seams instead of optional local habits.
+  - It also keeps browser-install cost and deploy blast radius explicit while the frontend surface is still small.
+- ***What capability does it unlock?***
+  - Frontend pull requests can now get browser-smoke feedback automatically without waiting for deploy workflows or reintroducing dead Angular test scaffold.
+  - Contributors can also install lightweight local hooks that mirror the same lint and smoke commands before code leaves their machine.
+- ***Why is the chosen design safer or more scalable?***
+  - App-local commands keep ownership simple, while the separate workflow keeps smoke failures from being confused with Pages deployment behavior.
+  - Using installed browsers instead of Playwright-managed downloads reduces hidden toolchain behavior and keeps the executable path reviewable in one config file.
+- ***What trade-off did the team accept?***
+  - Operators and CI runners now need a browser executable available ahead of the smoke run instead of letting Playwright fetch one automatically.
+  - Local hook enforcement still requires an explicit bootstrap step because the repo does not rewrite git config automatically.
 
 ---
 
