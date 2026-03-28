@@ -59,7 +59,7 @@ input:focus-visible {
 .app-nav {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--space-xs);
+    gap: var(--space-sm);
     width: 100%;
 }
 
@@ -69,10 +69,10 @@ input:focus-visible {
     padding-inline: var(--space-sm);
     padding-block-start: calc(var(--space-xs) + var(--button-text-nudge));
     padding-block-end: calc(var(--space-xs) - 0.14rem);
-    border-radius: var(--radius-sm);
-    border: var(--border-width) solid var(--color-border-strong);
-    background: var(--color-surface-raised);
-    color: var(--color-accent-strong);
+    border-radius: 999px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--color-text-soft);
     text-transform: uppercase;
     white-space: normal;
     text-decoration: none;
@@ -81,22 +81,22 @@ input:focus-visible {
 .nav-button:hover,
 .nav-button:focus-visible {
     background: var(--color-accent-soft);
-    border-color: var(--color-accent);
+    border-color: color-mix(in srgb, var(--color-accent) 38%, transparent);
     color: var(--color-accent-strong);
     text-decoration: none;
 }
 
 .nav-button--active {
-    background: var(--color-secondary);
-    border-color: var(--color-secondary-strong);
-    color: var(--color-on-secondary);
+    background: var(--color-secondary-soft);
+    border-color: color-mix(in srgb, var(--color-secondary) 40%, transparent);
+    color: var(--color-secondary-strong);
 }
 
 .nav-button--active:hover,
 .nav-button--active:focus-visible {
-    background: var(--color-secondary-strong);
-    border-color: var(--color-secondary-strong);
-    color: var(--color-on-secondary);
+    background: color-mix(in srgb, var(--color-secondary-soft) 72%, var(--color-surface));
+    border-color: color-mix(in srgb, var(--color-secondary) 55%, transparent);
+    color: var(--color-secondary-strong);
 }
 
 .theme-toggle {
