@@ -68,6 +68,7 @@ Guidance:
 - Do not over-bold playful fonts until counters close up
 - Maintain enough size for immediate scanning
 - Ensure mixed icon-and-text compositions have clean spacing
+- Keep button labels optically centered instead of relying on obvious vertical nudges
 - Use sentence case unless there is a strong reason otherwise
 
 ## Heading Guidance
