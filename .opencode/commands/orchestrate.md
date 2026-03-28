@@ -67,8 +67,8 @@ Also load when helpful:
 - `protected-paths`
 - `drift-check`
 - `review-rubric`
-- `frontend-first-principles` for UI or UX implementation planning and execution
-- `ui-ux-review` for UI or UX review passes
+- `frontend-first-principles` for UI or UX implementation planning and execution when that skill is available in the current runtime
+- `ui-ux-review` for UI or UX review passes when that skill is available in the current runtime
 
 ## Planning-File Policy
 
