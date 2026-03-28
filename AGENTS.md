@@ -45,6 +45,7 @@ Rules:
 
 - Do not pin the full master packet into project instructions.
 - Load only the smallest planning set needed for the current work unit.
+- For UI or UX implementation work, also open `docs/design-system/MASTER.md`, the relevant page file in `docs/design-system/pages/`, and any directly relevant supporting design-system file before planning or implementation begins.
 - If planning files conflict, escalate the conflict before editing code or docs.
 - If current committed repo reality has already evolved beyond an older packet, refine the packet to the committed permanent structure by default instead of recreating stale file names.
 - Stub a missing durable doc only when the exact permanent home is absent and its expected content is not already sufficiently covered elsewhere.
@@ -161,10 +162,12 @@ Protected-path rules:
 ### Designer
 
 - Owns UX, UI, accessibility-minded implementation, and visual consistency
+- Must implement all UI and UX changes from the design-system planning set, using `docs/design-system/**` as the governing source before editing product surfaces
 
 ### Reviewer
 
 - Owns drift detection, boundary checks, explainability burden, and reject-or-approve recommendations
+- Must use the `ui-ux-review` skill and the relevant `docs/design-system/**` files when reviewing UI or UX diffs
 
 ### Integrator
 
@@ -194,6 +197,7 @@ During work:
 - Leave a checkpoint note after each meaningful step.
 - Follow `.opencode/rules/coordination-standards.md`.
 - Follow the `DRYness Gates` section in `.opencode/rules/implementation-standards.md` before implementation starts and before calling work complete.
+- For UI or UX implementation work, plan from the design-system documents first and route the implementation lane to `designer` rather than `developer`.
 - Route architect first on implementation-bearing tasks so invariants, failure modes, TDD shape, and scaffolding are defined before developer or designer execution.
 - Route ops review after reviewer and integrator pass implementation-bearing work, and do that before librarian closeout or merge preparation.
 - Keep tracked work recorded in small Conventional Commit slices that match the current checkpoint rhythm.
@@ -241,6 +245,7 @@ No meaningful change is done until the answer to each is yes:
 - Can the human explain every changed line?
 - Can the human modify it without reprompting?
 - Did architect shape the implementation-bearing task before developer or designer execution?
+- For UI or UX work, was the change planned against the design-system documents, implemented by `designer`, and reviewed with the `ui-ux-review` skill?
 - Are live coordination notes current?
 - Is the related docs or ADR delta prepared when needed?
 - Did ops review the implementation-bearing change before librarian closeout or merge preparation?
