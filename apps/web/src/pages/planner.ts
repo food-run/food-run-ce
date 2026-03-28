@@ -30,7 +30,7 @@ const plannerTemplate = createPageSection({
   content: `
     <div class="${pageShellClasses.emptyState}">
       <h3 class="${pageShellClasses.emptyStateTitle}">No meals planned yet</h3>
-      <p class="${pageShellClasses.emptyStateBody}">Select recipes to get started.</p>
+      <p class="${pageShellClasses.emptyStateBody}">Bring recipes in first, then use this space to shape a calmer week of meals.</p>
     </div>
   `
 });
