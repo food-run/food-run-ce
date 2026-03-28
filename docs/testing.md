@@ -77,6 +77,9 @@ This file is the durable testing and verification guide for the rebuild. It shou
 - `cd apps/web && bun run e2e` boots the Angular dev server and verifies the current shell redirect plus the visible shell navigation paths by using an already-installed local browser executable
 - `cd apps/web && bun run build` remains the active build command
 - `cd apps/web && bun run build:pages` remains the GitHub Pages artifact command
+- `cd apps/web && bun run watch` is the one-command local watch entrypoint; it prints the local preview URL and dist output path up front, then uses labeled, colorized concurrent processes so rebuild and preview logs stay organized in a single terminal and can later absorb a backend lane under the same pattern
+- `cd apps/web && bun run watch:dist` keeps a development build writing into `apps/web/dist/browser` without creating another temp output folder, so a second terminal or browser can watch the rebuilt files in place; treat that output as local development output, not a release artifact
+- `cd apps/web && bun run preview:dist` serves the current `apps/web/dist/browser` output at `http://127.0.0.1:4173` so you can refresh the built shell while `watch:dist` keeps rebuilding it; the preview server is explicitly localhost-only
 - `python3 tools/scripts/hooks.py install` installs local `pre-commit` and `pre-push` wrappers only inside this repository's `.git/hooks/`, refuses to overwrite non-generated hooks silently, and does not touch global git config or other repositories
 
 ## Release Scaffolding
