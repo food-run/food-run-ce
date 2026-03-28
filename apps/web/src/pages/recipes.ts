@@ -35,9 +35,9 @@ const recipesTemplate = createPageSection({
   description: 'View and manage your saved recipes.',
   content: `
     <ul class="${recipeListClasses.container}">
-      <li class="${pageShellClasses.card}">
-        <h3 class="${pageShellClasses.cardTitle}">No recipes yet</h3>
-        <p class="${pageShellClasses.cardBody}">Import a recipe to get started.</p>
+      <li class="${pageShellClasses.emptyState}">
+        <h3 class="${pageShellClasses.emptyStateTitle}">No recipes yet</h3>
+        <p class="${pageShellClasses.emptyStateBody}">Import a recipe to start building plans and lists around the meals you already like.</p>
       </li>
     </ul>
   `
