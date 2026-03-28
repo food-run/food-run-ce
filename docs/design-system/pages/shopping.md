@@ -62,6 +62,8 @@ Prefer the lightest treatment that still preserves:
 - Trust
 - Clear next steps
 
+The current reviewer shell should keep the empty state practical and lightly framed so the eventual list can remain the dominant structure.
+
 ## Mobile Behavior
 
 This page is especially important on mobile.
