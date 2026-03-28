@@ -95,6 +95,7 @@ TL;DR  -->  design tokens for design system
     --color-on-secondary: #ffffff;
 
     --shadow-panel: 0 0 0 1px rgba(15, 23, 42, 0.02), 0 1rem 2rem rgba(15, 23, 42, 0.06);
+    --shadow-shell: 0 0 0 1px rgba(15, 23, 42, 0.02), 0 0.85rem 1.8rem rgba(15, 23, 42, 0.05);
     --shadow-focus: 0 0 0 0.18rem color-mix(in srgb, var(--color-accent) 30%, transparent);
 
     --bg: var(--color-bg);
@@ -136,6 +137,7 @@ body[data-theme="dark"] {
     --color-on-secondary: var(--color-bg);
 
     --shadow-panel: 0 0 0 1px rgba(133, 186, 255, 0.05), 0 1.25rem 2.5rem rgba(0, 0, 0, 0.35);
+    --shadow-shell: 0 0 0 1px rgba(133, 186, 255, 0.04), 0 1rem 2.1rem rgba(0, 0, 0, 0.28);
     --shadow-focus: 0 0 0 0.18rem color-mix(in srgb, var(--color-accent) 36%, transparent);
 
     --bg: var(--color-bg);
