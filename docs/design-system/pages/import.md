@@ -52,6 +52,8 @@ That may remain temporarily if it improves focus, but Sprint 1 should evaluate w
 
 Do not let the form become a “card because forms are cards” pattern.
 
+For the current Sprint 1 shell, prefer a direct field-and-action grouping before adding another visible container.
+
 ## Tone Guidance
 
 The page should feel:
