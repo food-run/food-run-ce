@@ -30,7 +30,7 @@ const shoppingTemplate = createPageSection({
   content: `
     <div class="${pageShellClasses.emptyState}">
       <h3 class="${pageShellClasses.emptyStateTitle}">No shopping list yet</h3>
-      <p class="${pageShellClasses.emptyStateBody}">Add recipes to your meal plan to generate a shopping list.</p>
+      <p class="${pageShellClasses.emptyStateBody}">Once recipes and plans connect, this page should give you one clear list to trust at the store.</p>
     </div>
   `
 });
