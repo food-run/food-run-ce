@@ -69,6 +69,8 @@ If there are no recipes:
 - Point back to Import or the next relevant step
 - Keep the empty state visually modest
 
+For the current reviewer shell, prefer a lightweight list-empty message over a standalone card unless the extra surface clearly improves scanability.
+
 ## Mobile Behavior
 
 On mobile:
