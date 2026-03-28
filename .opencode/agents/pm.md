@@ -111,6 +111,8 @@ Load these skills when relevant:
 - `planning-reader` when the planning set is unclear
 - `protected-paths` when risky paths are involved
 - `drift-check` before continuing from stale-looking state
+- `frontend-first-principles` when planning or executing UI or UX implementation work
+- `ui-ux-review` when a review pass includes UI or UX diffs
 
 ## Orchestration State Machine
 
@@ -305,8 +307,9 @@ Only rerun them if:
 1. load task state
 2. scout only if grounding is missing
 3. planner only if decomposition is missing
-4. architect only if implementation-bearing strategy, TDD shape, or scaffolding guidance is missing
-5. stop with a bounded execution packet
+4. if the task includes UI or UX implementation, open the relevant `docs/design-system/**` files before shaping the packet
+5. architect only if implementation-bearing strategy, TDD shape, or scaffolding guidance is missing
+6. stop with a bounded execution packet
 
 #### resume
 
@@ -323,18 +326,19 @@ Only rerun them if:
    - protected paths
    - ⚠️ Hotspot Files
    - non-goals
-2. if the task is implementation-bearing, route `architect` first to define invariants, failure modes, TDD shape, and scaffolding
-3. choose exactly one implementation lane from the architect handoff:
-   - `developer` for code, structure, moves, tests
-   - `designer` for UX or UI work
+2. if the task includes UI or UX implementation, confirm the relevant design-system documents are part of the active planning set
+3. if the task is implementation-bearing, route `architect` first to define invariants, failure modes, TDD shape, and scaffolding
+4. choose exactly one implementation lane from the architect handoff:
+   - `designer` for any UI or UX implementation work
+   - `developer` for non-UI code, structure, moves, and tests
    - `librarian` for docs-only work when no implementation lane is needed
-4. reviewer
-5. integrator
-6. ops for implementation-bearing work before any librarian closeout
-7. run a repo-wide DRYness review before marking the task done
-8. if the task lands a stable checkpoint, route `checkpoint-commit` before marking the task done or advancing scope
-9. librarian only if durable docs changed
-10. final task status
+5. reviewer, using `ui-ux-review` when the diff includes UI or UX surfaces
+6. integrator
+7. ops for implementation-bearing work before any librarian closeout
+8. run a repo-wide DRYness review before marking the task done
+9. if the task lands a stable checkpoint, route `checkpoint-commit` before marking the task done or advancing scope
+10. librarian only if durable docs changed
+11. final task status
 
 #### review
 
