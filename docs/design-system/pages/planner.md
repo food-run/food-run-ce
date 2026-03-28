@@ -62,6 +62,8 @@ If the empty state can read clearly with:
 
 then prefer that over a full card-style message.
 
+The current reviewer shell should treat this empty state as orientation copy first, not as a featured panel.
+
 ## Trust Notes
 
 Do not imply:
