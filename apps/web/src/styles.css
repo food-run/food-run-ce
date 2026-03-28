@@ -98,7 +98,12 @@ a:focus-visible {
     }
 
     .import-form {
-        grid-template-columns: minmax(0, 1fr) minmax(14rem, 16rem);
+        grid-template-columns: minmax(0, 1fr) auto;
         align-items: end;
+    }
+
+    .import-form__parse-button {
+        inline-size: fit-content;
+        min-inline-size: 13rem;
     }
 }
