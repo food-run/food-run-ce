@@ -56,6 +56,7 @@ Each plan should include:
 - Goal
 - Files touched
 - Owner and reviewer suggestions
+- For UI or UX implementation work, the exact `docs/design-system/**` inputs to open and `designer` as the implementation owner
 - Dependency order
 - Merge-conflict risk
 - Expected checkpoint commit boundaries
