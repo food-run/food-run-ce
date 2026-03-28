@@ -66,7 +66,7 @@ export function createPageSection(options: PageSectionOptions): string {
 
 export const topBarTemplate = `
   <div class="app-top-bar">
-    <nav class="app-nav">
+    <nav class="app-nav" aria-label="Primary">
       <a routerLink="/import" routerLinkActive="nav-button--active" class="nav-button">Import</a>
       <a routerLink="/recipes" routerLinkActive="nav-button--active" class="nav-button">Recipes</a>
       <a routerLink="/planner" routerLinkActive="nav-button--active" class="nav-button">Planner</a>
