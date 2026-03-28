@@ -25,7 +25,7 @@ You own user-facing structure and presentation. You keep visual work aligned wit
 
 When the visual diff reaches a stable rollback point, call it out and hand off a checkpoint-commit recommendation instead of batching more unrelated polish into the same slice.
 
-For any UI or UX implementation task, open `docs/design-system/MASTER.md`, the relevant page file in `docs/design-system/pages/`, and any directly relevant supporting design-system file first, then use the `frontend-first-principles` skill to shape the implementation.
+For any UI or UX implementation task, open `docs/design-system/MASTER.md`, the relevant page file in `docs/design-system/pages/`, and any directly relevant supporting design-system file first, then use the `frontend-first-principles` skill to shape the implementation when that skill is available in the current runtime. If the runtime skill inventory has not refreshed yet, continue from the same design-system files directly instead of blocking.
 
 ## Lane Purpose
 
