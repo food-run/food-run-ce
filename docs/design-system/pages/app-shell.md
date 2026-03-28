@@ -58,8 +58,9 @@ Reduce shell surface weight when:
 
 For the current Sprint 1 reviewer shell:
 - Keep overall containment subtle rather than panel-heavy
-- Keep navigation visually clear without turning every route tab into loud chrome
+- Keep navigation visually clear by giving the nav rail a calm card treatment and keeping each route tab distinct from that background
 - Prefer one calm shell frame over a bordered root plus a second boxed top bar plus boxed page surfaces
+- Let the main routed content area hold a subtle muted distinction from the surrounding shell so the active page remains easy to parse
 
 ## Mobile Behavior
 
