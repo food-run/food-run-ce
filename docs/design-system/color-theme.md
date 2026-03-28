@@ -95,6 +95,7 @@ Especially check:
 - Focus rings
 - Secondary buttons
 - Dark-mode muted text
+- Navigation labels sitting on tinted shell surfaces
 
 If a state looks polished but is hard to read, it is not finished.
 
