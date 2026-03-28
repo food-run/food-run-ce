@@ -39,10 +39,10 @@ const importTemplate = createPageSection({
     <div class="${importFormClasses.container}">
       <div class="${importFormClasses.field}">
         <label for="recipe-url">Recipe URL</label>
-        <input type="url" id="recipe-url" placeholder="https://example.com/recipe" />
+        <input type="url" id="recipe-url" inputmode="url" autocomplete="url" placeholder="https://example.com/recipe" />
       </div>
 
-      <button class="${importFormClasses.parseButton}">Parse Recipe</button>
+      <button class="${importFormClasses.parseButton}">Import Recipe</button>
     </div>
   `
 });
