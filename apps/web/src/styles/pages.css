@@ -20,43 +20,48 @@ TL;DR  -->  shared page-shell and page-specific styles
     inline-size: 100%;
     display: flex;
     flex-direction: column;
-    gap: var(--space-xs);
-    padding: var(--space-sm);
-    border-radius: var(--radius-lg);
-    background: var(--color-surface-muted);
-    border: var(--border-width) solid var(--color-border);
+    gap: var(--space-sm);
+    padding: 0;
 }
 
 .page-section__title {
-    margin-block-start: var(--space-2xs);
-    margin-block-end: var(--space-xs);
+    margin: 0;
     color: var(--color-text);
 }
 
 .page-section__description {
-    margin-block-end: var(--space-xs);
+    max-inline-size: 40rem;
+    margin: 0;
     color: var(--color-text-soft);
     font-size: var(--font-size-base);
+    line-height: 1.5;
 }
 
 .page-card,
-.page-empty-state,
 .recipe-list-item {
     display: flex;
     flex-direction: column;
-    gap: var(--space-xs);
-    padding: var(--space-sm);
+    gap: var(--space-sm);
+    padding: var(--space-md);
     border-radius: var(--radius-md);
-    background: var(--color-surface);
-    border: var(--border-width) solid var(--color-border);
+    background: var(--color-surface-muted);
+    border: 1px solid color-mix(in srgb, var(--color-border) 76%, transparent);
+}
+
+.page-empty-state {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    max-inline-size: 40rem;
+    padding-block: var(--space-sm) 0;
+    border-top: 1px solid color-mix(in srgb, var(--color-border) 72%, transparent);
 }
 
 .page-card__title,
 .page-empty-state__title,
 .recipe-list-item__title {
     display: block;
-    margin-block-start: var(--space-2xs);
-    margin-block-end: var(--space-xs);
+    margin: 0;
     font-size: var(--font-size-h3);
     font-weight: var(--font-weight-strong);
     letter-spacing: var(--tracking-heading);
@@ -70,33 +75,30 @@ TL;DR  -->  shared page-shell and page-specific styles
     display: block;
     color: var(--color-text-soft);
     font-size: var(--font-size-base);
-    line-height: 1.35;
+    line-height: 1.5;
 }
 
 .import-form {
     display: grid;
-    gap: var(--space-xs);
-    padding: var(--space-sm);
-    border-radius: var(--radius-md);
-    background: var(--color-surface);
-    border: var(--border-width) solid var(--color-border);
+    gap: var(--space-sm);
+    max-inline-size: 46rem;
+    padding: 0;
 }
 
 .import-form__field {
     display: flex;
     flex-direction: column;
-    gap: var(--space-xs);
+    gap: calc(var(--space-xs) * 0.7);
     min-inline-size: 0;
 }
 
 .import-form__field label {
-    padding-inline-start: 1ch;
-    margin-block-start: var(--space-2xs);
-    margin-block-end: var(--space-2xs);
+    padding-inline-start: 0;
+    margin: 0;
     color: var(--color-text-soft);
     text-transform: uppercase;
     letter-spacing: var(--tracking-label);
-    font-size: var(--font-size-h3);
+    font-size: var(--font-size-small);
 }
 
 .import-form__field input {
@@ -218,7 +220,7 @@ TL;DR  -->  shared page-shell and page-specific styles
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: var(--space-xs);
+    gap: var(--space-sm);
 }
 
 .recipe-list-item__source {
@@ -232,7 +234,7 @@ TL;DR  -->  shared page-shell and page-specific styles
     padding: var(--space-sm);
     border-radius: var(--radius-md);
     background: var(--color-surface-muted);
-    border: var(--border-width) solid var(--color-border);
+    border: 1px solid color-mix(in srgb, var(--color-border) 68%, transparent);
 }
 
 .recipe-ingredients-list {
