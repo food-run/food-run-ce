@@ -56,6 +56,11 @@ Reduce shell surface weight when:
 - The shell competes with page content
 - Multiple shell elements create redundant boxing
 
+For the current Sprint 1 reviewer shell:
+- Keep overall containment subtle rather than panel-heavy
+- Keep navigation visually clear without turning every route tab into loud chrome
+- Prefer one calm shell frame over a bordered root plus a second boxed top bar plus boxed page surfaces
+
 ## Mobile Behavior
 
 On mobile:
