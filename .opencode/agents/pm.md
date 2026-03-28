@@ -111,8 +111,8 @@ Load these skills when relevant:
 - `planning-reader` when the planning set is unclear
 - `protected-paths` when risky paths are involved
 - `drift-check` before continuing from stale-looking state
-- `frontend-first-principles` when planning or executing UI or UX implementation work
-- `ui-ux-review` when a review pass includes UI or UX diffs
+- `frontend-first-principles` when planning or executing UI or UX implementation work, if that skill is available in the current runtime
+- `ui-ux-review` when a review pass includes UI or UX diffs, if that skill is available in the current runtime
 
 ## Orchestration State Machine
 
