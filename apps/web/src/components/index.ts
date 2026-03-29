@@ -18,7 +18,7 @@ TL;DR  -->  re-export the root web shell pieces from one frontend seam
 
 // ---------- root shell exports ----------
 
-export { AppComponent, appTemplate, topBarTemplate, mainTemplate } from './app';
+export { AppComponent, appTemplate, navTemplate, mainTemplate } from './app';
 
 // ---------- shared template exports ----------
 
