@@ -44,8 +44,46 @@ body {
     line-height: 1.42;
     letter-spacing: var(--tracking-body);
     padding: var(--shell-gap);
-    transition: background-color 0.25s ease, color 0.25s ease;
+    transition: background-color 0.44s ease, color 0.44s ease;
     overflow-x: hidden;
+}
+
+body,
+.app-root,
+.app-header,
+.app-nav,
+.app-nav::before,
+.nav-button,
+.app-main,
+.page-section,
+.page-card,
+.page-empty-state,
+.recipe-list-item,
+.import-form,
+.import-form__parse-button,
+.import-ingredients,
+.import-ingredients__row,
+.recipe-list-item__details,
+.theme-toggle,
+.footer-button,
+input[type="text"],
+input[type="url"],
+input[type="number"] {
+    transition-property: background-color, color, border-color, box-shadow;
+    transition-duration: 0.44s;
+    transition-timing-function: ease;
+}
+
+.app-nav::before {
+    transition-property: transform, background-color, border-color, box-shadow;
+    transition-duration: 0.68s, 0.44s, 0.44s, 0.44s;
+    transition-timing-function: cubic-bezier(0.32, 0.12, 0.16, 1), ease, ease, ease;
+}
+
+html[data-theme-switching] *,
+html[data-theme-switching] *::before,
+html[data-theme-switching] *::after {
+    animation: none !important;
 }
 
 img,
