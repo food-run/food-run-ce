@@ -172,6 +172,22 @@ A screen is good when:
 - It still feels like Food Run
 - It is not relying on leftover prototype card patterns to create structure
 
+## Execution Doctrine
+
+Any UI or UX implementation, review, or planning pass must treat this design-system folder as the governing source.
+
+That means:
+- Read `docs/design-system/MASTER.md` first
+- Read the relevant file in `docs/design-system/pages/` before shaping the change
+- Read any directly relevant supporting design-system document before editing product surfaces
+- Use the frontend design skills when the runtime provides them
+- Route UI or UX implementation work to the `designer` agent rather than the `developer` agent
+- Review UI or UX diffs with the `ui-ux-review` skill when available, or directly against the same design-system packet when it is not
+
+Do not treat design-system documents as optional background reading.
+
+Do not skip the `designer` lane for product-surface implementation unless the work is docs-only or the human explicitly overrides that routing.
+
 ## Required Questions Before Implementation
 
 1. What is the user trying to do here?
