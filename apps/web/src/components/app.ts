@@ -23,9 +23,9 @@ TL;DR  -->  compose the web shell and routed page helpers
 
 // ---------- imports and dependencies ----------
 
-import { Component, type OnInit } from '@angular/core';
+import { Component, inject, type OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 import { headerTemplate } from './header';
 import { footerTemplate } from './footer';
@@ -64,15 +64,30 @@ export function createPageSection(options: PageSectionOptions): string {
 
 // ---------- template fragments for app middle sections ----------
 
-export const topBarTemplate = `
-  <div class="app-top-bar">
-    <nav class="app-nav" aria-label="Primary">
-      <a routerLink="/import" routerLinkActive="nav-button--active" class="nav-button">Import</a>
-      <a routerLink="/recipes" routerLinkActive="nav-button--active" class="nav-button">Recipes</a>
-      <a routerLink="/planner" routerLinkActive="nav-button--active" class="nav-button">Planner</a>
-      <a routerLink="/shopping" routerLinkActive="nav-button--active" class="nav-button">Shopping List</a>
-    </nav>
-  </div>
+export const navTemplate = `
+  <nav class="app-nav" aria-label="Primary" [style.--nav-active-index]="activeNavIndex">
+    <a
+      *ngFor="let navItem of navItems"
+      [routerLink]="navItem.path"
+      class="nav-button"
+      [class.nav-button--active]="activeNavIndex === navItem.index"
+      [class.nav-button--hovered]="hoveredNavIndex === navItem.index"
+      [attr.aria-current]="activeNavIndex === navItem.index ? 'page' : null"
+      [attr.aria-label]="navItem.label"
+      (mouseenter)="onNavMouseEnter(navItem.index)"
+      (mouseleave)="onNavMouseLeave(navItem.index)"
+      (click)="onNavClick()"
+    >
+      <span class="nav-button__label" aria-hidden="true">
+        <span
+          *ngFor="let letter of navItem.letters; let letterIndex = index"
+          class="nav-button__label-letter"
+          [class.nav-button__label-letter--space]="letter === ' '"
+          [style.--letter-index]="letterIndex"
+        >{{ letter === ' ' ? '\u00A0' : letter }}</span>
+      </span>
+    </a>
+  </nav>
 `;
 
 export const mainTemplate = `
@@ -86,7 +101,7 @@ export const mainTemplate = `
 export const appTemplate = `
   <div class="app-root">
     ${headerTemplate}
-    ${topBarTemplate}
+    ${navTemplate}
     ${mainTemplate}
     ${footerTemplate}
   </div>
@@ -97,14 +112,25 @@ export const appTemplate = `
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive],
+  imports: [CommonModule, RouterModule],
   template: appTemplate,
   styles: []
 })
 export class AppComponent implements OnInit {
   // ---------- theme state ----------
 
+  private readonly router = inject(Router);
+
+  navItems = [
+    this.createNavItem('Import', '/import', 0),
+    this.createNavItem('Recipes', '/recipes', 1),
+    this.createNavItem('Planner', '/planner', 2),
+    this.createNavItem('Shopping List', '/shopping', 3)
+  ];
+
   isDarkMode = false;
+  activeNavIndex = 0;
+  hoveredNavIndex: number | null = null;
 
   ngOnInit() {
     const savedTheme = localStorage.getItem('theme');
@@ -116,14 +142,44 @@ export class AppComponent implements OnInit {
     }
 
     this.applyTheme();
+    this.syncActiveNav(this.router.url);
+
+    this.router.events.subscribe((event) => {
+      const navigationEvent = event as { urlAfterRedirects?: string };
+
+      if (navigationEvent.urlAfterRedirects) {
+        this.syncActiveNav(navigationEvent.urlAfterRedirects);
+      }
+    });
   }
 
   // ---------- interaction helpers ----------
 
   toggleTheme() {
+    document.documentElement.setAttribute('data-theme-switching', 'true');
     this.isDarkMode = !this.isDarkMode;
     localStorage.setItem('theme', this.isDarkMode ? 'dark' : 'light');
     this.applyTheme();
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        document.documentElement.removeAttribute('data-theme-switching');
+      });
+    });
+  }
+
+  onNavMouseEnter(index: number) {
+    this.hoveredNavIndex = index;
+  }
+
+  onNavMouseLeave(index: number) {
+    if (this.hoveredNavIndex === index) {
+      this.hoveredNavIndex = null;
+    }
+  }
+
+  onNavClick() {
+    this.hoveredNavIndex = null;
   }
 
   // ---------- private helpers ----------
@@ -134,5 +190,19 @@ export class AppComponent implements OnInit {
     } else {
       document.documentElement.removeAttribute('data-theme');
     }
+  }
+
+  private syncActiveNav(url: string) {
+    const matchedItem = this.navItems.find((navItem) => url.startsWith(navItem.path));
+    this.activeNavIndex = matchedItem?.index ?? 0;
+  }
+
+  private createNavItem(label: string, path: string, index: number) {
+    return {
+      label,
+      path,
+      index,
+      letters: Array.from(label)
+    };
   }
 }
