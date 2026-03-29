@@ -81,15 +81,19 @@ It should not feel:
 
 ## How to Use These Documents
 
+These documents are mandatory inputs for Food Run UI and UX work. They are not optional reference material.
+
 ### For Implementation
 
 1. Read `MASTER.md`
 2. Read the relevant page file in `pages/`
 3. Read any supporting global file needed for the task
-4. Restate the dominant user job
-5. Reduce before styling
-6. Implement with restraint
-7. Verify against `review-rubric.md`
+4. Load `frontend-first-principles` when the runtime offers it
+5. Route UI or UX implementation to the `designer` agent rather than the `developer` agent
+6. Restate the dominant user job
+7. Reduce before styling
+8. Implement with restraint
+9. Verify against `review-rubric.md`
 
 ### For Review
 
@@ -97,7 +101,18 @@ It should not feel:
 2. Read the relevant page file
 3. Read `review-rubric.md`
 4. Read `anti-patterns.md`
-5. Audit the page against the system and current product truth
+5. Load `ui-ux-review` when the runtime offers it
+6. Audit the page against the system and current product truth
+
+## Enforcement Rule
+
+For any product-surface UI or UX task:
+- `docs/design-system/**` is the governing design packet
+- `frontend-first-principles` should shape planning and implementation when available
+- `ui-ux-review` should shape review when available
+- the implementation lane must go to `designer`
+
+Only docs-only design-system maintenance may skip `designer` delegation.
 
 ## Master and Page-Override Model
 
