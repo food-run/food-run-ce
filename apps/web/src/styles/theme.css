@@ -19,12 +19,16 @@ TL;DR  -->  design tokens for design system
 :root {
     --font-body: "Winky Sans", "Comic Neue", "Comic Sans MS", "Comic Mono", "Chalkboard SE", "Trebuchet MS", system-ui, sans-serif;
 
-    --font-size-base: clamp(1rem, 0.16vw + 0.95rem, 1.06rem);
-    --font-size-small: clamp(0.84rem, 0.12vw + 0.8rem, 0.92rem);
-    --font-size-button: clamp(1.1rem, 0.2vw + 1.1rem, 1.3rem);
-    --font-size-h1: clamp(3.45rem, 2.25vw + 2.55rem, 5.35rem);
-    --font-size-h2: clamp(1.95rem, 0.55vw + 1.62rem, 2.35rem);
-    --font-size-h3: clamp(1.3rem, 0.26vw + 1.15rem, 1.5rem);
+    --font-size-base: clamp(0.82rem, 0.08vw + 0.79rem, 0.88rem);
+    --font-size-small: clamp(0.78rem, 0.08vw + 0.74rem, 0.84rem);
+    --font-size-button: clamp(0.94rem, 0.12vw + 0.92rem, 1.02rem);
+    --font-size-h1: clamp(2.82rem, 1.5vw + 2.18rem, 4.2rem);
+    --font-size-h2: clamp(1.56rem, 0.32vw + 1.42rem, 1.78rem);
+    --font-size-h3: clamp(1.04rem, 0.16vw + 0.98rem, 1.16rem);
+    --font-size-display-compact: clamp(2.14rem, 1vw + 1.76rem, 3.1rem);
+    --font-size-title-compact: clamp(1.12rem, 0.14vw + 1.06rem, 1.28rem);
+    --font-size-label-compact: clamp(0.82rem, 0.08vw + 0.79rem, 0.9rem);
+    --font-size-button-compact: clamp(0.8rem, 0.08vw + 0.78rem, 0.88rem);
 
     --font-weight-regular: 400;
     --font-weight-medium: 400;
@@ -34,8 +38,10 @@ TL;DR  -->  design tokens for design system
     --tracking-heading: 0.04em;
     --tracking-button: 0.11em;
     --tracking-label: 0.06em;
+    --tracking-button-compact: 0.08em;
 
-    --button-text-nudge: 0.12rem;
+    --button-text-nudge: 0.04rem;
+    --button-text-nudge-compact: 0.02rem;
 }
 
 :root {
@@ -46,20 +52,33 @@ TL;DR  -->  design tokens for design system
     --space-lg: 1.5rem;
     --space-xl: 2rem;
 
-    --shell-gap: 0.82rem;
-    --container-gap: 0.82rem;
-    --page-stack-gap: 0.36rem;
+    --shell-gap: 0.58rem;
+    --container-gap: 0.42rem;
+    --page-stack-gap: 0.2rem;
+
+    --space-title-margin-compact: 0.12rem;
+    --space-heading-gap-compact: 0.04rem;
+    --space-top-bar-padding-compact: 0.36rem;
+    --space-label-margin-compact: 0.12rem;
 }
 
 :root {
-    --radius-sm: 0.85rem;
-    --radius-md: 1rem;
-    --radius-lg: 1.45rem;
+    --radius-sm: 0.58rem;
+    --radius-md: 0.72rem;
+    --radius-lg: 1rem;
 
-    --control-height: 3rem;
-    --control-height-sm: 2.55rem;
-    --toggle-size: 2.35rem;
-    --toggle-offset: 0.92rem;
+    --control-height: 1.96rem;
+    --control-height-sm: 1.88rem;
+    --control-height-compact: 1.72rem;
+    --nav-track-gap: 0.26rem;
+    --nav-track-padding: 0.18rem;
+    --control-padding-inline-compact: 0.42rem;
+    --control-padding-block-start-compact: 0.16rem;
+    --control-padding-block-end-compact: 0.04rem;
+    --control-padding-block-start-footer-compact: 0.12rem;
+    --control-padding-block-end-footer-compact: 0.04rem;
+    --toggle-size: 2rem;
+    --toggle-offset: 0.54rem;
 
     --border-width: 0.12rem;
 }
@@ -96,6 +115,10 @@ TL;DR  -->  design tokens for design system
 
     --shadow-panel: 0 0 0 1px rgba(15, 23, 42, 0.02), 0 1rem 2rem rgba(15, 23, 42, 0.06);
     --shadow-focus: 0 0 0 0.18rem color-mix(in srgb, var(--color-accent) 30%, transparent);
+    --shadow-nav-hover: 0 0 0 2px color-mix(in srgb, var(--color-accent) 52%, transparent), 0 0 1.1rem color-mix(in srgb, var(--color-accent) 26%, transparent);
+    --shadow-nav-active: 0 0 0 2px color-mix(in srgb, var(--color-secondary) 84%, transparent), 0 0 1.1rem color-mix(in srgb, var(--color-secondary) 34%, transparent);
+    --shadow-nav-active-strong: 0 0 0 2px color-mix(in srgb, var(--color-secondary) 100%, transparent), 0 0 1.5rem color-mix(in srgb, var(--color-secondary) 52%, transparent);
+    --color-nav-active-hover-overlay: color-mix(in srgb, var(--color-secondary-strong) 42%, transparent);
 
     --bg: var(--color-bg);
     --primary: var(--color-text);
@@ -137,6 +160,10 @@ body[data-theme="dark"] {
 
     --shadow-panel: 0 0 0 1px rgba(133, 186, 255, 0.05), 0 1.25rem 2.5rem rgba(0, 0, 0, 0.35);
     --shadow-focus: 0 0 0 0.18rem color-mix(in srgb, var(--color-accent) 36%, transparent);
+    --shadow-nav-hover: 0 0 0 2px color-mix(in srgb, var(--color-accent) 62%, transparent), 0 0 1.2rem color-mix(in srgb, var(--color-accent) 34%, transparent);
+    --shadow-nav-active: 0 0 0 2px color-mix(in srgb, var(--color-secondary) 92%, transparent), 0 0 1.25rem color-mix(in srgb, var(--color-secondary) 42%, transparent);
+    --shadow-nav-active-strong: 0 0 0 2px color-mix(in srgb, var(--color-secondary) 100%, transparent), 0 0 1.7rem color-mix(in srgb, var(--color-secondary) 58%, transparent);
+    --color-nav-active-hover-overlay: color-mix(in srgb, var(--color-secondary-strong) 30%, transparent);
 
     --bg: var(--color-bg);
     --primary: var(--color-text);
