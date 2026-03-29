@@ -11,13 +11,26 @@ Use it to keep implementation work bounded, DRY, and consistent with the reposit
 1. Read `AGENTS.md`
 2. Read `docs/design-system/MASTER.md`
 3. Read the relevant page file in `docs/design-system/pages/`
-4. Identify whether the change is:
+4. Read any directly relevant supporting design-system file
+5. Load `frontend-first-principles` when the runtime offers it
+6. Route UI or UX implementation to the `designer` agent rather than the `developer` agent
+7. Identify whether the change is:
    - Token-level
    - Shared-style-level
    - Page-level
    - Component-level
-5. Prefer the smallest level that solves the problem
-6. Verify against `review-rubric.md`
+8. Prefer the smallest level that solves the problem
+9. Verify against `review-rubric.md`
+
+## Mandatory Routing Rule
+
+For product-surface UI or UX implementation:
+- design-system documents are required planning inputs
+- `frontend-first-principles` is the preferred implementation-shaping skill when available
+- the implementation lane belongs to `designer`
+- review should use `ui-ux-review` when available
+
+Do not bypass this routing by treating a UI change as a generic frontend code task.
 
 ## Change Classification
 
