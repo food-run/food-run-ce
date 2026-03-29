@@ -29,6 +29,8 @@ permission:
     "git branch *": allow
     "git commit *": allow
     "printf *": allow
+    "bun run build *": allow
+    "bun run lint *": allow
   webfetch: ask
   task:
     "*": deny
