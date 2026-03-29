@@ -36,6 +36,8 @@ This file is the durable reasoning spine for major Food Run technical and proces
 - CI and PR controls now enforce reviewer narrative, docs and ADR coverage, protected-path acknowledgement, CLA handling, and a central repo verification seam.
 - Runtime parity baselines now exist for containers, k3s manifests, health and readiness surfaces, request correlation, observability vocabulary, resilience vocabulary, and edge-policy starter configs.
 - The reviewer-visible frontend now lives under `apps/web`, publishes through GitHub Pages, and uses a repo-subpath build plus SPA fallback shell for the public demo URL.
+- Sprint 1 now has a durable `docs/design-system/` packet that governs product-surface frontend planning, implementation, and review.
+- Repo-control now requires UI and UX work to open the design-system packet, use the frontend skills when available, and route implementation through the `designer` lane by default.
 - Frontend quality now has an app-local lint seam, a local-browser Playwright smoke seam, and a dedicated pull-request workflow that keeps those checks separate from deploy automation.
 - Governed script seams now live under `tools/scripts/`, while the matching shared repo-control suites and helpers now live together under `shared/testkit/`.
 - Sprint 0 delivery now defaults to small Conventional Commit checkpoints, stable scope-based coordination artifacts, and ADR-backed closeout before PR preparation.
@@ -43,6 +45,102 @@ This file is the durable reasoning spine for major Food Run technical and proces
 ---
 
 ## Entries
+
+---
+
+### S1-D0 - Treat the design system as the governing packet for frontend work
+
+- ***What was built?***
+  - `docs/design-system/` now contains the master brief, reusable design guidance, page packets, implementation playbook, anti-pattern list, and review rubric for the active frontend.
+  - `AGENTS.md`, `.opencode/rules/implementation-standards.md`, and the newer repo-control guidance now require UI and UX work to open those design-system documents, use `frontend-first-principles` and `ui-ux-review` when available, and route product-surface implementation through `designer` by default.
+- ***Why was it chosen?***
+  - The branch had accumulated real product-surface refinement work, but the reasoning for calm hierarchy, surface reduction, honest copy, and review discipline would have stayed fragmented without one governing packet.
+  - The repo also needed an explicit rule that UI work is not generic frontend coding, so agent routing and review quality stay aligned with the same source of truth.
+- ***What boundaries does it own?***
+  - The durable design decision home for product-surface frontend behavior, page-level UX guidance, and UI review standards.
+  - The repo-control rule that binds UI planning, implementation, and review to the design-system packet plus the frontend-specialized skills and `designer` lane.
+- ***What breaks if it changes?***
+  - Frontend work can drift back toward one-off style decisions, duplicate guidance, or agent-specific interpretations that are hard to review and harder to repeat.
+  - PM, designer, reviewer, and human operators can also stop sharing the same UI packet, which weakens explainability and increases drift between implementation and critique.
+- ***What known edge cases or failure modes matter here?***
+  - Runtime skill inventories may lag, so the fallback rule must keep the design-system documents mandatory even when a skill cannot be loaded.
+  - Docs-only design-system maintenance is intentionally exempt from forced `designer` delegation so the repo does not over-route pure documentation work.
+- ***Why does this work matter?***
+  - It turns the new frontend style from a branch-local taste choice into a governed, reusable system that later Sprint 1 work can extend honestly.
+  - It also keeps repo-control, design review, and implementation language synchronized instead of scattering UI rules across PR text and chat.
+- ***What capability does it unlock?***
+  - Later frontend tasks can start from one stable design packet with named page guidance, implementation defaults, and review criteria.
+  - UI subagents can now inherit explicit routing expectations instead of guessing whether the work belongs to `developer`, `designer`, or an ad hoc style pass.
+- ***Why is the chosen design safer or more scalable?***
+  - A central design packet plus repo-control enforcement scales better than repeating visual rules in multiple planning docs or code comments.
+  - Binding UI work to specialized skills and the `designer` lane keeps future product-surface changes more reviewable and less likely to blur into generic code churn.
+- ***What trade-off did the team accept?***
+  - Frontend tasks now carry extra planning and review ceremony because the design-system packet must be opened and cited before product-surface edits land.
+  - The repo must keep the design-system documents current or the stronger routing rules will amplify stale guidance rather than useful discipline.
+
+---
+
+### S1-D0 - Reduce shell and page surface density so routed content stays dominant
+
+- ***What was built?***
+  - The Sprint 1 frontend and matching page guidance now favor lighter shell framing, calmer navigation chrome, spacing-led route structure, and lighter empty-state treatments instead of stacked boxed panels.
+  - `apps/web/src/styles.css`, `apps/web/src/styles/layout.css`, `apps/web/src/styles/pages.css`, route copy updates, and the matching `docs/design-system/pages/*.md` guidance now align the reviewer shell with that reduced-surface direction.
+- ***Why was it chosen?***
+  - The reviewer-visible shell still carried prototype-era card density that made framing compete with the actual page job, especially on empty states and the routed content region.
+  - Sprint 1 needs a frontend that feels calmer and more trustworthy for live-MVP review, so spacing, hierarchy, and copy had to do more work than borders and muted panels.
+- ***What boundaries does it own?***
+  - The shared shell-versus-page hierarchy for the active reviewer frontend, including how much visual weight the nav, main region, and route empty states are allowed to carry.
+  - The page-level design guidance for import, recipes, planner, and shopping surfaces when they need lighter copy and fewer boxed treatments.
+- ***What breaks if it changes?***
+  - The shell can start visually outranking the routed page again, which makes the frontend feel heavier and less focused than the design system intends.
+  - Empty states and secondary guidance can also regress back into card-heavy scaffolding that implies more product completeness than the current app actually has.
+- ***What known edge cases or failure modes matter here?***
+  - Reducing surfaces too aggressively can weaken grouping or trust if spacing, labels, and interaction states do not compensate.
+  - The reviewer shell still needs enough containment and contrast to remain readable in both light and dark themes, so lighter framing cannot become invisible framing.
+- ***Why does this work matter?***
+  - It makes the active frontend feel more like a coherent workflow product and less like a prototype-era collection of stacked panels.
+  - It also keeps Sprint 1 copy and layout honest by letting the real task lead instead of using decorative boxes to simulate structure.
+- ***What capability does it unlock?***
+  - Later route work can extend one lighter shell language instead of re-deciding whether every page needs its own card wrapper.
+  - Reviewers and live users can scan the active page faster because the shell now frames the task instead of competing with it.
+- ***Why is the chosen design safer or more scalable?***
+  - Shared surface-reduction rules in styles and page docs are easier to maintain than route-by-route visual exceptions.
+  - A lighter shell also makes future page additions less likely to inherit unnecessary bordered containers by default.
+- ***What trade-off did the team accept?***
+  - Some earlier boxed affordances were intentionally removed or softened, so clarity now depends more on strong spacing, copy discipline, and state styling.
+  - The team must review future pages more carefully because the design leaves less room for visual noise to hide weak hierarchy.
+
+---
+
+### S1-D0 - Use a compact animated navigation and token set to give the web shell clearer orientation
+
+- ***What was built?***
+  - `apps/web/src/components/app.ts` now drives nav state from router activity and hover state, while `apps/web/src/styles/components.css`, `apps/web/src/styles/theme.css`, and `apps/web/src/styles.css` add compact sizing tokens, animated nav emphasis, nav shadow variables, and smoother theme-transition handling.
+  - `apps/web/src/components/index.ts` exports the renamed nav template, and the design-system shell guidance now treats the nav rail and routed region contrast as a first-class readability rule.
+- ***Why was it chosen?***
+  - After the lighter shell pass, the app still needed a stronger orientation cue so route changes feel intentional without reverting to heavy boxed chrome.
+  - The nav also needed more polished state behavior and theme transitions so the playful-comic system feels disciplined rather than static or abrupt.
+- ***What boundaries does it own?***
+  - The shared navigation interaction pattern for the active frontend shell, including active-route emphasis, hover feedback, and the compact token set that supports that pattern.
+  - The global styling contract for compact controls, nav movement, and theme-transition behavior that other shared surfaces now inherit.
+- ***What breaks if it changes?***
+  - Route orientation becomes less obvious, active-page emphasis can drift out of sync with router state, and the nav can fall back into either visually flat or overly heavy behavior.
+  - Shared control sizing and theme transitions can also become inconsistent if later changes bypass the compact token layer.
+- ***What known edge cases or failure modes matter here?***
+  - Hover-driven polish must not become the only orientation cue, so active state and accessible semantics still need to carry the baseline signal.
+  - Theme transitions must stay calm and not animate every detail during a mode switch, which is why the shell explicitly suppresses animation noise during theme swapping.
+- ***Why does this work matter?***
+  - It gives the frontend a more polished and memorable shell without violating the lighter, calmer design direction introduced elsewhere in Sprint 1.
+  - It also makes route changes and theme changes feel more deliberate, which improves trust even before deeper product functionality exists.
+- ***What capability does it unlock?***
+  - Later shell and component work can reuse the compact token vocabulary and animated nav model instead of inventing one-off state treatments.
+  - The app can now carry more personality in motion and emphasis while keeping the main page content visually dominant.
+- ***Why is the chosen design safer or more scalable?***
+  - Centralizing the behavior in shared app-shell and token files keeps the interaction model reviewable in a few stable homes.
+  - Using router-derived active state is more durable than manually toggled presentation classes because the navigation signal stays bound to the real route contract.
+- ***What trade-off did the team accept?***
+  - The shell now carries more motion and token complexity than the earlier static nav, so future edits need stronger discipline to avoid decorative drift.
+  - The compact styling direction leaves less margin for oversized labels or controls, so future copy and component work must fit the denser shell deliberately.
 
 ---
 
