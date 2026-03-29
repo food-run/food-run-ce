@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-TL;DR  -->  verify the frontend build
+TL;DR  -->  verify and locally preview the frontend build
 
 - Later Extension Points:
     --> Add optional browser-smoke hooks here once Sprint 1 owns a stable e2e toolchain
@@ -8,10 +8,10 @@ TL;DR  -->  verify the frontend build
 - Role:
     --> Builds the active web app using the same Pages-targeted command used for deployment
     --> Verifies the produced static artifact keeps the reviewer URL path and SPA fallback honest
-    --> Keeps Sprint 0 frontend verification deterministic without pretending full browser-matrix maturity exists
+    --> Serves local built output with SPA fallback semantics so route reloads stay truthful during dist-preview workflows
 
 - Exports:
-    --> CLI entry point for reviewer-frontend verification
+    --> CLI entry point for reviewer-frontend verification and local preview
 
 - Consumed By:
     --> tools/scripts/verify.py (via --skip-frontend flag)
@@ -23,6 +23,8 @@ from __future__ import annotations
 
 import argparse
 import filecmp
+import http.server
+import socketserver
 import subprocess
 import sys
 from pathlib import Path
@@ -34,6 +36,7 @@ WEB_DIR = REPO_ROOT / 'apps' / 'web'
 PAGES_INDEX_PATH = WEB_DIR / 'dist' / 'browser' / 'index.html'
 PAGES_404_PATH = WEB_DIR / 'dist' / 'browser' / '404.html'
 PAGES_BASE_HREF = '<base href="/food-run-ce/">'
+LOCAL_PREVIEW_ROOT = WEB_DIR / 'dist' / 'browser'
 
 # ---------- subprocess helpers ----------
 
@@ -96,6 +99,55 @@ def verify_pages_artifact() -> int:
     print(f'PASS: {PAGES_404_PATH.relative_to(REPO_ROOT)} mirrors the built index shell')
     return 0
 
+
+# ---------- local preview helpers ----------
+
+
+class SpaFallbackRequestHandler(http.server.SimpleHTTPRequestHandler):
+    """Serve static files and fall back to the SPA shell for route paths."""
+
+    def __init__(self, *args, directory: str, **kwargs):
+        super().__init__(*args, directory=directory, **kwargs)
+
+    def send_head(self):
+        """Serve the requested file or fall back to index.html for app routes."""
+        candidate_path = Path(self.translate_path(self.path))
+
+        if candidate_path.exists() or Path(self.path).suffix:
+            return super().send_head()
+
+        self.path = '/index.html'
+        return super().send_head()
+
+
+class ReusableTcpServer(socketserver.TCPServer):
+    """Allow quick local restarts on the same preview port."""
+
+    allow_reuse_address = True
+
+
+def run_preview(host: str, port: int, root: Path) -> int:
+    """Serve the built frontend locally with SPA fallback behavior."""
+    root = root.resolve()
+
+    if not root.is_dir():
+        print(f'ERROR: preview root does not exist: {root}', file=sys.stderr)
+        print('Run `cd apps/web && bun run build` first.', file=sys.stderr)
+        return 1
+
+    handler = lambda *args, **kwargs: SpaFallbackRequestHandler(*args, directory=str(root), **kwargs)
+
+    with ReusableTcpServer((host, port), handler) as server:
+        print(f'==> local frontend preview')
+        print(f'Serving {root.relative_to(REPO_ROOT)} at http://{host}:{port}')
+        print('SPA fallback is enabled for route reloads.')
+        try:
+            server.serve_forever()
+        except KeyboardInterrupt:
+            print('\nStopped local frontend preview.')
+
+    return 0
+
 # ---------- verification flow ----------
 
 
@@ -123,8 +175,24 @@ def run_verification(skip_install: bool) -> int:
 
 def build_parser() -> argparse.ArgumentParser:
     """Build the bounded CLI parser."""
-    parser = argparse.ArgumentParser(description='Verify the reviewer frontend build and Pages artifact contract.')
-    parser.add_argument('--skip-install', action='store_true', help='Skip `bun install --frozen-lockfile` before the build.')
+    parser = argparse.ArgumentParser(
+        description='Verify the reviewer frontend build or serve the local built shell with SPA fallback.'
+    )
+    subparsers = parser.add_subparsers(dest='command')
+
+    verify_parser = subparsers.add_parser('verify', help='Build and verify the Pages-targeted frontend artifact.')
+    verify_parser.add_argument('--skip-install', action='store_true', help='Skip `bun install --frozen-lockfile` before the build.')
+
+    preview_parser = subparsers.add_parser('preview', help='Serve the local built frontend with SPA fallback.')
+    preview_parser.add_argument('--host', default='127.0.0.1', help='Host interface for the local preview server.')
+    preview_parser.add_argument('--port', type=int, default=4173, help='Port for the local preview server.')
+    preview_parser.add_argument(
+        '--root',
+        type=Path,
+        default=LOCAL_PREVIEW_ROOT,
+        help='Static build root to serve. Defaults to apps/web/dist/browser.',
+    )
+
     return parser
 
 
@@ -132,7 +200,16 @@ def main() -> int:
     """Run the reviewer frontend verification flow."""
     parser = build_parser()
     args = parser.parse_args()
-    return run_verification(skip_install=args.skip_install)
+
+    if args.command in (None, 'verify'):
+        skip_install = getattr(args, 'skip_install', False)
+        return run_verification(skip_install=skip_install)
+
+    if args.command == 'preview':
+        return run_preview(host=args.host, port=args.port, root=args.root)
+
+    parser.error(f'unknown command: {args.command}')
+    return 2
 
 
 if __name__ == '__main__':
