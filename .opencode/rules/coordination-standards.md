@@ -131,7 +131,8 @@ Each running progress summary should include:
 
 When executing tasks within a deliverable or task scope:
 
-- create one small, focused commit per file or logical group of files
+- default to one small, focused commit per file
+- allow a grouped micro-commit only when 4 or fewer changed files share the same immediate parent folder and the whole sibling group stays under 10 changed lines total
 - keep commits narrow enough to be meaningful rollback points
 - use Conventional Commit format with clear English subjects (12-22 words)
 - prefer multiple micro-commits over one large checkpoint that mixes unrelated changes
