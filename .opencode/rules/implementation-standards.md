@@ -103,6 +103,15 @@ Use this naming standard for:
 - present additions within the file groups they belong to
 - use section groups to make extension seams explicit from the first implementation
 
+## 🎨 UI and UX Execution Rules
+
+- for product-surface UI or UX work, `docs/design-system/**` is a required planning input rather than optional reference material
+- open `docs/design-system/MASTER.md`, the relevant page file, and any directly relevant supporting design-system files before implementation begins
+- use `frontend-first-principles` when the runtime provides it for UI or UX planning and implementation
+- use `ui-ux-review` when the runtime provides it for UI or UX review
+- route product-surface UI or UX implementation to `designer` rather than `developer` unless the work is docs-only or the human explicitly overrides that lane
+- do not treat a UI or UX change as generic frontend code just to bypass the design-system packet or designer routing
+
 ## 💬 Commenting and Scripting Style
 
 This section applies to any file that allows comments, excluding Markdown files.
