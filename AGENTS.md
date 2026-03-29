@@ -256,6 +256,8 @@ No meaningful change is done until the answer to each is yes:
 ## Commit Rhythm
 
 - Commit in small, coherent steps.
+- Default micro-commits to one file at a time.
+- Only group files into one micro-commit when 4 or fewer touched files share the same immediate parent folder and the grouped change stays under 10 total changed lines.
 - Use Conventional Commits.
 - Choose the first meaningful parent surface that preserves enough context; use `repo` only when no narrower qualifying parent cleanly covers the whole change.
 - If a diff would force an overly broad `repo` scope, split the checkpoint into smaller coherent slices first so each commit can use a narrower qualifying parent surface.
