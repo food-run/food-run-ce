@@ -22,10 +22,13 @@ permission:
     "sed -n *": allow
     "head *": allow
     "tail *": allow
-    "git status*": allow
-    "git diff*": allow
-    "git log*": allow
-    "git branch*": allow
+    "git status* ": allow
+    "git diff *": allow
+    "git add *": allow
+    "git log *": allow
+    "git branch *": allow
+    "git commit *": allow
+    "printf *": allow
   webfetch: ask
   task:
     "*": deny
